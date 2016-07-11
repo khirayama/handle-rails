@@ -1,0 +1,5 @@
+h1 task category index
+ul
+  - @task_categories.each do |task_category|
+    li
+      = link_to task_category.name, show+task_category+path(task_category)
