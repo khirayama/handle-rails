@@ -1,0 +1,7 @@
+h1 tasks new
+
+= form_for(@task, :url => task_category_tasks_path(params[:task_category_id])) do |f|
+  p
+    = f.label :text
+    = f.text_field :text
+  = f.submit 'create'

@@ -4,6 +4,11 @@ p
 ul
   - @task_categories.each do |task_category|
     li
-      = link_to task_category.name, task_category_path(task_category)
-      = link_to '[EDIT]', edit_task_category_path(task_category)
+      = link_to task_category.name, edit_task_category_path(task_category)
+      = link_to '[ADD TASK]', new_task_category_task_path(task_category)
       = link_to '[DELETE]', task_category_path(task_category), method: :DELETE
+      ul
+        - task_category.tasks.each do |task|
+          li
+            = link_to task.text, edit_task_category_task_path(task_category, task)
+            = link_to '[DELETE]', task_category_task_path(task_category, task), method: :DELETE

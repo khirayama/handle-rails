@@ -1,0 +1,7 @@
+h1 tasks edit
+
+= form_for(@task, :url => task_category_task_path(params[:task_category_id])) do |f|
+  p
+    = f.label :text
+    = f.text_field :text
+  = f.submit 'update'

@@ -13,14 +13,10 @@ class TaskCategoriesController < ApplicationController
     @task_category = current_user.created_task_categories.build(task_category_params)
     @task_category.order = current_user.created_task_categories.length
     if @task_category.save
-      redirect_to @task_category
+      redirect_to task_categories_path
     else
       render :new
     end
-  end
-
-  def show
-    @task_category = TaskCategory.find(params[:id])
   end
 
   def edit
@@ -30,7 +26,7 @@ class TaskCategoriesController < ApplicationController
   def update
     @task_category = current_user.created_task_categories.find(params[:id])
     if @task_category.update(task_category_params)
-      redirect_to @task_category
+      redirect_to task_categories_path
     else
       render :edit
     end
@@ -45,6 +41,6 @@ class TaskCategoriesController < ApplicationController
   private
 
     def task_category_params
-      params.require(:task_category).permit(:name)
+      params.require(:task_category).permit(:name, :order)
     end
 end
