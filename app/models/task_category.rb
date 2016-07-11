@@ -1,4 +1,4 @@
 class TaskCategory < ApplicationRecord
   belongs_to :user, class_name: 'User'
-  has_many :tasks, class_name: 'Task', foreign_key: :task_category_id
+  has_many :tasks, class_name: 'Task', foreign_key: :task_category_id, :dependent => :destroy
 end
