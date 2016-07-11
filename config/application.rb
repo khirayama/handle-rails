@@ -15,6 +15,7 @@ Bundler.require(*Rails.groups)
 
 module Handle
   class Application < Rails::Application
+    config.time_zone = 'Tokyo'
     config.generators.template_engine = :slim
   end
 end
