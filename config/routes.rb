@@ -5,4 +5,11 @@ Rails.application.routes.draw do
   root to: 'welcome#index'
   get '/auth/:provider/callback' => 'sessions#create'
   get '/logout' => 'sessions#destroy', as: :logout
+
+  # API
+  namespace :api, { format: 'json' } do
+    namespace :v1 do
+      resources :task_categories
+    end
+  end
 end
