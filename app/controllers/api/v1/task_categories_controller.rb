@@ -15,14 +15,16 @@ module Api
       def create
         @task_category = current_user.created_task_categories.build(task_category_params)
         @task_category.order = current_user.created_task_categories.length
-        @task_category.save
-        render '/api/v1/task_categories/show'
+        if @task_category.save
+          render '/api/v1/task_categories/show'
+        end
       end
 
       def update
         @task_category = current_user.created_task_categories.find(params[:id])
-        @task_category.update(task_category_params)
-        render '/api/v1/task_categories/show'
+        if @task_category.update(task_category_params)
+          render '/api/v1/task_categories/show'
+        end
       end
 
       private
@@ -33,4 +35,3 @@ module Api
     end
   end
 end
-
