@@ -1,5 +1,9 @@
 h1 task category index
+p
+  = link_to 'new', new_task_category_path
 ul
   - @task_categories.each do |task_category|
     li
-      = link_to task_category.name, show+task_category+path(task_category)
+      = link_to task_category.name, task_category_path(task_category)
+      = link_to '[EDIT]', edit_task_category_path(task_category)
+      = link_to '[DELETE]', task_category_path(task_category), method: :DELETE
