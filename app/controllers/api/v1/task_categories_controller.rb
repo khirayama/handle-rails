@@ -1,6 +1,8 @@
 module Api
   module V1
     class TaskCategoriesController < ApplicationController
+      # Which authenticate do call in controller or api/v1/controller?
+      before_action :authenticate
 
       def index
         @task_categories = current_user.created_task_categories
