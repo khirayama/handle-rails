@@ -1,0 +1,44 @@
+.confirm-dialog-background
+  position: fixed
+  top: 0
+  left: 0
+  width: 100%
+  height: 100%
+  background: rgba($color-black, .5)
+  .confirm-dialog
+    width: 320px
+
+.confirm-dialog
+  background: $color-white
+  margin: 160px auto
+  padding: 12px
+  border: solid 1px $color-border
+
+  .confirm-dialog-message
+    text-align: center
+    padding: 12px
+
+  .confirm-dialog-buttons-container
+    text-align: center
+
+    .confirm-dialog-button,
+      display: inline-block
+      text-align: center
+      width: 100px
+      height: 30px
+      line-height: 30px
+      border: solid 1px $color-border
+      cursor: pointer
+
+    // modifier
+    .confirm-dialog-button__selected
+      background-color: $color-yellow
+      color: $color-white
+
+    .confirm-dialog-cancel-button + .confirm-dialog-accept-button
+      margin-left: 24px
+
+.confirm-dialog-interrupt-input
+  // if use 'display: none', can't catch key events
+  position: absolute
+  opacity: 0

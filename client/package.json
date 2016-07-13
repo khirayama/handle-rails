@@ -1,0 +1,80 @@
+{
+  "name": "handle",
+  "version": "0.0.1",
+  "description": "",
+  "main": "src/scripts/index.js",
+  "scripts": {
+    "build:markups": "gulp build:markups",
+    "watch:markups": "gulp watch:markups",
+    "build:styles": "gulp build:styles",
+    "watch:styles": "gulp watch:styles",
+    "build:scripts": "gulp build:scripts",
+    "watch:scripts": "gulp watch:scripts",
+    "build": "rm -rf dist && gulp build",
+    "watch": "rm -rf dist && gulp watch",
+    "server": "gulp server",
+    "develop": "rm -rf dist && gulp develop",
+    "lint": "eslint -c=package.json",
+    "test": "mocha --require=babel-core/register test/**/*.js",
+    "watch:test": "npm test -- --watch",
+    "start": "npm run develop"
+  },
+  "author": "khirayama",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/khirayama/manage"
+  },
+  "license": "ISC",
+  "engines": {
+    "node": ">=5.1.1",
+    "npm": ">=3.8.6"
+  },
+  "eslintConfig": {
+    "extends": "airbnb",
+    "rules": {
+      "no-underscore-dangle": 0,
+      "react/jsx-first-prop-new-line": 0
+    }
+  },
+  "babel": {
+    "presets": [
+      "es2015",
+      "react"
+    ],
+    "plugins": [
+      "babel-plugin-espower"
+    ]
+  },
+  "devDependencies": {
+    "babel-core": "^6.10.4",
+    "babel-plugin-espower": "^2.3.1",
+    "babel-preset-es2015": "^6.9.0",
+    "babel-preset-react": "^6.11.1",
+    "babelify": "^7.3.0",
+    "browser-sync": "^2.13.0",
+    "browserify": "^13.0.1",
+    "classnames": "^2.2.5",
+    "eslint": "^3.0.1",
+    "eslint-config-airbnb": "^9.0.1",
+    "eslint-plugin-import": "^1.10.2",
+    "eslint-plugin-jsx-a11y": "^1.5.5",
+    "eslint-plugin-react": "^5.2.2",
+    "gulp": "^3.9.1",
+    "gulp-jade": "^1.1.0",
+    "gulp-pleeease": "^2.0.2",
+    "gulp-plumber": "^1.1.0",
+    "gulp-sass": "^2.3.2",
+    "jsdom": "^9.4.1",
+    "micro-emitter": "^1.1.9",
+    "mocha": "^2.5.3",
+    "moment": "^2.14.1",
+    "power-assert": "^1.4.1",
+    "react": "^15.2.0",
+    "react-addons-css-transition-group": "^15.2.0",
+    "react-addons-test-utils": "^15.2.0",
+    "react-dom": "^15.2.0",
+    "tv4": "^1.2.7",
+    "vinyl-source-stream": "^1.1.0",
+    "watchify": "^3.7.0"
+  }
+}

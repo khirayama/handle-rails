@@ -11,3 +11,5 @@
 .byebug_history
 
 /.envrc
+/client/node_modules
+/client/dist

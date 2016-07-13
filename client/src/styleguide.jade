@@ -1,0 +1,70 @@
+// https://www.google.com/design/spec/material-design/introduction.html
+doctype html
+html(lang="en")
+  head
+    meta(charset="utf-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no")
+    link(rel="stylesheet" href="index.css")
+    link(rel="icon" href="")
+  body#styleguide
+    section.container
+      h1 Styleguide
+      section
+        h2 Color schema
+      section
+        h2 Component
+        section
+          h3 Lists
+          h4 default
+          .block
+            ul.list
+              li.list-item
+                .list-item-text item1
+              li.list-item
+                .list-item-text item2
+              li.list-item
+                .list-item-text item3
+          h4 with header
+          .block
+            section.list
+              header
+                h2 header - heading
+              ul
+                li.list-item
+                  .list-item-text item1
+                li.list-item
+                  .list-item-text item2
+                li.list-item
+                  .list-item-text item3
+          h4 with footer
+          .block
+            section.list
+              ul
+                li.list-item
+                  .list-item-text item1
+                li.list-item
+                  .list-item-text item2
+                li.list-item
+                  .list-item-text item3
+              footer
+                small footer - small
+          h4 with icon
+          .block
+            ul.list
+              li.list-item
+                .list-item-content
+                  .list-item-icon
+                    i [i]
+                  .list-item-text item1
+              li.list-item
+                .list-item-content
+                  .list-item-icon
+                    i [i]
+                  .list-item-text item2
+              li.list-item
+                .list-item-content
+                  .list-item-icon
+                    i [i]
+                  .list-item-text item3
+                  .list-item-icon
+                    i [i]
