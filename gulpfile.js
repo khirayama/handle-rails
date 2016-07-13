@@ -9,8 +9,8 @@ var source = require('vinyl-source-stream');
 var plumber = require('gulp-plumber');
 var browserSync = require('browser-sync');
 
-var SRC_ROOT = 'src';
-var DIST_ROOT = 'dist';
+var SRC_ROOT = 'client/src';
+var DIST_ROOT = 'public';
 
 var options = {
   styles: {
@@ -32,12 +32,12 @@ var options = {
   },
   scripts: {
     browserify: {
-      entries: ['src/scripts/index.js'],
+      entries: [SRC_ROOT + '/scripts/index.js'],
       transform: ['babelify'],
       extensions: ['.jsx', '.js']
     },
     watchify: {
-      entries: ['src/scripts/index.js'],
+      entries: [SRC_ROOT + '/scripts/index.js'],
       transform: ['babelify'],
       debug: true,
       extensions: ['.jsx', '.js'],
@@ -48,9 +48,10 @@ var options = {
   },
   server: {
     browserSync: {
-      server: {
-        baseDir: DIST_ROOT
-      },
+      // server: {
+      //   baseDir: DIST_ROOT
+      // },
+      proxy: 'localhost:3000',
       notify: false,
       open: true
     }
@@ -60,7 +61,7 @@ var options = {
 function buildMarkups(isWatch) {
   function build() {
     console.log('build: markups');
-    return gulp.src(['src/index.jade', 'src/styleguide.jade'])
+    return gulp.src([SRC_ROOT + '/index.jade', SRC_ROOT + '/styleguide.jade'])
       .pipe(plumber())
       .pipe(jade())
       .pipe(gulp.dest(DIST_ROOT))
@@ -70,7 +71,7 @@ function buildMarkups(isWatch) {
   if (isWatch) {
     return function() {
       build();
-      gulp.watch(['src/index.jade', 'src/styleguide.jade'], build);
+      gulp.watch([SRC_ROOT + '/index.jade', SRC_ROOT + '/styleguide.jade'], build);
     };
   } else {
     return function() {
@@ -82,7 +83,7 @@ function buildMarkups(isWatch) {
 function buildStyles(isWatch) {
   function build() {
     console.log('build: styles');
-    return gulp.src('src/styles/index.sass')
+    return gulp.src(SRC_ROOT + '/styles/index.sass')
       .pipe(plumber())
       .pipe(sass(options.styles.sass))
       .pipe(please(options.styles.please))
@@ -93,7 +94,7 @@ function buildStyles(isWatch) {
   if (isWatch) {
     return function() {
       build();
-      gulp.watch('src/styles/**/*.sass', build);
+      gulp.watch(SRC_ROOT + '/styles/**/*.sass', build);
     };
   } else {
     return function() {
@@ -125,13 +126,13 @@ function buildScripts(isWatch) {
 }
 
 function buildImages() {
-  return gulp.src(['src/**/*.{png,jpg,gif}'])
+  return gulp.src([SRC_ROOT + '/**/*.{png,jpg,gif}'])
     .pipe(plumber())
     .pipe(gulp.dest(DIST_ROOT));
 }
 
 function buildFiles() {
-  return gulp.src(['src/**/*.{csv,json}'])
+  return gulp.src([SRC_ROOT + '/**/*.{csv,json}'])
     .pipe(gulp.dest(DIST_ROOT));
 }
 

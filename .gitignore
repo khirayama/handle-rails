@@ -11,5 +11,6 @@
 .byebug_history
 
 /.envrc
-/client/node_modules
-/client/dist
+/node_modules
+/public
+/npm-debug.log
