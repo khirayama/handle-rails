@@ -68,7 +68,7 @@ export const TASK_STORE_SCHEMA = {
       type: 'boolean',
     },
     categoryId: {
-      type: 'string',
+      type: 'integer',
     },
     order: {
       type: 'integer',
@@ -95,7 +95,7 @@ export const TASKS_SCHEMA = {
     ],
     properties: {
       categoryId: {
-        type: 'string',
+        type: 'integer',
       },
       categoryName: {
         type: 'string',

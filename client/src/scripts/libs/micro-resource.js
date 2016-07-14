@@ -83,7 +83,7 @@ export default class MicroResource {
   }
 
   all() {
-    return _o2a(this._data);
+    return this._data;
   }
 
   _save() {
