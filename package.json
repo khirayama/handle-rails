@@ -17,7 +17,7 @@
     "lint": "eslint -c=package.json",
     "test": "mocha --require=babel-core/register client/test/**/*.js",
     "watch:test": "npm test -- --watch",
-    "start": "npm run develop"
+    "start": "npm run watch"
   },
   "author": "khirayama",
   "repository": {
@@ -73,6 +73,7 @@
     "react-addons-css-transition-group": "^15.2.0",
     "react-addons-test-utils": "^15.2.0",
     "react-dom": "^15.2.0",
+    "superagent": "^2.0.0",
     "tv4": "^1.2.7",
     "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.7.0"
