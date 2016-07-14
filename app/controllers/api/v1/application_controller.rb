@@ -14,7 +14,6 @@ module Api
         end
 
         def authenticate
-          binding.pry
           return if logged_in?
           redirect_to root_path, alert: 'Please log in'
         end
