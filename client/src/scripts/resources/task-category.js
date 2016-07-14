@@ -1,3 +1,4 @@
+import superagent from 'superagent';
 import MicroResource from '../libs/micro-resource';
 import { initialTaskCategoryNames } from '../constants/constants';
 
@@ -9,17 +10,17 @@ export class TaskCategoryResource extends MicroResource {
       name: '',
       order: null,
     };
-    this.init();
+    this.initialize();
   }
-
-  init() {
-    const taskCategories = this.all();
-
-    if (!taskCategories.length) {
-      this.create({ name: initialTaskCategoryNames.TODAY, order: 0 });
-      this.create({ name: initialTaskCategoryNames.LATER, order: 1 });
-      this.create({ name: initialTaskCategoryNames.SCHEDULE, order: 2 });
-    }
+  initialize() {
+    superagent
+    .get('/api/v1/task_categories')
+    .end((err, res) => {
+      if (res.text) {
+        this._data = JSON.parse(res.text);
+        this._save();
+      }
+    });
   }
 }
 export default new TaskCategoryResource();
