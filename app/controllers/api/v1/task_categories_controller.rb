@@ -4,13 +4,13 @@ module Api
       before_action :authenticate
 
       def index
-        if params[:id]
-          @task_category = current_user.created_task_categories.find(params[:id])
-          render '/api/v1/task_categories/show'
-        else
-          @task_categories = current_user.created_task_categories
-          render '/api/v1/task_categories/index'
-        end
+        @task_categories = current_user.created_task_categories
+        render '/api/v1/task_categories/index'
+      end
+
+      def show
+        @task_category = current_user.created_task_categories.find(params[:id])
+        render '/api/v1/task_categories/show'
       end
 
       def create
