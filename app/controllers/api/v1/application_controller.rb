@@ -1,7 +1,7 @@
 module Api
   module V1
+    # can't use ActionController::API because use session and cookie
     class ApplicationController < ActionController::Base
-      protect_from_forgery with: :exception
 
       private
         def current_user
