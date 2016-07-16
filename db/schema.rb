@@ -18,6 +18,7 @@ ActiveRecord::Schema.define(version: 20160711105951) do
     t.integer  "order",      null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_task_categories_on_user_id"
   end
 
   create_table "tasks", force: :cascade do |t|
@@ -28,6 +29,7 @@ ActiveRecord::Schema.define(version: 20160711105951) do
     t.integer  "order",                            null: false
     t.datetime "created_at",                       null: false
     t.datetime "updated_at",                       null: false
+    t.index ["user_id", "task_category_id"], name: "index_tasks_on_user_id_and_task_category_id"
   end
 
   create_table "users", force: :cascade do |t|
