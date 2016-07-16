@@ -16,6 +16,7 @@ Bundler.require(*Rails.groups)
 module Handle
   class Application < Rails::Application
     config.time_zone = 'Tokyo'
-    config.generators.template_engine = :slim
+    # config.api_only = true
+    config.debug_exception_response_format = :api
   end
 end
