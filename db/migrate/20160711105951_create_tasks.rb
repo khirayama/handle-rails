@@ -5,7 +5,7 @@ class CreateTasks < ActiveRecord::Migration[5.0]
       t.integer :task_category_id, null: false
       t.text :text, null: false
       t.boolean :completed, null: false, default: false
-      t.integer :order, null: false
+      t.column :order, 'int unsigned', null: false
 
       t.timestamps
     end
