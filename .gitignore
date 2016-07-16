@@ -11,6 +11,9 @@
 .byebug_history
 
 /.envrc
+
+/vendor/bundle
+
 /node_modules
 /public
 /npm-debug.log
