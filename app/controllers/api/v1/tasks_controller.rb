@@ -4,13 +4,13 @@ module Api
       before_action :authenticate
 
       def index
-        @tasks = current_user.created_tasks
-        render '/api/v1/tasks/index'
-      end
-
-      def show
-        @tasks = current_user.created_tasks.find(params[:id])
-        render '/api/v1/tasks/show'
+        if params[:id]
+          @tasks = current_user.created_tasks.find(params[:id])
+          render '/api/v1/tasks/show'
+        else
+          @tasks = current_user.created_tasks
+          render '/api/v1/tasks/index'
+        end
       end
 
       def create
@@ -31,7 +31,7 @@ module Api
       private
 
         def task_params
-          params.permit(:text, :completed, :order, :task_category_id)
+          params.permit(:id, :text, :completed, :order, :task_category_id)
         end
     end
   end

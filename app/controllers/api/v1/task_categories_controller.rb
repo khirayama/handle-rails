@@ -4,13 +4,13 @@ module Api
       before_action :authenticate
 
       def index
-        @task_categories = current_user.created_task_categories
-        render '/api/v1/task_categories/index'
-      end
-
-      def show
-        @task_category = current_user.created_task_categories.find(params[:id])
-        render '/api/v1/task_categories/show'
+        if params[:id]
+          @task_category = current_user.created_task_categories.find(params[:id])
+          render '/api/v1/task_categories/show'
+        else
+          @task_categories = current_user.created_task_categories
+          render '/api/v1/task_categories/index'
+        end
       end
 
       def create
@@ -31,7 +31,7 @@ module Api
       private
 
         def task_category_params
-          params.permit(:name, :order)
+          params.permit(:id, :name, :order)
         end
     end
   end
