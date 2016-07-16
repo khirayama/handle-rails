@@ -1,4 +1,4 @@
-import superagent from 'superagent';
+import request from 'axios';
 import MicroResource from '../libs/micro-resource';
 import { initialTaskCategoryNames } from '../constants/constants';
 
@@ -13,11 +13,10 @@ export class TaskCategoryResource extends MicroResource {
     this.initialize();
   }
   initialize() {
-    superagent
-    .get('/api/v1/task_categories')
-    .end((err, res) => {
-      if (res.text) {
-        this._data = JSON.parse(res.text);
+    request.get('/api/v1/task_categories').then((res) => {
+      console.log(res.data);
+      if (res.data) {
+        this._data = res.data;
         this._save();
       }
     });
