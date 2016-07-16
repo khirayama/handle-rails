@@ -7,5 +7,7 @@ class CreateTaskCategories < ActiveRecord::Migration[5.0]
 
       t.timestamps
     end
+
+    add_index :task_categories, [:user_id]
   end
 end
