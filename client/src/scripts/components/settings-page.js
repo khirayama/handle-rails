@@ -49,7 +49,10 @@ export default function SettingsPage() {
           <section className="list">
             <ul>
               <li className="list-item">
-                <div className="list-item-text">Sign Out</div>
+                <div className="list-item-text"><a href="/api/v1/auth/twitter">Sign in with Twitter</a></div>
+              </li>
+              <li className="list-item">
+                <div className="list-item-text"><a href="/api/v1/logout">Sign out</a></div>
               </li>
               <li className="list-item">
                 <div className="list-item-text">Delete account</div>

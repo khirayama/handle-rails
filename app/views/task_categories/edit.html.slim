@@ -1,9 +1,0 @@
-h1 task category edit
-
-= form_for(@task_category) do |f|
-  p
-    = f.label :name
-    = f.text_field :name
-  = f.submit 'update', data: { disable_with: 'updating...' }
-
-= link_to 'index', task_categories_path
