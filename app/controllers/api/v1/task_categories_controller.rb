@@ -28,6 +28,11 @@ module Api
         end
       end
 
+      def destroy
+        @task_category = current_user.created_task_categories.find(params[:id])
+        @task_category.destroy!
+      end
+
       private
 
         def task_category_params

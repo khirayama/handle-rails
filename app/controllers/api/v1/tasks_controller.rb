@@ -28,6 +28,11 @@ module Api
         end
       end
 
+      def destroy
+        @task = current_user.created_tasks.find(params[:id])
+        @task.destroy!
+      end
+
       private
 
         def task_params
