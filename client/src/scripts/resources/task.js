@@ -53,5 +53,12 @@ export class TaskResource {
       });
     });
   }
+  move(orders) {
+    return new Promise((resolve) => {
+      request.put('/api/v1/move_tasks', orders).then((res) => {
+        resolve(res);
+      });
+    });
+  }
 }
 export default new TaskResource();

@@ -61,8 +61,6 @@ module Api
           end
         end
 
-        make_order_sequence
-
         @task_categories = current_user.created_task_categories.order(:order)
         render '/api/v1/task_categories/index'
       end

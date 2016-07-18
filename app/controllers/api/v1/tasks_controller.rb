@@ -61,9 +61,34 @@ module Api
           end
         end
 
+        @tasks = current_user.created_tasks
+        render '/api/v1/tasks/index'
+      end
+
+      def move
+        currentTasks = current_user.created_task_categories.find(params[:current_task_category_id]).tasks
+        targetTasks = current_user.created_task_categories.find(params[:target_task_category_id]).tasks
+
+        targetTask = currentTasks.where(order: params[:from]).first
+        targetTask.order = params[:to]
+        targetTask.task_category_id = params[:target_task_category_id]
+        targetTask.save
+
+        decrementOrderTasks = currentTasks.where(order: (params[:from] + 1)..Float::INFINITY)
+        decrementOrderTasks.each do |task|
+          task.order -= 1
+          task.save
+        end
+
+        incrementOrderTasks = targetTasks.where(order: (params[:to])..Float::INFINITY)
+        incrementOrderTasks.each do |task|
+          task.order += 1
+          task.save
+        end
+
         make_order_sequence
 
-        @tasks = current_user.created_task_categories.find(params[:task_category_id]).tasks.order(:order)
+        @tasks = current_user.created_tasks
         render '/api/v1/tasks/index'
       end
 

@@ -179,7 +179,18 @@ export function sortTasks(taskCategoryId, from, to) {
     from,
     to
   }).then((res) => {
-    const tasks = res.data.map((task) => {
+    const tasks = res.data.filter((task) => {
+      if (task.task_category_id === taskCategoryId) {
+        return task;
+      }
+    }).sort((itemA, itemB) => {
+      const valueX = itemA['order'];
+      const valueY = itemB['order'];
+
+      if (valueX > valueY) return 1;
+      if (valueX < valueY) return -1;
+      return 0;
+    }).map((task) => {
       return {
         id: task.id,
         text: task.text,
@@ -197,41 +208,53 @@ export function sortTasks(taskCategoryId, from, to) {
   });
 }
 
-export function moveTask(currentCategoryId, from, newCategoryId, to) {
-  const currentTask = Task
-                        .where({ categoryId: currentCategoryId })
-                        .where({ order: from })
-                        .first();
+export function moveTask(currentTaskCategoryId, from, targetTaskCategoryId, to) {
+  Task.move({
+    current_task_category_id: currentTaskCategoryId,
+    from,
+    target_task_category_id: targetTaskCategoryId,
+    to
+  }).then((res) => {
+    const tasks = res.data.map((task) => {
+      return {
+        id: task.id,
+        text: task.text,
+        completed: task.completed,
+        taskCategoryId: task.task_category_id,
+        order: task.order,
+        isEditing: false,
+      };
+    });
+    const currentTasks = tasks.filter((task) => {
+      if (task.taskCategoryId === currentTaskCategoryId) {
+        return task;
+      }
+    }).sort((itemA, itemB) => {
+      const valueX = itemA['order'];
+      const valueY = itemB['order'];
 
-  const newCategoryTasks = Task.where({ categoryId: newCategoryId }).order('order').get();
+      if (valueX > valueY) return 1;
+      if (valueX < valueY) return -1;
+      return 0;
+    });
+    const targetTasks = tasks.filter((task) => {
+      if (task.taskCategoryId === targetTaskCategoryId) {
+        return task;
+      }
+    }).sort((itemA, itemB) => {
+      const valueX = itemA['order'];
+      const valueY = itemB['order'];
 
-  newCategoryTasks.forEach(newCategoryTask => {
-    const order = newCategoryTask.order;
-
-    if (order >= to) {
-      Task.update(newCategoryTask.id, {
-        order: newCategoryTask.order + 1,
-      });
-    }
-  });
-
-  Task.update(currentTask.id, {
-    order: to,
-    categoryId: newCategoryId,
-  });
-
-  const currentCategoryTasks = Task
-                                 .where({ categoryId: currentCategoryId })
-                                 .order('order')
-                                 .get();
-
-  currentCategoryTasks.forEach(currentCategoryTask => {
-    const order = currentCategoryTask.order;
-
-    if (order >= from) {
-      Task.update(currentCategoryTask.id, {
-        order: currentCategoryTask.order - 1,
-      });
-    }
+      if (valueX > valueY) return 1;
+      if (valueX < valueY) return -1;
+      return 0;
+    });
+    dispatch({
+      type: types.MOVE_TASK,
+      currentTaskCategoryId,
+      currentTasks,
+      targetTaskCategoryId,
+      targetTasks,
+    });
   });
 }

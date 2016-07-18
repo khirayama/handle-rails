@@ -6,6 +6,7 @@ Rails.application.routes.draw do
       put '/task_categories' => 'task_categories#reorder'
       resources :tasks
       put '/tasks' => 'tasks#reorder'
+      put '/move_tasks' => 'tasks#move'
       get '/auth/:provider/callback' => 'sessions#create'
       get '/logout' => 'sessions#destroy'
     end
