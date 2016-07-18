@@ -25,7 +25,7 @@ export default class TaskList extends Component {
     super(props);
 
     this.state = {
-      value: this.props.taskCategory.categoryName,
+      value: this.props.taskCategory.name,
     };
 
     this.onClickTitle = this.onClickTitle.bind(this);
@@ -52,7 +52,7 @@ export default class TaskList extends Component {
   onClickTitle() {
     dispatch({
       type: 'UI_CLICK_TITLE_IN_TASK_LIST',
-      categoryId: this.props.taskCategory.categoryId,
+      id: this.props.taskCategory.id,
     });
   }
 
@@ -68,13 +68,13 @@ export default class TaskList extends Component {
       promiseConfirm(messages.CONFIRM_DELETE_TASK_CATEGORY).then(() => {
         dispatch({
           type: 'UI_CLICK_DELETE_TASK_CATEGORY_BUTTON_IN_TASK_LIST',
-          categoryId: this.props.taskCategory.categoryId,
+          id: this.props.taskCategory.id,
         });
       }).catch(error => error);
     } else {
       dispatch({
         type: 'UI_CLICK_DELETE_TASK_CATEGORY_BUTTON_IN_TASK_LIST',
-        categoryId: this.props.taskCategory.categoryId,
+        id: this.props.taskCategory.id,
       });
     }
   }
@@ -145,7 +145,7 @@ export default class TaskList extends Component {
   _saveTaskCategory(type) {
     dispatch({
       type,
-      categoryId: this.props.taskCategory.categoryId,
+      id: this.props.taskCategory.id,
       value: this.state.value,
     });
   }
@@ -191,7 +191,7 @@ export default class TaskList extends Component {
           onDragEnd={this.onDragEndHeader}
           onClick={this.onClickTitle}
         >
-          {taskCategory.categoryName}
+          {taskCategory.name}
         </h3>
         <div
           className="list-header-icon"
@@ -224,7 +224,7 @@ export default class TaskList extends Component {
               <i className="icon">add</i>
             </div>
             <div className="list-footer-text color-middle-gray cursor-pointer">
-            Add task to {this.props.taskCategory.categoryName}
+            Add task to {this.props.taskCategory.name}
             </div>
           </div>
         </footer>

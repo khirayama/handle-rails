@@ -48,18 +48,16 @@ export default class ManageApp extends Component {
     const page = this.state.appStore.getPage();
     const title = this.state.appStore.getTitle();
 
-    let tasks = [];
-
     this._changeTitle(title);
 
     switch (page) {
       case (pages.TASKS):
-        tasks = this.state.appStore.taskStore.getTasks();
+        let taskCategories = this.state.appStore.taskState.getTaskCategories();
 
         return (
           <section key={page} className="page-container">
             <Header page={page} />
-            <TasksPage page={page} tasks={tasks} />
+            <TasksPage page={page} taskCategories={taskCategories} />
           </section>
         );
       case (pages.SETTINGS):

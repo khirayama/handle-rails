@@ -1,7 +1,7 @@
 task_category = TaskCategory.find(@task.task_category_id)
 {
   id: @task.id,
-  name: @task.text,
+  text: @task.text,
   completed: @task.completed,
   order: @task.order,
   task_category_id: task_category.id,

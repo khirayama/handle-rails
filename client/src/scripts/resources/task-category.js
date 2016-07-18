@@ -1,24 +1,60 @@
 import request from 'axios';
-import MicroResource from '../libs/micro-resource';
-import { initialTaskCategoryNames } from '../constants/constants';
 
 
-export class TaskCategoryResource extends MicroResource {
+const uid = function() {
+  const now = new Date();
+  return (+now + Math.floor(Math.random() * 999999)).toString(36);
+};
+
+
+export class TaskCategoryResource {
   constructor() {
-    super();
     this.defaults = {
       name: '',
       order: null,
     };
-    this.initialize();
   }
-  initialize() {
-    request.get('/api/v1/task_categories').then((res) => {
-      console.log(res.data);
-      if (res.data) {
-        this._data = res.data;
-        this._save();
-      }
+  fetch() {
+    return new Promise((resolve) => {
+      request.get('/api/v1/task_categories').then((res) => {
+        resolve(res);
+      });
+    });
+  }
+  find(id) {
+    return new Promise((resolve) => {
+      request.get(`/api/v1/task_categories/${ id }`).then((res) => {
+        resolve(res);
+      });
+    });
+  }
+  create(entity) {
+    return new Promise((resolve) => {
+      request.post('/api/v1/task_categories', entity).then((res) => {
+        resolve(res);
+      });
+    });
+  }
+  update(id, entity) {
+    return new Promise((resolve) => {
+      console.trace('aaa');
+      request.put(`/api/v1/task_categories/${ id }`, entity).then((res) => {
+        resolve(res);
+      });
+    });
+  }
+  destroy(id) {
+    return new Promise((resolve) => {
+      request.delete(`/api/v1/task_categories/${ id }`).then((res) => {
+        resolve(res);
+      });
+    });
+  }
+  reorder(orders) {
+    return new Promise((resolve) => {
+      request.put('/api/v1/task_categories', orders).then((res) => {
+        resolve(res);
+      });
     });
   }
 }

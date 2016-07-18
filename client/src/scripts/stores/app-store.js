@@ -2,7 +2,7 @@ import { pages, actionTypes as types } from '../constants/constants';
 import { getTasks } from '../actions/task-action-creators';
 import { subscribe } from '../libs/app-dispatcher';
 import MicroStore from '../libs/micro-store';
-import TaskStore from '../states/task-state';
+import TaskState from '../states/task-state';
 
 
 export default class AppStore extends MicroStore {
@@ -85,10 +85,9 @@ export default class AppStore extends MicroStore {
     this._title = 'Task';
 
     this._changePage(pages.TASKS);
-    if (!this.taskStore) {
-      this.taskStore = new TaskStore();
-      getTasks();
-      this.taskStore.addChangeListener(() => {
+    if (!this.taskState) {
+      this.taskState = new TaskState();
+      this.taskState.addChangeListener(() => {
         this.dispatchChange();
       });
     }

@@ -23,7 +23,8 @@ function _o2a(obj) {
 
 export default class MicroResource {
   constructor(options = { localStorage: true }) {
-    this._localStorage = options.localStorage;
+    // this._localStorage = options.localStorage;
+    this._localStorage = false;
     this._data = (this._localStorage) ? this._load() : {};
     this._filteredData = [];
     this._filtering = false;

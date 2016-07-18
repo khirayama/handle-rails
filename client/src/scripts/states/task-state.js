@@ -13,6 +13,7 @@ export default class TaskStore extends MicroStore {
     super();
 
     this._tasks = [];
+    this._taskCategories = [];
 
     subscribe((action) => {
       switch (action.type) {
@@ -28,6 +29,11 @@ export default class TaskStore extends MicroStore {
           this.update(action.task);
           this.dispatchChange();
           break;
+        case types.GET_ALL_TASK_CATEGORIES:
+        case types.SORT_TASK_CATEGORIES:
+          this.setTaskCategories(action.taskCategories);
+          this.dispatchChange();
+          break;
         case types.CREATE_TASK_CATEGORY:
           this.addTaskCategory(action.taskCategory);
           this.dispatchChange();
@@ -40,11 +46,24 @@ export default class TaskStore extends MicroStore {
           this.updateTaskCategory(action.taskCategory);
           this.dispatchChange();
           break;
+        case types.DELETE_TASK_CATEGORY:
+          this.deleteTaskCategory(action.deletedTaskCategoryId);
+          this.dispatchChange();
+          break;
         default:
           break;
       }
     });
   }
+
+  setTaskCategories(taskCategories) {
+    this._taskCategories = taskCategories;
+  }
+
+  getTaskCategories() {
+    return this._taskCategories;
+  }
+
 
   getTasks() {
     return this._tasks;
@@ -92,26 +111,26 @@ export default class TaskStore extends MicroStore {
     });
   }
 
-  _transformTaskCategory(rawTaskCategory) {
-    return {
-      categoryId: rawTaskCategory.id,
-      categoryName: rawTaskCategory.name,
-      isEditing: rawTaskCategory.isEditing,
-      tasks: [],
-    };
-  }
-
   addTaskCategory(taskCategory) {
-    this._tasks.push(this._transformTaskCategory(taskCategory));
+    this._taskCategories.push(taskCategory);
   }
 
   updateTaskCategory(taskCategory) {
-    for (let taskIndex = 0; taskIndex < this._tasks.length; taskIndex++) {
-      const taskCategory_ = this._tasks[taskIndex];
-      if (taskCategory_.categoryId === taskCategory.id) {
-        taskCategory_.categoryId = taskCategory.id;
-        taskCategory_.categoryName = taskCategory.name;
+    for (let taskIndex = 0; taskIndex < this._taskCategories.length; taskIndex++) {
+      const taskCategory_ = this._taskCategories[taskIndex];
+      if (taskCategory_.id === taskCategory.id) {
+        taskCategory_.id = taskCategory.id;
+        taskCategory_.name = taskCategory.name;
         taskCategory_.isEditing = taskCategory.isEditing;
+      }
+    }
+  }
+
+  deleteTaskCategory(deletedTaskCategoryId) {
+    for (let taskIndex = 0; taskIndex < this._taskCategories.length; taskIndex++) {
+      const taskCategory_ = this._taskCategories[taskIndex];
+      if (taskCategory_.id === deletedTaskCategoryId) {
+        this._taskCategories.splice(taskIndex, 1);
       }
     }
   }

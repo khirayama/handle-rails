@@ -8,16 +8,17 @@ import { pages } from '../constants/constants';
 
 
 export function getLauncherContents() {
-  const taskCategoryItems = TaskCategory.order('order').get().map(taskCategory => {
-    const id = taskCategory.id;
-    const text = `Create a task to ${taskCategory.name}`;
-    const callback = () => {
-      changePage(pages.TASKS);
-      createTask('', id);
-    };
-
-    return { text, callback };
-  });
+  // const taskCategoryItems = TaskCategory.order('order').get().map(taskCategory => {
+  //   const id = taskCategory.id;
+  //   const text = `Create a task to ${taskCategory.name}`;
+  //   const callback = () => {
+  //     changePage(pages.TASKS);
+  //     createTask('', id);
+  //   };
+  //
+  //   return { text, callback };
+  // });
+  const taskCategoryItems = [];
 
   const createCategoryItem = {
     text: 'Create a category',
