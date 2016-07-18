@@ -34,7 +34,6 @@ export default class TaskStore extends MicroStore {
           this.dispatchChange();
           break;
         case types.MOVE_TASK:
-          console.log(action);
           this.moveTask(
             action.currentTaskCategoryId,
             action.currentTasks,

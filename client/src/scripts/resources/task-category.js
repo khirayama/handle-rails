@@ -37,7 +37,6 @@ export class TaskCategoryResource {
   }
   update(id, entity) {
     return new Promise((resolve) => {
-      console.trace('aaa');
       request.put(`/api/v1/task_categories/${ id }`, entity).then((res) => {
         resolve(res);
       });
