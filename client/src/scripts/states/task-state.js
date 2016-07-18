@@ -29,6 +29,10 @@ export default class TaskStore extends MicroStore {
           this.updateTask(action.task);
           this.dispatchChange();
           break;
+        case types.DELETE_TASK:
+          this.deleteTask(action.deletedTaskId);
+          this.dispatchChange();
+          break;
         case types.GET_ALL_TASK_CATEGORIES:
         case types.SORT_TASK_CATEGORIES:
           this.setTaskCategories(action.taskCategories);
@@ -109,6 +113,19 @@ export default class TaskStore extends MicroStore {
     });
   }
 
+  deleteTask(deletedTaskId) {
+    for (let taskCategoryIndex = 0; taskCategoryIndex < this._taskCategories.length; taskCategoryIndex++) {
+      const taskCategory_ = this._taskCategories[taskCategoryIndex];
+      for (let taskIndex = 0; taskIndex < taskCategory_.tasks.length; taskIndex++) {
+        const task = taskCategory_.tasks[taskIndex];
+        console.log(task.id, deletedTaskId);
+        if (task.id === deletedTaskId) {
+          taskCategory_.tasks.splice(taskIndex, 1);
+        }
+      }
+    }
+  }
+
   addTaskCategory(taskCategory) {
     this._taskCategories.push(taskCategory);
   }
@@ -125,10 +142,10 @@ export default class TaskStore extends MicroStore {
   }
 
   deleteTaskCategory(deletedTaskCategoryId) {
-    for (let taskIndex = 0; taskIndex < this._taskCategories.length; taskIndex++) {
-      const taskCategory_ = this._taskCategories[taskIndex];
+    for (let taskCategoryIndex = 0; taskCategoryIndex < this._taskCategories.length; taskCategoryIndex++) {
+      const taskCategory_ = this._taskCategories[taskCategoryIndex];
       if (taskCategory_.id === deletedTaskCategoryId) {
-        this._taskCategories.splice(taskIndex, 1);
+        this._taskCategories.splice(taskCategoryIndex, 1);
       }
     }
   }

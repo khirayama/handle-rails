@@ -32,5 +32,12 @@ export class TaskResource {
       });
     });
   }
+  destroy(id) {
+    return new Promise((resolve) => {
+      request.delete(`/api/v1/tasks/${ id }`).then((res) => {
+        resolve(res);
+      });
+    });
+  }
 }
 export default new TaskResource();

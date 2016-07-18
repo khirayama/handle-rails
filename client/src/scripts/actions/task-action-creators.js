@@ -25,7 +25,7 @@ export default class TaskActionSubscriber {
         // component: task-list-item
         case 'UI_KEYDOWN_INPUT_WITH_ENTER_AND_CTRL_IN_TASK_LIST_ITEM':
           if (event.value === '') {
-            deleteTask(event.categoryId, event.id);
+            deleteTask(event.id);
           }
           createTask('', event.categoryId);
           break;
@@ -49,11 +49,11 @@ export default class TaskActionSubscriber {
           if (text !== '') {
             updateTask(event.id, text);
           } else {
-            deleteTask(event.categoryId, event.id);
+            deleteTask(event.id);
           }
           break;
         case 'UI_CLICK_DELETE_BUTTON_IN_TASK_LIST_ITEM':
-          deleteTask(event.categoryId, event.id);
+          deleteTask(event.id);
           break;
         default:
           break;
@@ -190,21 +190,13 @@ export function updateTask(id, text) {
   });
 }
 
-export function deleteTask(categoryId, taskId) {
-  const task = Task.get(taskId);
-  const categoryTasks = Task.where({ categoryId }).order('order').get();
-
-  categoryTasks.forEach(categoryTask => {
-    if (task.order < categoryTask.order) {
-      Task.update(categoryTask.id, {
-        order: categoryTask.order - 1,
-      });
-    }
+export function deleteTask(id) {
+  Task.destroy(id).then((res) => {
+    dispatch({
+      type: types.DELETE_TASK,
+      deletedTaskId: id,
+    });
   });
-
-  Task.destroy(taskId);
-
-  getTasks();
 }
 
 export function sortTasks(categoryId, from, to) {

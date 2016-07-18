@@ -58,7 +58,6 @@ export default class TaskListItem extends Component {
     dispatch({
       type: 'UI_CLICK_DELETE_BUTTON_IN_TASK_LIST_ITEM',
       id: this.props.task.id,
-      categoryId: this.props.task.categoryId,
     });
   }
 
