@@ -65,13 +65,13 @@ export default class TaskListItem extends Component {
     const task = this.props.task;
 
     this.props.setIsItemDragging(true);
-    this.props.setCurrentOrder(task.categoryId, task.order);
+    this.props.setCurrentOrder(task.taskCategoryId, task.order);
   }
 
   onDragEnter() {
     const task = this.props.task;
 
-    this.props.setNewOrder(task.categoryId, task.order);
+    this.props.setNewOrder(task.taskCategoryId, task.order);
   }
 
   onDragEnd() {

@@ -49,28 +49,28 @@ export default class TasksPage extends Component {
     };
   }
 
-  _setCurrentOrder(categoryId, from) {
+  _setCurrentOrder(taskCategoryId, from) {
     this._order.from = from;
-    this._order.currentCategoryId = categoryId;
+    this._order.currentCategoryId = taskCategoryId;
   }
 
-  _setNewOrder(categoryId, to) {
+  _setNewOrder(taskCategoryId, to) {
     this._order.to = to;
-    this._order.newCategoryId = categoryId;
+    this._order.newCategoryId = taskCategoryId;
   }
 
   _moveTask() {
-    const currentCategoryId = this._order.currentCategoryId;
+    const currentTaskCategoryId = this._order.currentCategoryId;
     const from = this._order.from;
-    const newCategoryId = this._order.newCategoryId;
+    const newTaskCategoryId = this._order.newCategoryId;
     const to = this._order.to;
 
     dispatch({
       type: 'UI_DRAGEND_ON_ITEM_IN_TASK_PAGE',
       from,
       to,
-      currentCategoryId,
-      newCategoryId,
+      currentTaskCategoryId,
+      newTaskCategoryId,
     });
 
     this._initializeOrder();

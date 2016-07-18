@@ -33,6 +33,10 @@ export default class TaskStore extends MicroStore {
           this.deleteTask(action.deletedTaskId);
           this.dispatchChange();
           break;
+        case types.SORT_TASKS:
+          this.sortTasks(action.taskCategoryId, action.tasks);
+          this.dispatchChange();
+          break;
         case types.GET_ALL_TASK_CATEGORIES:
         case types.SORT_TASK_CATEGORIES:
           this.setTaskCategories(action.taskCategories);
@@ -118,10 +122,18 @@ export default class TaskStore extends MicroStore {
       const taskCategory_ = this._taskCategories[taskCategoryIndex];
       for (let taskIndex = 0; taskIndex < taskCategory_.tasks.length; taskIndex++) {
         const task = taskCategory_.tasks[taskIndex];
-        console.log(task.id, deletedTaskId);
         if (task.id === deletedTaskId) {
           taskCategory_.tasks.splice(taskIndex, 1);
         }
+      }
+    }
+  }
+
+  sortTasks(taskCategoryId, tasks) {
+    for (let taskCategoryIndex = 0; taskCategoryIndex < this._taskCategories.length; taskCategoryIndex++) {
+      const taskCategory_ = this._taskCategories[taskCategoryIndex];
+      if (taskCategory_.id == taskCategoryId) {
+        taskCategory_.tasks = tasks;
       }
     }
   }

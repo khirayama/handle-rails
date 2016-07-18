@@ -12,10 +12,10 @@ export default class TaskActionSubscriber {
       switch (event.type) {
         // component: task-page
         case 'UI_DRAGEND_ON_ITEM_IN_TASK_PAGE':
-          if (event.currentCategoryId === event.newCategoryId) {
-            sortTasks(event.currentCategoryId, event.from, event.to);
+          if (event.currentTaskCategoryId === event.newTaskCategoryId) {
+            sortTasks(event.currentTaskCategoryId, event.from, event.to);
           } else {
-            moveTask(event.currentCategoryId, event.from, event.newCategoryId, event.to);
+            moveTask(event.currentTaskCategoryId, event.from, event.newTaskCategoryId, event.to);
           }
           break;
         // component: task-list
@@ -173,32 +173,28 @@ export function deleteTask(id) {
   });
 }
 
-export function sortTasks(categoryId, from, to) {
-  const tasks = Task.where({ categoryId }).order('order').get();
-
-  if (from < to) {
-    // To move to down.
-    for (let index = from; index <= to; index++) {
-      const task = tasks[index];
-
-      if (index === from) {
-        Task.update(task.id, { order: to });
-      } else if (index <= to) {
-        Task.update(task.id, { order: task.order - 1 });
-      }
-    }
-  } else if (to < from) {
-    // To move to up.
-    for (let index = to; index <= from; index++) {
-      const task = tasks[index];
-
-      if (index === from) {
-        Task.update(task.id, { order: to });
-      } else if (index <= from) {
-        Task.update(task.id, { order: task.order + 1 });
-      }
-    }
-  }
+export function sortTasks(taskCategoryId, from, to) {
+  Task.reorder({
+    task_category_id: taskCategoryId,
+    from,
+    to
+  }).then((res) => {
+    const tasks = res.data.map((task) => {
+      return {
+        id: task.id,
+        text: task.text,
+        completed: task.completed,
+        taskCategoryId: task.task_category_id,
+        order: task.order,
+        isEditing: false,
+      };
+    });
+    dispatch({
+      type: types.SORT_TASKS,
+      taskCategoryId,
+      tasks,
+    });
+  });
 }
 
 export function moveTask(currentCategoryId, from, newCategoryId, to) {

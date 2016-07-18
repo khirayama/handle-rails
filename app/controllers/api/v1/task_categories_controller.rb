@@ -44,7 +44,7 @@ module Api
             if task_category.order == from
               task_category.order = to
               task_category.save
-            elsif task_category.order <= to
+            elsif from < task_category.order && task_category.order <= to
               task_category.order -= 1
               task_category.save
             end
@@ -54,7 +54,7 @@ module Api
             if task_category.order == from
               task_category.order = to
               task_category.save
-            elsif task_category.order <= to
+            elsif to < task_category.order && task_category.order <= from
               task_category.order += 1
               task_category.save
             end

@@ -70,6 +70,7 @@ function buildTaskCategories(taskCategories, tasks) {
           text: task.text,
           completed: task.completed,
           order: task.order,
+          taskCategoryId: task.task_category_id,
         });
       }
     }
