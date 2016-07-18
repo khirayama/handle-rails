@@ -9,7 +9,7 @@ module Api
       end
 
       def show
-        @tasks = current_user.created_tasks.find(params[:id])
+        @task = current_user.created_tasks.find(params[:id])
         render '/api/v1/tasks/show'
       end
 

@@ -129,15 +129,19 @@ export function completeTask(id) {
 }
 
 export function editTask(id) {
-  const entity = Task.get(id);
-
-  validateByJSONSchema(entity, TASK_SCHEMA);
-
-  entity.isEditing = true;
-
-  dispatch({
-    type: types.UPDATE_TASK,
-    task: entity
+  Task.find(id).then((res) => {
+    const entity = {
+      id: res.data.id,
+      text: res.data.text,
+      completed: res.data.completed,
+      taskCategoryId: res.data.task_category_id,
+      order: res.data.order,
+      isEditing: true,
+    };
+    dispatch({
+      type: types.UPDATE_TASK,
+      task: entity
+    });
   });
 }
 

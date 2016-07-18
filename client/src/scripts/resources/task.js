@@ -39,5 +39,12 @@ export class TaskResource {
       });
     });
   }
+  find(id) {
+    return new Promise((resolve) => {
+      request.get(`/api/v1/tasks/${ id }`).then((res) => {
+        resolve(res);
+      });
+    });
+  }
 }
 export default new TaskResource();
