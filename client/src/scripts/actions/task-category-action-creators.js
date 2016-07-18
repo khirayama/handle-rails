@@ -98,6 +98,7 @@ export function getTaskCategories() {
   TaskCategory.fetch().then((taskCategoryRes) => {
     Task.fetch().then((taskRes) => {
       const taskCategories = buildTaskCategories(taskCategoryRes.data, taskRes.data);
+
       dispatch({
         type: types.GET_ALL_TASK_CATEGORIES,
         taskCategories,
@@ -108,8 +109,12 @@ export function getTaskCategories() {
 
 export function editTaskCategory(id) {
   const entity = TaskCategory.find(id).then((res) => {
-    const entity = res.data;
-    entity.isEditing = true;
+    const entity = {
+      id: res.data.id,
+      name: res.data.name,
+      order: res.data.order,
+      isEditing: true,
+    }
 
     dispatch({
       type: types.EDIT_TASK_CATEGORY,
@@ -120,8 +125,12 @@ export function editTaskCategory(id) {
 
 export function updateTaskCategory(id, name) {
   TaskCategory.update(id, { name }).then((res) => {
-    const entity = res.data;
-    entity.isEditing = false;
+    const entity = {
+      id: res.data.id,
+      name: res.data.name,
+      order: res.data.order,
+      isEditing: false,
+    }
 
     dispatch({
       type: types.UPDATE_TASK_CATEGORY,
@@ -132,9 +141,12 @@ export function updateTaskCategory(id, name) {
 
 export function createTaskCategory(name) {
   TaskCategory.create({ name }).then((res) => {
-    const entity = res.data;
-    entity.isEditing = true;
-    entity.tasks = [];
+    const entity = {
+      id: res.data.id,
+      name: res.data.name,
+      order: res.data.order,
+      isEditing: true,
+    }
 
     dispatch({
       type: types.CREATE_TASK_CATEGORY,

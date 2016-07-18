@@ -59,7 +59,7 @@ export default class TaskList extends Component {
   onClickAddButton() {
     dispatch({
       type: 'UI_CLICK_ADD_BUTTON_IN_TASK_LIST',
-      categoryId: this.props.taskCategory.categoryId,
+      taskCategoryId: this.props.taskCategory.id,
     });
   }
 
@@ -109,7 +109,7 @@ export default class TaskList extends Component {
   onDragEnterHeader() {
     const taskCategory = this.props.taskCategory;
 
-    this.props.setNewOrder(taskCategory.categoryId, 0);
+    this.props.setNewOrder(taskCategory.id, 0);
   }
 
   onDragEndHeader() {
@@ -119,7 +119,7 @@ export default class TaskList extends Component {
   onDragEnterAddButton() {
     const taskCategory = this.props.taskCategory;
 
-    this.props.setNewOrder(taskCategory.categoryId, taskCategory.tasks.length);
+    this.props.setNewOrder(taskCategory.id, taskCategory.tasks.length);
   }
 
   onDragEndAddButton() {

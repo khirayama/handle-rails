@@ -135,7 +135,6 @@ export default class TaskListItem extends Component {
     dispatch({
       type: type,
       id: this.props.task.id,
-      categoryId: this.props.task.categoryId,
       text: this.state.value,
     });
   }

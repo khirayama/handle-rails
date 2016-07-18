@@ -20,7 +20,7 @@ export default class TaskActionSubscriber {
           break;
         // component: task-list
         case 'UI_CLICK_ADD_BUTTON_IN_TASK_LIST':
-          createTask('', event.categoryId);
+          createTask('', event.taskCategoryId);
           break;
         // component: task-list-item
         case 'UI_KEYDOWN_INPUT_WITH_ENTER_AND_CTRL_IN_TASK_LIST_ITEM':
@@ -95,22 +95,20 @@ export function getTasks() {
   });
 }
 
-export function createTask(text, categoryId) {
-  const tasks = Task.where({ categoryId }).get();
-
-  const entity = Task.create({
-    text,
-    categoryId,
-    order: tasks.length,
-  });
-
-  validateByJSONSchema(entity, TASK_SCHEMA);
-
-  entity.isEditing = true;
-
-  dispatch({
-    type: types.CREATE_TASK,
-    task: entity
+export function createTask(text, taskCategoryId) {
+  Task.create({ text, task_category_id: taskCategoryId }).then((res) => {
+    const entity = {
+      id: res.data.id,
+      text: res.data.text,
+      completed: res.data.completed,
+      taskCategoryId: res.data.task_category_id,
+      order: res.data.order,
+      isEditing: true,
+    };
+    dispatch({
+      type: types.CREATE_TASK,
+      task: entity
+    });
   });
 }
 
@@ -176,15 +174,19 @@ export function editPrevTask(categoryId, currentOrder) {
 }
 
 export function updateTask(id, text) {
-  const entity = Task.update(id, { text });
-
-  validateByJSONSchema(entity, TASK_SCHEMA);
-
-  entity.isEditing = false;
-
-  dispatch({
-    type: types.UPDATE_TASK,
-    task: entity
+  Task.update(id, { text }).then((res) => {
+    const entity = {
+      id: res.data.id,
+      text: res.data.text,
+      completed: res.data.completed,
+      taskCategoryId: res.data.task_category_id,
+      order: res.data.order,
+      isEditing: false,
+    };
+    dispatch({
+      type: types.UPDATE_TASK,
+      task: entity
+    });
   });
 }
 

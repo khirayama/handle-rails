@@ -22,11 +22,11 @@ export default class TaskStore extends MicroStore {
           this.dispatchChange();
           break;
         case types.CREATE_TASK:
-          this.create(action.task);
+          this.createTask(action.task);
           this.dispatchChange();
           break;
         case types.UPDATE_TASK:
-          this.update(action.task);
+          this.updateTask(action.task);
           this.dispatchChange();
           break;
         case types.GET_ALL_TASK_CATEGORIES:
@@ -85,23 +85,21 @@ export default class TaskStore extends MicroStore {
     this._tasks = newTasks;
   }
 
-  create(task) {
+  createTask(task) {
     const newTask = TaskStore._addSchedule(task);
 
-    validateByJSONSchema(newTask, TASK_STORE_SCHEMA);
-    this._tasks.forEach(taskCategory => {
-      if (taskCategory.categoryId === task.categoryId) {
+    this._taskCategories.forEach(taskCategory => {
+      if (taskCategory.id === task.taskCategoryId) {
         taskCategory.tasks.push(newTask);
       }
     });
   }
 
-  update(task) {
+  updateTask(task) {
     const newTask = TaskStore._addSchedule(task);
 
-    validateByJSONSchema(newTask, TASK_STORE_SCHEMA);
-    this._tasks.forEach((taskCategory) => {
-      if (taskCategory.categoryId === task.categoryId) {
+    this._taskCategories.forEach(taskCategory => {
+      if (taskCategory.id === task.taskCategoryId) {
         taskCategory.tasks.forEach((task_, index) => {
           if (task_.id === task.id) {
             taskCategory.tasks.splice(index, 1, newTask);
