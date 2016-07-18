@@ -54,7 +54,7 @@ module Api
             if task.order == from
               task.order = to
               task.save
-            elsif to < task.order && task.order <= from
+            elsif to <= task.order && task.order < from
               task.order += 1
               task.save
             end
