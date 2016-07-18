@@ -62,39 +62,6 @@ export default class TaskActionSubscriber {
   }
 }
 
-export function getTasks() {
-  const tasks = [];
-
-  const allTaskCategories = TaskCategory.order('order').get();
-
-  allTaskCategories.forEach(taskCategory => {
-    tasks.push({
-      categoryName: taskCategory.name,
-      categoryId: taskCategory.id,
-      order: taskCategory.order,
-      isEditing: false,
-      tasks: Task.where({ categoryId: taskCategory.id }).order('order').get(),
-    });
-  });
-
-  validateByJSONSchema(tasks, TASKS_SCHEMA);
-
-  for (let taskCategoryIndex = 0; taskCategoryIndex < tasks.length; taskCategoryIndex++) {
-    const taskCategory = tasks[taskCategoryIndex];
-
-    for (let taskIndex = 0; taskIndex < taskCategory.tasks.length; taskIndex++) {
-      const task = taskCategory.tasks[taskIndex];
-
-      task.isEditing = false;
-    }
-  }
-
-  dispatch({
-    type: types.GET_ALL_TASKS,
-    tasks
-  });
-}
-
 export function createTask(text, taskCategoryId) {
   Task.create({ text, task_category_id: taskCategoryId }).then((res) => {
     const entity = {
@@ -232,8 +199,6 @@ export function sortTasks(categoryId, from, to) {
       }
     }
   }
-
-  getTasks();
 }
 
 export function moveTask(currentCategoryId, from, newCategoryId, to) {
@@ -273,6 +238,4 @@ export function moveTask(currentCategoryId, from, newCategoryId, to) {
       });
     }
   });
-
-  getTasks();
 }
