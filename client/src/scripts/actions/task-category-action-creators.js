@@ -147,6 +147,7 @@ export function createTaskCategory(name) {
       name: res.data.name,
       order: res.data.order,
       isEditing: true,
+      tasks: [],
     }
 
     dispatch({

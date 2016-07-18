@@ -17,10 +17,6 @@ export default class TaskStore extends MicroStore {
 
     subscribe((action) => {
       switch (action.type) {
-        case types.GET_ALL_TASKS:
-          this.setTasks(action.tasks);
-          this.dispatchChange();
-          break;
         case types.CREATE_TASK:
           this.createTask(action.task);
           this.dispatchChange();
@@ -75,22 +71,6 @@ export default class TaskStore extends MicroStore {
 
   getTasks() {
     return this._tasks;
-  }
-
-  setTasks(tasks = []) {
-    const newTasks = tasks.splice(0);
-
-    newTasks.forEach(taskCategory => {
-      taskCategory.tasks.forEach((task, index) => {
-        const newTask = TaskStore._addSchedule(task);
-
-        taskCategory.tasks.splice(index, 1, newTask);
-      });
-    });
-
-    validateByJSONSchema(newTasks, TASKS_SCHEMA);
-    TaskStore._checkOrder(newTasks);
-    this._tasks = newTasks;
   }
 
   createTask(task) {
