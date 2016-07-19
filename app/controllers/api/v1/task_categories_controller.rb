@@ -4,8 +4,8 @@ module Api
       before_action :authenticate
 
       def index
-        @task_categories = current_user.created_task_categories.order(:order)
-        render '/api/v1/task_categories/index'
+        task_categories = current_user.created_task_categories.order(:order)
+        render '/api/v1/task_categories/index', locals: { task_categories: task_categories }
       end
 
       def show

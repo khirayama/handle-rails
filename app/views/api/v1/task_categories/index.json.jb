@@ -1,7 +1,3 @@
-@task_categories.map do |task_category|
-  {
-    id: task_category.id,
-    name: task_category.name,
-    order: task_category.order
-  }
+task_categories.map do |task_category|
+  render template: '/api/v1/task_categories/show', locals: { task_category: task_category }
 end

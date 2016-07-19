@@ -15,7 +15,6 @@ module Api
 
         def authenticate
           return if logged_in?
-          redirect_to root_path, alert: 'Please log in'
         end
     end
   end
