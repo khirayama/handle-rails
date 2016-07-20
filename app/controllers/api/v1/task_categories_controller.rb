@@ -36,6 +36,7 @@ module Api
       end
 
       def reorder
+        # TODO: Change params to id, order
         task_categories = current_user.created_task_categories.order(:order)
         from = params[:from]
         to = params[:to]

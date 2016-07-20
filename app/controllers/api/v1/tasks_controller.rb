@@ -67,6 +67,7 @@ module Api
       end
 
       def move
+        # TODO: Change params to id, order, task_category_id and integrate reorder action
         currentTasks = current_user.created_task_categories.find(params[:current_task_category_id]).tasks
         targetTasks = current_user.created_task_categories.find(params[:target_task_category_id]).tasks
 
