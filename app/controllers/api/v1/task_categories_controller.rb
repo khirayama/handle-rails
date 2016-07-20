@@ -6,6 +6,7 @@ module Api
       def index
         task_categories = current_user.created_task_categories.order(:order)
         render '/api/v1/task_categories/index', locals: { task_categories: task_categories }
+        # render partial: '/api/v1/task_categories/show', collection: @task_categories, as: :task_category
       end
 
       def show
