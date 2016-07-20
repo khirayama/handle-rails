@@ -1,11 +1,9 @@
-@tasks.map do |task|
-  task_category = TaskCategory.find(task.task_category_id)
+tasks.map do |task|
   {
     id: task.id,
     text: task.text,
     completed: task.completed,
     order: task.order,
-    task_category_id: task_category.id,
-    task_category_name: task_category.name
+    task_category_id: task.task_category_id
   }
 end

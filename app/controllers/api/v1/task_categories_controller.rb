@@ -5,33 +5,33 @@ module Api
 
       def index
         task_categories = current_user.created_task_categories.order(:order)
-        # render partial: '/api/v1/task_categories/show', collection: @task_categories, as: :task_category
+        # render partial: '/api/v1/task_categories/show', collection: task_categories, as: :task_category
         render '/api/v1/task_categories/index', locals: { task_categories: task_categories }
       end
 
       def show
         @task_category = current_user.created_task_categories.find(params[:id])
-        render '/api/v1/task_categories/show'
+        render '/api/v1/task_categories/show', locals: { task_category: task_category }
       end
 
       def create
-        @task_category = current_user.created_task_categories.build(task_category_params)
-        @task_category.order = current_user.created_task_categories.length - 1
-        if @task_category.save
-          render '/api/v1/task_categories/show'
+        task_category = current_user.created_task_categories.build(task_category_params)
+        task_category.order = current_user.created_task_categories.length - 1
+        if task_category.save
+          render '/api/v1/task_categories/show', locals: { task_category: task_category }
         end
       end
 
       def update
-        @task_category = current_user.created_task_categories.find(params[:id])
-        if @task_category.update(task_category_params)
-          render '/api/v1/task_categories/show'
+        task_category = current_user.created_task_categories.find(params[:id])
+        if task_category.update(task_category_params)
+          render '/api/v1/task_categories/show', locals: { task_category: task_category }
         end
       end
 
       def destroy
-        @task_category = current_user.created_task_categories.find(params[:id])
-        @task_category.destroy!
+        task_category = current_user.created_task_categories.find(params[:id])
+        task_category.destroy!
         make_order_sequence
       end
 
@@ -62,8 +62,8 @@ module Api
           end
         end
 
-        @task_categories = current_user.created_task_categories.order(:order)
-        render '/api/v1/task_categories/index'
+        task_categories = current_user.created_task_categories.order(:order)
+        render '/api/v1/task_categories/index', locals: { task_categories: task_categories }
       end
 
       private
