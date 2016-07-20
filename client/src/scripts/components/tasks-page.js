@@ -116,11 +116,11 @@ export default class TasksPage extends Component {
   }
 
   render() {
-    const tasks = this.props.taskCategories;
-    const taskListElements = tasks.map(taskCategory => (
+    const taskCategories = this.props.taskCategories;
+    const taskListElements = taskCategories.map(taskCategory => (
       <section
         className="column task-list-column"
-        key={taskCategory.categoryId}
+        key={taskCategory.id}
       >
         <TaskList
           taskCategory={taskCategory}
