@@ -10,7 +10,7 @@ module Api
       end
 
       def show
-        @task_category = current_user.created_task_categories.find(params[:id])
+        task_category = current_user.created_task_categories.find(params[:id])
         render '/api/v1/task_categories/show', locals: { task_category: task_category }
       end
 
