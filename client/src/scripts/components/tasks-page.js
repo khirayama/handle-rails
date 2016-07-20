@@ -5,7 +5,7 @@ import { dispatch } from '../libs/app-dispatcher';
 
 
 const propTypes = {
-  tasks: React.PropTypes.array.isRequired,
+  taskCategories: React.PropTypes.array.isRequired,
 };
 
 export default class TasksPage extends Component {
