@@ -14,7 +14,6 @@ const taskListPropTypes = {
   setCurrentOrder: React.PropTypes.func.isRequired,
   setNewOrder: React.PropTypes.func.isRequired,
   moveTask: React.PropTypes.func.isRequired,
-  setCurrentTaskCategoryOrder: React.PropTypes.func.isRequired,
   setNewTaskCategoryOrder: React.PropTypes.func.isRequired,
   moveTaskCategory: React.PropTypes.func.isRequired,
   setIsItemDragging: React.PropTypes.func.isRequired,
@@ -38,7 +37,6 @@ export default class TaskList extends Component {
     this.onDragEndHeader = this.onDragEndHeader.bind(this);
     this.onDragEnterAddButton = this.onDragEnterAddButton.bind(this);
     this.onDragEndAddButton = this.onDragEndAddButton.bind(this);
-    this.onDragStartList = this.onDragStartList.bind(this);
     this.onDragEnterList = this.onDragEnterList.bind(this);
     this.onDragEndList = this.onDragEndList.bind(this);
   }
@@ -126,16 +124,12 @@ export default class TaskList extends Component {
     this.props.moveTask();
   }
 
-  onDragStartList() {
-    this.props.setCurrentTaskCategoryOrder(this.props.taskCategory.order);
-  }
-
   onDragEnterList() {
     this.props.setNewTaskCategoryOrder(this.props.taskCategory.order);
   }
 
   onDragEndList() {
-    this.props.moveTaskCategory();
+    this.props.moveTaskCategory(this.props.taskCategory.id);
   }
 
   _selectInputValue() {
@@ -205,7 +199,6 @@ export default class TaskList extends Component {
       <section
         draggable
         className="list"
-        onDragStart={this.onDragStartList}
         onDragEnter={this.onDragEnterList}
         onDragEnd={this.onDragEndList}
       >

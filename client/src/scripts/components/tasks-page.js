@@ -23,7 +23,6 @@ export default class TasksPage extends Component {
     this._setNewOrder = this._setNewOrder.bind(this);
     this._moveTask = this._moveTask.bind(this);
 
-    this._setCurrentTaskCategoryOrder = this._setCurrentTaskCategoryOrder.bind(this);
     this._setNewTaskCategoryOrder = this._setNewTaskCategoryOrder.bind(this);
     this._moveTaskCategory = this._moveTaskCategory.bind(this);
 
@@ -78,40 +77,27 @@ export default class TasksPage extends Component {
   }
 
   _initializeTaskCategoryOrder() {
-    this._taskCategoryOrder = {
-      from: null,
-      to: null,
-    };
+    this._taskCategoryOrder = { to: null };
   }
 
-  _setCurrentTaskCategoryOrder(from) {
+  _setNewTaskCategoryOrder(order) {
     if (this._isItemDragging) {
       return;
     }
-    this._taskCategoryOrder.from = from;
+    this._taskCategoryOrder.order = order;
   }
 
-  _setNewTaskCategoryOrder(to) {
+  _moveTaskCategory(id) {
     if (this._isItemDragging) {
       return;
     }
-    this._taskCategoryOrder.to = to;
-  }
+    const order = this._taskCategoryOrder.order;
 
-  _moveTaskCategory() {
-    if (this._isItemDragging) {
-      return;
-    }
-    const from = this._taskCategoryOrder.from;
-    const to = this._taskCategoryOrder.to;
-
-    if (from !== null && to !== null && from !== to) {
-      dispatch({
-        type: 'UI_DRAGEND_ON_LIST_IN_TASK_PAGE',
-        from,
-        to,
-      });
-    }
+    dispatch({
+      type: 'UI_DRAGEND_ON_LIST_IN_TASK_PAGE',
+      id,
+      order,
+    });
     this._initializeTaskCategoryOrder();
   }
 
@@ -128,7 +114,6 @@ export default class TasksPage extends Component {
           setCurrentOrder={this._setCurrentOrder}
           setNewOrder={this._setNewOrder}
           moveTask={this._moveTask}
-          setCurrentTaskCategoryOrder={this._setCurrentTaskCategoryOrder}
           setNewTaskCategoryOrder={this._setNewTaskCategoryOrder}
           moveTaskCategory={this._moveTaskCategory}
         />

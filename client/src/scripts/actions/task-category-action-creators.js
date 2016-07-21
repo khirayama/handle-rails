@@ -23,7 +23,7 @@ export default class TaskCategoryActionSubscriber {
           createTaskCategory('');
           break;
         case 'UI_DRAGEND_ON_LIST_IN_TASK_PAGE':
-          sortTaskCategories(event.from, event.to);
+          sortTaskCategories(event.id, event.order);
           break;
         // component: task-list
         case 'UI_CLICK_TITLE_IN_TASK_LIST':
@@ -166,8 +166,8 @@ export function deleteTaskCategory(id) {
   });
 }
 
-export function sortTaskCategories(from, to) {
-  TaskCategory.reorder({ from, to }).then((taskCategoryRes) => {
+export function sortTaskCategories(id, order) {
+  TaskCategory.reorder({ id, order }).then((taskCategoryRes) => {
     Task.fetch().then((taskRes) => {
       const taskCategories = buildTaskCategories(taskCategoryRes.data, taskRes.data);
       dispatch({

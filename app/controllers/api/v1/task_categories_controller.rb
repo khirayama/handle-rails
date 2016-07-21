@@ -32,36 +32,37 @@ module Api
       def destroy
         task_category = current_user.created_task_categories.find(params[:id])
         task_category.destroy!
-        make_order_sequence
+
+        task_categories = current_user.created_task_categories.where(order: task_category.order..Float::INFINITY).order(:order)
+        task_categories.each_with_index do |task_category_, index|
+          if task_category_.order != task_category.order + index
+            task_category_.order = task_category.order + index
+            task_category_.save
+          end
+        end
       end
 
       def reorder
-        # TODO: Change params to id, order
-        task_categories = current_user.created_task_categories.order(:order)
-        from = params[:from]
-        to = params[:to]
+        task_category = current_user.created_task_categories.find(params[:id])
+
+        from = task_category.order
+        to = params[:order]
 
         if from < to
-          task_categories.each do |task_category|
-            if task_category.order == from
-              task_category.order = to
-              task_category.save
-            elsif from < task_category.order && task_category.order <= to
-              task_category.order -= 1
-              task_category.save
-            end
+          task_categories = current_user.created_task_categories.where(order: (from + 1)..to).order(:order)
+          task_categories.each do |task_category_|
+            task_category_.order -= 1
+            task_category_.save
           end
         elsif to < from
-          task_categories.each do |task_category|
-            if task_category.order == from
-              task_category.order = to
-              task_category.save
-            elsif to <= task_category.order && task_category.order < from
-              task_category.order += 1
-              task_category.save
-            end
+          task_categories = current_user.created_task_categories.where(order: to..(from - 1)).order(:order)
+          task_categories.each do |task_category_|
+            task_category_.order += 1
+            task_category_.save
           end
         end
+        task_category.order = to
+        task_category.save
 
         task_categories = current_user.created_task_categories.order(:order)
         render '/api/v1/task_categories/index', locals: { task_categories: task_categories }
@@ -73,12 +74,7 @@ module Api
           params.permit(:id, :name, :order)
         end
 
-        def make_order_sequence
-          task_categories = current_user.created_task_categories.order(:order)
-          task_categories.each_with_index do |task_category, index|
-            task_category.order = index
-            task_category.save
-          end
+        def make_order_sequence(order)
         end
     end
   end
