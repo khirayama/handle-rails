@@ -108,11 +108,11 @@ export default class TaskStore extends MicroStore {
 
   deleteTask(deletedTaskId) {
     for (let taskCategoryIndex = 0; taskCategoryIndex < this._taskCategories.length; taskCategoryIndex++) {
-      const taskCategory_ = this._taskCategories[taskCategoryIndex];
-      for (let taskIndex = 0; taskIndex < taskCategory_.tasks.length; taskIndex++) {
-        const task = taskCategory_.tasks[taskIndex];
+      const taskCategory = this._taskCategories[taskCategoryIndex];
+      for (let taskIndex = 0; taskIndex < taskCategory.tasks.length; taskIndex++) {
+        const task = taskCategory.tasks[taskIndex];
         if (task.id === deletedTaskId) {
-          taskCategory_.tasks.splice(taskIndex, 1);
+          taskCategory.tasks.splice(taskIndex, 1);
         }
       }
     }
@@ -155,11 +155,15 @@ export default class TaskStore extends MicroStore {
 
   deleteTaskCategory(deletedTaskCategoryId) {
     for (let taskCategoryIndex = 0; taskCategoryIndex < this._taskCategories.length; taskCategoryIndex++) {
-      const taskCategory_ = this._taskCategories[taskCategoryIndex];
-      if (taskCategory_.id === deletedTaskCategoryId) {
+      const taskCategory = this._taskCategories[taskCategoryIndex];
+      if (taskCategory.id === deletedTaskCategoryId) {
         this._taskCategories.splice(taskCategoryIndex, 1);
       }
     }
+    // make order sequence
+    this._taskCategories.forEach((taskCategory, index) => {
+      taskCategory.order = index;
+    });
   }
 
   static _addSchedule(task) {

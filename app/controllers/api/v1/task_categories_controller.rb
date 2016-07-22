@@ -73,9 +73,6 @@ module Api
         def task_category_params
           params.permit(:id, :name, :order)
         end
-
-        def make_order_sequence(order)
-        end
     end
   end
 end
