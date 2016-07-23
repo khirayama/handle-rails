@@ -44,7 +44,6 @@ module Api
 
       def reorder
         task_category = current_user.created_task_categories.find(params[:id])
-
         from = task_category.order
         to = params[:order]
 

@@ -11,12 +11,10 @@ import { dispatch } from '../libs/app-dispatcher';
 
 const taskListPropTypes = {
   taskCategory: React.PropTypes.object,
-  setCurrentOrder: React.PropTypes.func.isRequired,
   setNewOrder: React.PropTypes.func.isRequired,
   moveTask: React.PropTypes.func.isRequired,
   setNewTaskCategoryOrder: React.PropTypes.func.isRequired,
   moveTaskCategory: React.PropTypes.func.isRequired,
-  setIsItemDragging: React.PropTypes.func.isRequired,
 };
 
 export default class TaskList extends Component {
@@ -149,8 +147,6 @@ export default class TaskList extends Component {
       <TaskListItem
         key={task.id}
         task={task}
-        setIsItemDragging={this.props.setIsItemDragging}
-        setCurrentOrder={this.props.setCurrentOrder}
         setNewOrder={this.props.setNewOrder}
         moveTask={this.props.moveTask}
       />

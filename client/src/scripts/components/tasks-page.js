@@ -17,9 +17,6 @@ export default class TasksPage extends Component {
     this._initializeOrder();
     this._initializeTaskCategoryOrder();
 
-    this._setIsItemDragging = this._setIsItemDragging.bind(this);
-
-    this._setCurrentOrder = this._setCurrentOrder.bind(this);
     this._setNewOrder = this._setNewOrder.bind(this);
     this._moveTask = this._moveTask.bind(this);
 
@@ -35,45 +32,27 @@ export default class TasksPage extends Component {
     });
   }
 
-  _setIsItemDragging(isItemDragging) {
-    this._isItemDragging = isItemDragging;
-  }
-
   _initializeOrder() {
     this._order = {
-      from: null,
-      currentCategoryId: '',
-      to: null,
-      newCategoryId: '',
+      taskCategoryId: null,
+      order: null,
     };
   }
 
-  _setCurrentOrder(taskCategoryId, from) {
-    this._order.from = from;
-    this._order.currentCategoryId = taskCategoryId;
+  _setNewOrder(taskCategoryId, order) {
+    this._order.taskCategoryId = taskCategoryId;
+    this._order.order = order;
   }
 
-  _setNewOrder(taskCategoryId, to) {
-    this._order.to = to;
-    this._order.newCategoryId = taskCategoryId;
-  }
-
-  _moveTask() {
-    const currentTaskCategoryId = this._order.currentCategoryId;
-    const from = this._order.from;
-    const newTaskCategoryId = this._order.newCategoryId;
-    const to = this._order.to;
-
+  _moveTask(id) {
     dispatch({
       type: 'UI_DRAGEND_ON_ITEM_IN_TASK_PAGE',
-      from,
-      to,
-      currentTaskCategoryId,
-      newTaskCategoryId,
+      id,
+      taskCategoryId: this._order.taskCategoryId,
+      order: this._order.order,
     });
 
     this._initializeOrder();
-    this._setIsItemDragging(false);
   }
 
   _initializeTaskCategoryOrder() {
@@ -110,8 +89,6 @@ export default class TasksPage extends Component {
       >
         <TaskList
           taskCategory={taskCategory}
-          setIsItemDragging={this._setIsItemDragging}
-          setCurrentOrder={this._setCurrentOrder}
           setNewOrder={this._setNewOrder}
           moveTask={this._moveTask}
           setNewTaskCategoryOrder={this._setNewTaskCategoryOrder}

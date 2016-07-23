@@ -7,10 +7,8 @@ import { dispatch } from '../libs/app-dispatcher';
 
 const taskListItemPropTypes = {
   task: React.PropTypes.object.isRequired,
-  setCurrentOrder: React.PropTypes.func,
   setNewOrder: React.PropTypes.func,
   moveTask: React.PropTypes.func,
-  setIsItemDragging: React.PropTypes.func,
 };
 
 export default class TaskListItem extends Component {
@@ -24,7 +22,6 @@ export default class TaskListItem extends Component {
     this.onClickLabel = this.onClickLabel.bind(this);
     this.onClickDoneButton = this.onClickDoneButton.bind(this);
     this.onClickDeleteButton = this.onClickDeleteButton.bind(this);
-    this.onDragStart = this.onDragStart.bind(this);
     this.onDragEnter = this.onDragEnter.bind(this);
     this.onDragEnd = this.onDragEnd.bind(this);
     this.onChangeInput = this.onChangeInput.bind(this);
@@ -61,13 +58,6 @@ export default class TaskListItem extends Component {
     });
   }
 
-  onDragStart() {
-    const task = this.props.task;
-
-    this.props.setIsItemDragging(true);
-    this.props.setCurrentOrder(task.taskCategoryId, task.order);
-  }
-
   onDragEnter() {
     const task = this.props.task;
 
@@ -75,8 +65,7 @@ export default class TaskListItem extends Component {
   }
 
   onDragEnd() {
-    this.props.setIsItemDragging(false);
-    this.props.moveTask();
+    this.props.moveTask(this.props.task.id);
   }
 
   onChangeInput(event) {

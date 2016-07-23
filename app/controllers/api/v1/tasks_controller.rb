@@ -36,34 +36,28 @@ module Api
       end
 
       def reorder
-        tasks = current_user.created_task_categories.find(params[:task_category_id]).tasks.order(:order)
-        from = params[:from]
-        to = params[:to]
+        task = current_user.created_tasks.find(params[:id])
+        from = task.order
+        to = params[:order]
 
         if from < to
-          tasks.each do |task|
-            if task.order == from
-              task.order = to
-              task.save
-            elsif from < task.order && task.order <= to
-              task.order -= 1
-              task.save
-            end
+          tasks = current_user.created_task_categories.find(task.task_category_id).tasks.where(order: (from + 1)..to).order(:order)
+          tasks.each do |task_|
+            task_.order -= 1
+            task_.save
           end
         elsif to < from
-          tasks.each do |task|
-            if task.order == from
-              task.order = to
-              task.save
-            elsif to <= task.order && task.order < from
-              task.order += 1
-              task.save
-            end
+          tasks = current_user.created_task_categories.find(task.task_category_id).tasks.where(order: to..(from - 1)).order(:order)
+          tasks.each do |task_|
+            task_.order += 1
+            task_.save
           end
         end
+        task.order = to
+        task.save
 
-        @tasks = current_user.created_tasks
-        render '/api/v1/tasks/index'
+        tasks = current_user.created_tasks.order(:order)
+        render '/api/v1/tasks/index', locals: { tasks: tasks }
       end
 
       def move

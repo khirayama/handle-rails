@@ -12,11 +12,7 @@ export default class TaskActionSubscriber {
       switch (event.type) {
         // component: task-page
         case 'UI_DRAGEND_ON_ITEM_IN_TASK_PAGE':
-          if (event.currentTaskCategoryId === event.newTaskCategoryId) {
-            sortTasks(event.currentTaskCategoryId, event.from, event.to);
-          } else {
-            moveTask(event.currentTaskCategoryId, event.from, event.newTaskCategoryId, event.to);
-          }
+          sortTasks(event.id, event.taskCategoryId, event.order);
           break;
         // component: task-list
         case 'UI_CLICK_ADD_BUTTON_IN_TASK_LIST':
@@ -173,11 +169,11 @@ export function deleteTask(id) {
   });
 }
 
-export function sortTasks(taskCategoryId, from, to) {
+export function sortTasks(id, taskCategoryId, order) {
   Task.reorder({
+    id,
     task_category_id: taskCategoryId,
-    from,
-    to
+    order
   }).then((res) => {
     const tasks = res.data.filter((task) => {
       if (task.task_category_id === taskCategoryId) {
