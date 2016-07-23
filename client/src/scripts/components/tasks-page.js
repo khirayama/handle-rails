@@ -17,9 +17,9 @@ export default class TasksPage extends Component {
     this._initializeOrder();
     this._initializeTaskCategoryOrder();
 
+    this._setIsItemDragging = this._setIsItemDragging.bind(this);
     this._setNewOrder = this._setNewOrder.bind(this);
     this._moveTask = this._moveTask.bind(this);
-
     this._setNewTaskCategoryOrder = this._setNewTaskCategoryOrder.bind(this);
     this._moveTaskCategory = this._moveTaskCategory.bind(this);
 
@@ -30,6 +30,10 @@ export default class TasksPage extends Component {
     dispatch({
       type: 'UI_CLICK_ADD_CATEGORY_BUTTON_IN_TASK_PAGE',
     });
+  }
+
+  _setIsItemDragging(isItemDragging) {
+    this._isItemDragging = isItemDragging;
   }
 
   _initializeOrder() {
@@ -45,13 +49,14 @@ export default class TasksPage extends Component {
   }
 
   _moveTask(id) {
-    dispatch({
-      type: 'UI_DRAGEND_ON_ITEM_IN_TASK_PAGE',
-      id,
-      taskCategoryId: this._order.taskCategoryId,
-      order: this._order.order,
-    });
-
+    if (this._isItemDragging) {
+      dispatch({
+        type: 'UI_DRAGEND_ON_ITEM_IN_TASK_PAGE',
+        id,
+        taskCategoryId: this._order.taskCategoryId,
+        order: this._order.order,
+      });
+    }
     this._initializeOrder();
   }
 
@@ -67,16 +72,17 @@ export default class TasksPage extends Component {
   }
 
   _moveTaskCategory(id) {
-    if (this._isItemDragging) {
-      return;
-    }
-    const order = this._taskCategoryOrder.order;
+    if (!this._isItemDragging) {
+      const order = this._taskCategoryOrder.order;
 
-    dispatch({
-      type: 'UI_DRAGEND_ON_LIST_IN_TASK_PAGE',
-      id,
-      order,
-    });
+      dispatch({
+        type: 'UI_DRAGEND_ON_LIST_IN_TASK_PAGE',
+        id,
+        order,
+      });
+    } else {
+      this._isItemDragging = false;
+    }
     this._initializeTaskCategoryOrder();
   }
 
@@ -89,6 +95,7 @@ export default class TasksPage extends Component {
       >
         <TaskList
           taskCategory={taskCategory}
+          setIsItemDragging={this._setIsItemDragging}
           setNewOrder={this._setNewOrder}
           moveTask={this._moveTask}
           setNewTaskCategoryOrder={this._setNewTaskCategoryOrder}

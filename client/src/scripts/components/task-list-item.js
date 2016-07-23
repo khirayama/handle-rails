@@ -65,6 +65,7 @@ export default class TaskListItem extends Component {
   }
 
   onDragEnd() {
+    this.props.setIsItemDragging(true);
     this.props.moveTask(this.props.task.id);
   }
 
