@@ -1,5 +1,0 @@
-{
-  id: task_category.id,
-  name: task_category.name,
-  order: task_category.order
-}

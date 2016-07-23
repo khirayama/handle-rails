@@ -1,7 +1,6 @@
 module Api
   module V1
-    # can't use ActionController::API because use session and cookie
-    class ApplicationController < ActionController::Base
+    class ApplicationController < ActionController::API
 
       private
         def current_user
