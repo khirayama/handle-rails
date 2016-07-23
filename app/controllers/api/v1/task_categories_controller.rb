@@ -6,8 +6,8 @@ module Api
       def index
         task_categories = current_user.created_task_categories.order(:order)
         render json: task_categories.map do |task_category|
-            omit_task_category(task_category)
-          end
+          omit_task_category(task_category)
+        end
       end
 
       def show
@@ -34,11 +34,13 @@ module Api
         task_category = current_user.created_task_categories.find(params[:id])
         task_category.destroy!
 
-        task_categories = current_user.created_task_categories.where(order: task_category.order..Float::INFINITY).order(:order)
-        task_categories.each_with_index do |task_category_, index|
-          if task_category_.order != task_category.order + index
-            task_category_.order = task_category.order + index
-            task_category_.save
+        TaskCategory.transaction do
+          task_categories = current_user.created_task_categories.where(order: task_category.order..Float::INFINITY).order(:order)
+          task_categories.each_with_index do |task_category_, index|
+            if task_category_.order != task_category.order + index
+              task_category_.order = task_category.order + index
+              task_category_.save!
+            end
           end
         end
       end
@@ -48,26 +50,28 @@ module Api
         from = task_category.order
         to = params[:order]
 
-        if from < to
-          task_categories = current_user.created_task_categories.where(order: (from + 1)..to).order(:order)
-          task_categories.each do |task_category_|
-            task_category_.order -= 1
-            task_category_.save
+        TaskCategory.transaction do
+          if from < to
+            task_categories = current_user.created_task_categories.where(order: (from + 1)..to).order(:order)
+            task_categories.each do |task_category_|
+              task_category_.order -= 1
+              task_category_.save!
+            end
+          elsif to < from
+            task_categories = current_user.created_task_categories.where(order: to..(from - 1)).order(:order)
+            task_categories.each do |task_category_|
+              task_category_.order += 1
+              task_category_.save!
+            end
           end
-        elsif to < from
-          task_categories = current_user.created_task_categories.where(order: to..(from - 1)).order(:order)
-          task_categories.each do |task_category_|
-            task_category_.order += 1
-            task_category_.save
-          end
+          task_category.order = to
+          task_category.save!
         end
-        task_category.order = to
-        task_category.save
 
         task_categories = current_user.created_task_categories.order(:order)
         render json: task_categories.map do |task_category|
-            omit_task_category(task_category)
-          end
+          omit_task_category(task_category)
+        end
       end
 
       private

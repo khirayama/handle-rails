@@ -6,8 +6,8 @@ module Api
       def index
         tasks = current_user.created_tasks
         render json: tasks.map do |task|
-            omit_task(task)
-          end
+          omit_task(task)
+        end
       end
 
       def show
@@ -32,8 +32,16 @@ module Api
 
       def destroy
         task = current_user.created_tasks.find(params[:id])
-        task.destroy!
-        make_order_sequence
+        Task.transaction do
+          task.destroy!
+          task_categories = current_user.created_task_categories.order(:order)
+          task_categories.each do |task_category|
+            task_category.tasks.order(:order).each_with_index do |task_, index|
+              task_.order = index
+              task_.save!
+            end
+          end
+        end
       end
 
       def reorder
@@ -41,66 +49,58 @@ module Api
         from = task.order
         to = params[:order]
 
-        if task.task_category_id == params[:task_category_id]
-          if from < to
-            tasks = current_user.created_task_categories.find(task.task_category_id).tasks.where(order: (from + 1)..to).order(:order)
-            tasks.each do |task_|
+        Task.transaction do
+          if task.task_category_id == params[:task_category_id]
+            if from < to
+                tasks = current_user.created_task_categories.find(task.task_category_id).tasks.where(order: (from + 1)..to).order(:order)
+                tasks.each do |task_|
+                  task_.order -= 1
+                  task_.save!
+                end
+            elsif to < from
+              tasks = current_user.created_task_categories.find(task.task_category_id).tasks.where(order: to..(from - 1)).order(:order)
+              tasks.each do |task_|
+                task_.order += 1
+                task_.save!
+              end
+            end
+            task.order = to
+            task.save!
+          elsif task.task_category_id != params[:task_category_id]
+            currentTasks = current_user
+                      .created_task_categories.find(task.task_category_id)
+                      .tasks
+                      .where(order: (from + 1)..Float::INFINITY)
+            currentTasks.each do |task_|
               task_.order -= 1
-              task_.save
+              task_.save!
             end
-          elsif to < from
-            tasks = current_user.created_task_categories.find(task.task_category_id).tasks.where(order: to..(from - 1)).order(:order)
-            tasks.each do |task_|
+
+            targetTasks = current_user
+                      .created_task_categories.find(params[:task_category_id])
+                      .tasks
+                      .where(order: to..Float::INFINITY)
+            targetTasks.each do |task_|
               task_.order += 1
-              task_.save
+              task_.save!
             end
-          end
-          task.order = to
-          task.save
-        elsif task.task_category_id != params[:task_category_id]
-          currentTasks = current_user
-                    .created_task_categories.find(task.task_category_id)
-                    .tasks
-                    .where(order: (from + 1)..Float::INFINITY)
-          currentTasks.each do |task_|
-            task_.order -= 1
-            task_.save
-          end
 
-          targetTasks = current_user
-                    .created_task_categories.find(params[:task_category_id])
-                    .tasks
-                    .where(order: to..Float::INFINITY)
-          targetTasks.each do |task_|
-            task_.order += 1
-            task_.save
+            task.task_category_id = params[:task_category_id]
+            task.order = to
+            task.save!
           end
-
-          task.task_category_id = params[:task_category_id]
-          task.order = to
-          task.save
         end
 
         tasks = current_user.created_tasks
         render json: tasks.map do |task|
-            omit_task(task)
-          end
+          omit_task(task)
+        end
       end
 
       private
 
         def task_params
           params.permit(:id, :text, :completed, :order, :task_category_id)
-        end
-
-        def make_order_sequence
-          task_categories = current_user.created_task_categories.order(:order)
-          task_categories.each do |task_category|
-            task_category.tasks.order(:order).each_with_index do |task, index|
-              task.order = index
-              task.save
-            end
-          end
         end
 
         def omit_task(task)
