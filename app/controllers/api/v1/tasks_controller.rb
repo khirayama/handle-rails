@@ -5,27 +5,28 @@ module Api
 
       def index
         tasks = current_user.created_tasks
-        # render partial: '/api/v1/tasks/index', collection: tasks, as: :tasks
-        render '/api/v1/tasks/index', locals: { tasks: tasks }
+        render json: tasks.map do |task|
+            omit_task(task)
+          end
       end
 
       def show
         task = current_user.created_tasks.find(params[:id])
-        render '/api/v1/tasks/show', locals: { task: task }
+        render json: omit_task(task)
       end
 
       def create
         task = current_user.created_tasks.build(task_params)
         task.order = current_user.created_task_categories.find(params[:task_category_id]).tasks.size
         if task.save
-          render '/api/v1/tasks/show', locals: { task: task }
+          render json: omit_task(task)
         end
       end
 
       def update
         task = current_user.created_tasks.find(params[:id])
         if task.update(task_params)
-          render '/api/v1/tasks/show', locals: { task: task }
+          render json: omit_task(task)
         end
       end
 
@@ -79,8 +80,11 @@ module Api
           task.order = to
           task.save
         end
+
         tasks = current_user.created_tasks
-        render '/api/v1/tasks/index', locals: { tasks: tasks }
+        render json: tasks.map do |task|
+            omit_task(task)
+          end
       end
 
       private
@@ -97,6 +101,16 @@ module Api
               task.save
             end
           end
+        end
+
+        def omit_task(task)
+          {
+            id: task.id,
+            text: task.text,
+            completed: task.completed,
+            order: task.order,
+            task_category_id: task.task_category_id
+          }
         end
     end
   end

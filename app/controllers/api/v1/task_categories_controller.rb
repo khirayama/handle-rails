@@ -5,27 +5,28 @@ module Api
 
       def index
         task_categories = current_user.created_task_categories.order(:order)
-        # render partial: '/api/v1/task_categories/show', collection: task_categories, as: :task_category
-        render '/api/v1/task_categories/index', locals: { task_categories: task_categories }
+        render json: task_categories.map do |task_category|
+            omit_task_category(task_category)
+          end
       end
 
       def show
         task_category = current_user.created_task_categories.find(params[:id])
-        render '/api/v1/task_categories/show', locals: { task_category: task_category }
+        render json: omit_task_category(task_category)
       end
 
       def create
         task_category = current_user.created_task_categories.build(task_category_params)
         task_category.order = current_user.created_task_categories.length - 1
         if task_category.save
-          render '/api/v1/task_categories/show', locals: { task_category: task_category }
+          render json: omit_task_category(task_category)
         end
       end
 
       def update
         task_category = current_user.created_task_categories.find(params[:id])
         if task_category.update(task_category_params)
-          render '/api/v1/task_categories/show', locals: { task_category: task_category }
+          render json: omit_task_category(task_category)
         end
       end
 
@@ -64,13 +65,23 @@ module Api
         task_category.save
 
         task_categories = current_user.created_task_categories.order(:order)
-        render '/api/v1/task_categories/index', locals: { task_categories: task_categories }
+        render json: task_categories.map do |task_category|
+            omit_task_category(task_category)
+          end
       end
 
       private
 
         def task_category_params
           params.permit(:id, :name, :order)
+        end
+
+        def omit_task_category(task_category)
+          {
+            id: task_category.id,
+            name: task_category.name,
+            order: task_category.order
+          }
         end
     end
   end
