@@ -40,50 +40,45 @@ module Api
         from = task.order
         to = params[:order]
 
-        if from < to
-          tasks = current_user.created_task_categories.find(task.task_category_id).tasks.where(order: (from + 1)..to).order(:order)
-          tasks.each do |task_|
+        if task.task_category_id == params[:task_category_id]
+          if from < to
+            tasks = current_user.created_task_categories.find(task.task_category_id).tasks.where(order: (from + 1)..to).order(:order)
+            tasks.each do |task_|
+              task_.order -= 1
+              task_.save
+            end
+          elsif to < from
+            tasks = current_user.created_task_categories.find(task.task_category_id).tasks.where(order: to..(from - 1)).order(:order)
+            tasks.each do |task_|
+              task_.order += 1
+              task_.save
+            end
+          end
+          task.order = to
+          task.save
+        elsif task.task_category_id != params[:task_category_id]
+          currentTasks = current_user
+                    .created_task_categories.find(task.task_category_id)
+                    .tasks
+                    .where(order: (from + 1)..Float::INFINITY)
+          currentTasks.each do |task_|
             task_.order -= 1
             task_.save
           end
-        elsif to < from
-          tasks = current_user.created_task_categories.find(task.task_category_id).tasks.where(order: to..(from - 1)).order(:order)
-          tasks.each do |task_|
+
+          targetTasks = current_user
+                    .created_task_categories.find(params[:task_category_id])
+                    .tasks
+                    .where(order: to..Float::INFINITY)
+          targetTasks.each do |task_|
             task_.order += 1
             task_.save
           end
-        end
-        task.order = to
-        task.save
 
-        tasks = current_user.created_tasks.order(:order)
-        render '/api/v1/tasks/index', locals: { tasks: tasks }
-      end
-
-      def move
-        # TODO: Change params to id, order, task_category_id and integrate reorder action
-        currentTasks = current_user.created_task_categories.find(params[:current_task_category_id]).tasks
-        targetTasks = current_user.created_task_categories.find(params[:target_task_category_id]).tasks
-
-        targetTask = currentTasks.where(order: params[:from]).first
-        targetTask.order = params[:to]
-        targetTask.task_category_id = params[:target_task_category_id]
-        targetTask.save
-
-        decrementOrderTasks = currentTasks.where(order: (params[:from] + 1)..Float::INFINITY)
-        decrementOrderTasks.each do |task|
-          task.order -= 1
+          task.task_category_id = params[:task_category_id]
+          task.order = to
           task.save
         end
-
-        incrementOrderTasks = targetTasks.where(order: (params[:to])..Float::INFINITY)
-        incrementOrderTasks.each do |task|
-          task.order += 1
-          task.save
-        end
-
-        make_order_sequence
-
         tasks = current_user.created_tasks
         render '/api/v1/tasks/index', locals: { tasks: tasks }
       end

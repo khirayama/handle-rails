@@ -4,6 +4,7 @@ import TaskCategory from '../resources/task-category';
 import { actionTypes as types } from '../constants/constants';
 import { validateByJSONSchema } from '../json-schemas/json-schema';
 import { TASK_SCHEMA, TASKS_SCHEMA } from '../json-schemas/task';
+import { buildTaskCategories } from './action-helpers';
 
 
 export default class TaskActionSubscriber {
@@ -174,83 +175,13 @@ export function sortTasks(id, taskCategoryId, order) {
     id,
     task_category_id: taskCategoryId,
     order
-  }).then((res) => {
-    const tasks = res.data.filter((task) => {
-      if (task.task_category_id === taskCategoryId) {
-        return task;
-      }
-    }).sort((itemA, itemB) => {
-      const valueX = itemA['order'];
-      const valueY = itemB['order'];
-
-      if (valueX > valueY) return 1;
-      if (valueX < valueY) return -1;
-      return 0;
-    }).map((task) => {
-      return {
-        id: task.id,
-        text: task.text,
-        completed: task.completed,
-        taskCategoryId: task.task_category_id,
-        order: task.order,
-        isEditing: false,
-      };
-    });
-    dispatch({
-      type: types.SORT_TASKS,
-      taskCategoryId,
-      tasks,
-    });
-  });
-}
-
-export function moveTask(currentTaskCategoryId, from, targetTaskCategoryId, to) {
-  Task.move({
-    current_task_category_id: currentTaskCategoryId,
-    from,
-    target_task_category_id: targetTaskCategoryId,
-    to
-  }).then((res) => {
-    const tasks = res.data.map((task) => {
-      return {
-        id: task.id,
-        text: task.text,
-        completed: task.completed,
-        taskCategoryId: task.task_category_id,
-        order: task.order,
-        isEditing: false,
-      };
-    });
-    const currentTasks = tasks.filter((task) => {
-      if (task.taskCategoryId === currentTaskCategoryId) {
-        return task;
-      }
-    }).sort((itemA, itemB) => {
-      const valueX = itemA['order'];
-      const valueY = itemB['order'];
-
-      if (valueX > valueY) return 1;
-      if (valueX < valueY) return -1;
-      return 0;
-    });
-    const targetTasks = tasks.filter((task) => {
-      if (task.taskCategoryId === targetTaskCategoryId) {
-        return task;
-      }
-    }).sort((itemA, itemB) => {
-      const valueX = itemA['order'];
-      const valueY = itemB['order'];
-
-      if (valueX > valueY) return 1;
-      if (valueX < valueY) return -1;
-      return 0;
-    });
-    dispatch({
-      type: types.MOVE_TASK,
-      currentTaskCategoryId,
-      currentTasks,
-      targetTaskCategoryId,
-      targetTasks,
+  }).then((taskRes) => {
+    TaskCategory.fetch().then((taskCategoryRes) => {
+      const taskCategories = buildTaskCategories(taskCategoryRes.data, taskRes.data);
+        dispatch({
+          type: types.SORT_TASKS,
+          taskCategories,
+        });
     });
   });
 }
