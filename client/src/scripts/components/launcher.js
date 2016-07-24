@@ -2,11 +2,8 @@ import React, { Component } from 'react';
 
 import { keyCodes } from '../constants/constants';
 import LauncherItem from './launcher-item';
+import { getLauncherContents } from '../utils/get-launcher-contents';
 
-
-const LauncherPropTypes = {
-  contents: React.PropTypes.array.isRequired,
-};
 
 export default class Launcher extends Component {
   static _filterContents(contents, searchText) {
@@ -30,7 +27,8 @@ export default class Launcher extends Component {
     this.state = {
       value: '',
       contentIndex: 0,
-      filteredContents: this.props.contents,
+      contents: [],
+      filteredContents: [],
       isShowing: false,
     };
 
@@ -39,6 +37,13 @@ export default class Launcher extends Component {
     this.callAction = this._callAction.bind(this);
     this.showLauncher = this._showLauncher.bind(this);
     this.hideLauncher = this._hideLauncher.bind(this);
+
+    getLauncherContents().then((contents) => {
+      this.setState({
+        contents,
+        filteredContents: contents,
+      });
+    });
   }
 
   componentDidMount() {
@@ -96,7 +101,7 @@ export default class Launcher extends Component {
 
   onChangeInput(event) {
     const value = event.target.value;
-    const filteredContents = Launcher._filterContents(this.props.contents, value);
+    const filteredContents = Launcher._filterContents(this.state.contents, value);
 
     this.setState({ value, filteredContents });
   }
@@ -119,7 +124,7 @@ export default class Launcher extends Component {
     this.setState({
       isShowing: false,
       value: '',
-      filteredContents: this.props.contents,
+      filteredContents: this.state.contents,
       contentIndex: 0,
     });
   }
@@ -195,5 +200,3 @@ export default class Launcher extends Component {
     return null;
   }
 }
-
-Launcher.propTypes = LauncherPropTypes;

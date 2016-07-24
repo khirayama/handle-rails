@@ -8,7 +8,6 @@ import Launcher from '../components/launcher';
 import TasksPage from '../components/tasks-page';
 import SettingsPage from '../components/settings-page';
 import HelpPage from '../components/help-page';
-import { getLauncherContents } from '../utils/get-launcher-contents';
 
 
 const propTypes = {
@@ -138,9 +137,7 @@ export default class ManageApp extends Component {
           ) ? pageElement : null}
         </ReactCSSTransitionGroup>
 
-        <Launcher
-          contents={getLauncherContents()}
-        />
+        <Launcher />
       </div>
     );
   }
