@@ -36,6 +36,10 @@ export default class EventRouter {
         case 'UI_CLICK_PAGE_BACK_BUTTON_IN_PAGE_BACK_BUTTON':
           backPage();
           break;
+        // initialize
+        case 'UI_START_APP':
+          getTaskCategories();
+          break;
         // component: task-page
         case 'UI_DRAGEND_ON_ITEM_IN_TASK_PAGE':
           sortTasks(event.id, event.taskCategoryId, event.order);
@@ -76,9 +80,6 @@ export default class EventRouter {
           break;
         case 'UI_CLICK_DELETE_BUTTON_IN_TASK_LIST_ITEM':
           deleteTask(event.id);
-          break;
-        case 'UI_START_APP':
-          getTaskCategories();
           break;
         // component: task-page
         case 'UI_CLICK_ADD_CATEGORY_BUTTON_IN_TASK_PAGE':
