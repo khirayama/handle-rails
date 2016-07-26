@@ -9,46 +9,6 @@ import { TASK_SCHEMA, TASKS_SCHEMA } from '../json-schemas/task';
 import { buildTaskCategories } from './action-helpers';
 
 
-export default class TaskCategoryActionSubscriber {
-  constructor() {
-    subscribe((event) => {
-      switch (event.type) {
-        case 'UI_START_APP':
-          getTaskCategories();
-          break;
-        // component: task-page
-        case 'UI_CLICK_ADD_CATEGORY_BUTTON_IN_TASK_PAGE':
-          createTaskCategory('');
-          break;
-        case 'UI_DRAGEND_ON_LIST_IN_TASK_PAGE':
-          sortTaskCategories(event.id, event.order);
-          break;
-        // component: task-list
-        case 'UI_CLICK_TITLE_IN_TASK_LIST':
-          editTaskCategory(event.id);
-          break;
-        case 'UI_KEYDOWN_TASK_CATEGORY_INPUT_WITH_ENTER_IN_TASK_LIST':
-        case 'UI_KEYDOWN_TASK_CATEGORY_INPUT_WITH_ESC_IN_TASK_LIST':
-        case 'UI_BLUR_TASK_CATEGORY_INPUT_IN_TASK_LIST':
-          if (event.value !== '') {
-            updateTaskCategory(
-              event.id,
-              event.value
-            );
-          } else {
-            deleteTaskCategory(event.id);
-          }
-          break;
-        case 'UI_CLICK_DELETE_TASK_CATEGORY_BUTTON_IN_TASK_LIST':
-          deleteTaskCategory(event.id);
-          break;
-        default:
-          break;
-      }
-    });
-  }
-}
-
 export function getTaskCategories() {
   TaskCategory.fetch().then((taskCategoryRes) => {
     Task.fetch().then((taskRes) => {
