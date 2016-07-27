@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 import config from '../../config';
+import { dispatch } from '../libs/app-dispatcher';
 import { pages } from '../constants/constants';
 import Header from '../components/header';
 import Launcher from '../components/launcher';
@@ -27,6 +28,7 @@ export default class ManageApp extends Component {
 
   componentDidMount() {
     this.props.appStore.addChangeListener(this.updateState);
+    dispatch({ type: 'UI_START_APP' });
   }
 
   componentWillUnmount() {

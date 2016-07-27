@@ -1,4 +1,3 @@
-// import * from '../action';
 import { subscribe } from '../libs/app-dispatcher';
 import {
   changePage,
