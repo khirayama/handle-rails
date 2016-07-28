@@ -1,5 +1,5 @@
 import { pages, actionTypes as types } from '../constants/constants';
-import { subscribe } from '../libs/app-dispatcher';
+import { dispatch, subscribe } from '../libs/app-dispatcher';
 import MicroStore from '../libs/micro-store';
 import TaskState from '../states/task-state';
 
@@ -16,7 +16,6 @@ export default class Store extends MicroStore {
     location.hash = this._page;
 
     this._routes();
-    this._createStates();
     this._subscribe();
 
     this.emit(this._page);
@@ -42,10 +41,6 @@ export default class Store extends MicroStore {
     });
   }
 
-  _createStates() {
-    this.taskState = new TaskState();
-  }
-
   _changePage(page) {
     this._history.push(page);
     this._page = page;
@@ -54,15 +49,25 @@ export default class Store extends MicroStore {
   // routing
   _routes() {
     this.on(pages.TASKS, () => {
-      this.createTasksPage();
+      this._title = 'Task';
+
+      if (!this.taskState) {
+        this.taskState = new TaskState();
+        this.taskState.addChangeListener(() => {
+          this.dispatchChange();
+        });
+      }
+      this._changePage(pages.TASKS);
     });
 
     this.on(pages.SETTINGS, () => {
-      this.createSettingsPage();
+      this._title = 'Settings';
+      this._changePage(pages.SETTINGS);
     });
 
     this.on(pages.HELP, () => {
-      this.createHelpPage();
+      this._title = 'Help';
+      this._changePage(pages.HELP);
     });
   }
 
@@ -85,27 +90,5 @@ export default class Store extends MicroStore {
 
   getTitle() {
     return this._title;
-  }
-
-  // create page element methods
-  createTasksPage() {
-    this._title = 'Task';
-
-    this._changePage(pages.TASKS);
-    this.taskState.addChangeListener(() => {
-      this.dispatchChange();
-    });
-  }
-
-  createSettingsPage() {
-    this._title = 'Settings';
-
-    this._changePage(pages.SETTINGS);
-  }
-
-  createHelpPage() {
-    this._title = 'Help';
-
-    this._changePage(pages.HELP);
   }
 }
