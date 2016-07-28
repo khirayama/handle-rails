@@ -1,24 +1,10 @@
 import { pages, actionTypes as types } from '../constants/constants';
-import { getTasks } from '../actions/task-action-creators';
 import { subscribe } from '../libs/app-dispatcher';
 import MicroStore from '../libs/micro-store';
 import TaskState from '../states/task-state';
 
 
 export default class AppStore extends MicroStore {
-  _getStartPage() {
-    const page = location.hash.replace('#', '');
-    const keys = Object.keys(pages);
-    for (let keyIndex = 0; keyIndex < keys.length; keyIndex++) {
-      const key = keys[keyIndex];
-      const page_ = pages[key];
-      if (page_ === page) {
-        return page_;
-      }
-    }
-    return this._homePage;
-  }
-
   constructor() {
     super();
 
@@ -29,8 +15,13 @@ export default class AppStore extends MicroStore {
 
     location.hash = this._page;
 
-    this.routes();
+    this._routes();
+    this._subscribe();
 
+    this.emit(this._page);
+  }
+
+  _subscribe() {
     subscribe((action) => {
       switch (action.type) {
         case types.CHANGE_PAGE:
@@ -48,12 +39,15 @@ export default class AppStore extends MicroStore {
           break;
       }
     });
-
-    this.emit(this._page);
-    this.dispatchChange();
   }
 
-  routes() {
+  _changePage(page) {
+    this._history.push(page);
+    this._page = page;
+  }
+
+  // routing
+  _routes() {
     this.on(pages.TASKS, () => {
       this.createTasksPage();
     });
@@ -67,9 +61,17 @@ export default class AppStore extends MicroStore {
     });
   }
 
-  _changePage(page) {
-    this._history.push(page);
-    this._page = page;
+  _getStartPage() {
+    const page = location.hash.replace('#', '');
+    const keys = Object.keys(pages);
+    for (let keyIndex = 0; keyIndex < keys.length; keyIndex++) {
+      const key = keys[keyIndex];
+      const page_ = pages[key];
+      if (page_ === page) {
+        return page_;
+      }
+    }
+    return this._homePage;
   }
 
   getPage() {

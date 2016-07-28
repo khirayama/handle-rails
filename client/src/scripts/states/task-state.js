@@ -15,6 +15,10 @@ export default class TaskStore extends MicroStore {
     this._tasks = [];
     this._taskCategories = [];
 
+    this._subscribe();
+  }
+
+  _subscribe() {
     subscribe((action) => {
       switch (action.type) {
         case types.CREATE_TASK:
