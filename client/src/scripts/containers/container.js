@@ -48,12 +48,6 @@ export default class Container extends Component {
   _createPageElement() {
     const page = this.state.store.getPage();
     const title = this.state.store.getTitle();
-    const style = {
-      header: {
-        position: 'default'
-      }
-    };
-
 
     this._changeTitle(title);
 
@@ -62,31 +56,24 @@ export default class Container extends Component {
         let taskCategories = this.state.store.taskState.getTaskCategories();
         return (
           <section key={page} className="page-container">
-            <Header page={page} position={style.header.position} />
             <TasksPage page={page} taskCategories={taskCategories} />
           </section>
         );
       case (pages.SETTINGS):
-        style.header.position = 'bottom';
         return (
           <section key={page} className="page-container">
-            <Header page={page} position={style.header.position} />
             <SettingsPage page={page} />
           </section>
         );
       case (pages.HELP):
-        style.header.position = 'bottom';
         return (
           <section key={page} className="page-container">
-            <Header page={page} position={style.header.position} />
             <HelpPage page={page} />
           </section>
         );
       default:
-        style.header.position = 'bottom';
         return (
           <section key={page} className="page-container">
-            <Header page={page} position={style.header.position} />
             <div>404</div>
           </section>
         );
@@ -118,8 +105,10 @@ export default class Container extends Component {
       },
     };
 
+    const position = (page == pages.TASKS) ? 'default' : 'bottom';
     return (
       <div>
+        <Header page={page} position={position} />
         <ReactCSSTransitionGroup
           transitionName={transitionVariations.fadeInOut}
           { ...transitionOptions }

@@ -16,6 +16,7 @@ export default class Store extends MicroStore {
     location.hash = this._page;
 
     this._routes();
+    this._createStates();
     this._subscribe();
 
     this.emit(this._page);
@@ -39,6 +40,10 @@ export default class Store extends MicroStore {
           break;
       }
     });
+  }
+
+  _createStates() {
+    this.taskState = new TaskState();
   }
 
   _changePage(page) {
@@ -87,12 +92,9 @@ export default class Store extends MicroStore {
     this._title = 'Task';
 
     this._changePage(pages.TASKS);
-    if (!this.taskState) {
-      this.taskState = new TaskState();
-      this.taskState.addChangeListener(() => {
-        this.dispatchChange();
-      });
-    }
+    this.taskState.addChangeListener(() => {
+      this.dispatchChange();
+    });
   }
 
   createSettingsPage() {

@@ -1,7 +1,6 @@
 .app-header
   position: fixed
   top: 0
-  bottom: auto
   display: flex
   align-items: stretch
   width: 100%
@@ -10,6 +9,7 @@
   background: $color-white
   border-bottom: solid 1px $color-border
   box-shadow: 0 1px 1px 0 rgba($color-black, .1)
+  transition: top $timing-transition-basic
   .header-button-container
     display: inline-block
     display: flex
@@ -35,8 +35,7 @@
 
 .app-header__bottom
   position: fixed
-  top: auto
-  bottom: 0
+  top: calc(100% - 64px)
   border-top: solid 1px $color-border
   border-bottom: none
   box-shadow: 0 -1px 1px 0 rgba($color-black, .1)
