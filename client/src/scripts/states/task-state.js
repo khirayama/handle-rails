@@ -1,14 +1,21 @@
 import MicroStore from '../libs/micro-store';
 
-import logger from '../utils/logger';
 import { subscribe } from '../libs/app-dispatcher';
 import { actionTypes as types } from '../constants/constants';
 import { parseTextToItem } from '../utils/text-to-schedule-parser';
-import { validateByJSONSchema } from '../json-schemas/json-schema';
-import { TASK_STORE_SCHEMA, TASKS_SCHEMA } from '../json-schemas/task-store';
 
 
-export default class TaskStore extends MicroStore {
+export default class TaskState extends MicroStore {
+  static _addSchedule(task) {
+    const taskWithSchedule = parseTextToItem(task.text);
+    const newTask = Object.assign({}, task, {
+      scheduleText: taskWithSchedule.text,
+      schedule: taskWithSchedule.schedule,
+    });
+
+    return newTask;
+  }
+
   constructor() {
     super();
 
@@ -84,7 +91,7 @@ export default class TaskStore extends MicroStore {
   }
 
   createTask(task) {
-    const newTask = TaskStore._addSchedule(task);
+    const newTask = TaskState._addSchedule(task);
 
     this._taskCategories.forEach(taskCategory => {
       if (taskCategory.id === task.taskCategoryId) {
@@ -94,7 +101,7 @@ export default class TaskStore extends MicroStore {
   }
 
   updateTask(task) {
-    const newTask = TaskStore._addSchedule(task);
+    const newTask = TaskState._addSchedule(task);
 
     this._taskCategories.forEach(taskCategory => {
       if (taskCategory.id === task.taskCategoryId) {
@@ -155,26 +162,6 @@ export default class TaskStore extends MicroStore {
     // make order sequence
     this._taskCategories.forEach((taskCategory, index) => {
       taskCategory.order = index;
-    });
-  }
-
-  static _addSchedule(task) {
-    const taskWithSchedule = parseTextToItem(task.text);
-    const newTask = Object.assign({}, task, {
-      scheduleText: taskWithSchedule.text,
-      schedule: taskWithSchedule.schedule,
-    });
-
-    return newTask;
-  }
-
-  static _checkOrder(tasks) {
-    tasks.forEach(taskCategory => {
-      taskCategory.tasks.forEach((task, taskIndex) => {
-        if (task.order !== taskIndex) {
-          logger.error({ error: 'Wrong order.', item: task });
-        }
-      });
     });
   }
 }
