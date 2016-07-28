@@ -15,7 +15,7 @@ const propTypes = {
   store: React.PropTypes.object.isRequired,
 };
 
-export default class ManageApp extends Component {
+export default class Container extends Component {
   constructor(props) {
     super(props);
 
@@ -145,4 +145,4 @@ export default class ManageApp extends Component {
   }
 }
 
-ManageApp.propTypes = propTypes;
+Container.propTypes = propTypes;

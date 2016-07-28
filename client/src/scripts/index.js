@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import logger from './utils/logger';
 import EventRouter from './router/event-router';
 import Store from './stores/store';
-import App from './containers/app';
+import Container from './containers/container';
 
 
 window.addEventListener('load', () => {
@@ -12,5 +12,5 @@ window.addEventListener('load', () => {
 
   new EventRouter();
   const store = new Store();
-  ReactDOM.render(<App store={store} />, document.querySelector('#app'));
+  ReactDOM.render(<Container store={store} />, document.querySelector('#app'));
 });
