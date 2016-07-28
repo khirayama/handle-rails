@@ -105,7 +105,7 @@ export default class TasksPage extends Component {
     ));
 
     return (
-      <section className="page tasks-page">
+      <section className="page page__header tasks-page">
         <section className="page-content">
           <section className="column-container">
             {taskListElements}
