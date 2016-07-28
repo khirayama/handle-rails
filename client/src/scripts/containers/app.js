@@ -12,7 +12,7 @@ import HelpPage from '../components/help-page';
 
 
 const propTypes = {
-  appStore: React.PropTypes.object.isRequired,
+  store: React.PropTypes.object.isRequired,
 };
 
 export default class ManageApp extends Component {
@@ -20,24 +20,24 @@ export default class ManageApp extends Component {
     super(props);
 
     this.state = {
-      appStore: this.props.appStore,
+      store: this.props.store,
     };
 
     this.updateState = this._updateState.bind(this);
   }
 
   componentDidMount() {
-    this.props.appStore.addChangeListener(this.updateState);
+    this.props.store.addChangeListener(this.updateState);
     dispatch({ type: 'UI_START_APP' });
   }
 
   componentWillUnmount() {
-    this.props.appStore.removeChangeListener(this.updateState);
+    this.props.store.removeChangeListener(this.updateState);
   }
 
   _updateState() {
     this.setState({
-      appStore: this.props.appStore,
+      store: this.props.store,
     });
   }
 
@@ -46,14 +46,14 @@ export default class ManageApp extends Component {
   }
 
   _createPageElement() {
-    const page = this.state.appStore.getPage();
-    const title = this.state.appStore.getTitle();
+    const page = this.state.store.getPage();
+    const title = this.state.store.getTitle();
 
     this._changeTitle(title);
 
     switch (page) {
       case (pages.TASKS):
-        let taskCategories = this.state.appStore.taskState.getTaskCategories();
+        let taskCategories = this.state.store.taskState.getTaskCategories();
 
         return (
           <section key={page} className="page-container">
@@ -86,7 +86,7 @@ export default class ManageApp extends Component {
   }
 
   render() {
-    const page = this.state.appStore.getPage();
+    const page = this.state.store.getPage();
     const pageElement = this._createPageElement();
 
     // Ref _transition.sass

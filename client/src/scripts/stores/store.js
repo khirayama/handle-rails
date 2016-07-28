@@ -4,7 +4,7 @@ import MicroStore from '../libs/micro-store';
 import TaskState from '../states/task-state';
 
 
-export default class AppStore extends MicroStore {
+export default class Store extends MicroStore {
   constructor() {
     super();
 
