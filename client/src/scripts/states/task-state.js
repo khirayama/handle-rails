@@ -1,7 +1,7 @@
 import MicroStore from '../libs/micro-store';
 
 import { subscribe } from '../libs/app-dispatcher';
-import { actionTypes as types } from '../constants/constants';
+import { pages, actionTypes as types } from '../constants/constants';
 import { parseTextToItem } from '../utils/text-to-schedule-parser';
 
 
@@ -19,10 +19,23 @@ export default class TaskState extends MicroStore {
   constructor() {
     super();
 
-    this._tasks = [];
+    this.meta = {
+      title: 'Task',
+    };
+    this.styles = {
+      transition: 'slideUpDown',
+      header: { position: 'default' },
+    };
+
     this._taskCategories = [];
 
     this._subscribe();
+  }
+
+  props() {
+    return {
+      taskCategories: this._taskCategories,
+    }
   }
 
   _subscribe() {
@@ -83,11 +96,6 @@ export default class TaskState extends MicroStore {
 
   getTaskCategories() {
     return this._taskCategories;
-  }
-
-
-  getTasks() {
-    return this._tasks;
   }
 
   createTask(task) {

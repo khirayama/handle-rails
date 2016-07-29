@@ -10,8 +10,8 @@ export default class Store extends MicroStore {
 
     this._homePage = pages.TASKS;
     this._page = this._getStartPage();
-    this._title = '';
     this._history = [];
+    this.state = null;
 
     location.hash = this._page;
 
@@ -49,11 +49,9 @@ export default class Store extends MicroStore {
   // routing
   _routes() {
     this.on(pages.TASKS, () => {
-      this._title = 'Task';
-
-      if (!this.taskState) {
-        this.taskState = new TaskState();
-        this.taskState.addChangeListener(() => {
+      if (!(this.state instanceof TaskState)) {
+        this.state = new TaskState();
+        this.state.addChangeListener(() => {
           this.dispatchChange();
         });
       }
@@ -61,12 +59,24 @@ export default class Store extends MicroStore {
     });
 
     this.on(pages.SETTINGS, () => {
-      this._title = 'Settings';
+      this.state = {
+        meta: { title: 'Settings' },
+        styles: {
+          transition: 'fadeInOut',
+          header: { position: 'bottom' },
+        }
+      };
       this._changePage(pages.SETTINGS);
     });
 
     this.on(pages.HELP, () => {
-      this._title = 'Help';
+      this.state = {
+        meta: { title: 'Help' },
+        styles: {
+          transition: 'slideInOut',
+          header: { position: 'bottom' },
+        }
+      };
       this._changePage(pages.HELP);
     });
   }

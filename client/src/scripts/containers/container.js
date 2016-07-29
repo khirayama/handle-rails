@@ -46,29 +46,29 @@ export default class Container extends Component {
   }
 
   _createPageElement() {
-    const page = this.state.store.getPage();
-    const title = this.state.store.getTitle();
-
+    const title = this.state.store.state.meta.title;
     this._changeTitle(title);
+
+    const page = this.state.store.getPage();
+    const props = (this.state.store.state.props) ? this.state.store.state.props() : {};
 
     switch (page) {
       case (pages.TASKS):
-        let taskCategories = this.state.store.taskState.getTaskCategories();
         return (
           <section key={page} className="page-container">
-            <TasksPage page={page} taskCategories={taskCategories} />
+            <TasksPage page={page} {...props} />
           </section>
         );
       case (pages.SETTINGS):
         return (
           <section key={page} className="page-container">
-            <SettingsPage page={page} />
+            <SettingsPage page={page} {...props} />
           </section>
         );
       case (pages.HELP):
         return (
           <section key={page} className="page-container">
-            <HelpPage page={page} />
+            <HelpPage page={page} {...props} />
           </section>
         );
       default:
@@ -83,57 +83,64 @@ export default class Container extends Component {
   render() {
     const page = this.state.store.getPage();
     const pageElement = this._createPageElement();
+    const styles = this.state.store.state.styles;
 
     // Ref _transition.sass
-    const transitionOptions = {
-      transitionEnterTimeout: 300,
-      transitionLeaveTimeout: 300,
-    };
-
     const transitionVariations = {
       fadeInOut: {
-        enter: 'fade-in',
-        leave: 'fade-out',
+        names: {
+          enter: 'fade-in',
+          leave: 'fade-out',
+        },
+        options: {
+          transitionEnterTimeout: 300,
+          transitionLeaveTimeout: 300,
+        }
       },
       slideInOut: {
-        enter: 'slide-in',
-        leave: 'slide-out',
+        names: {
+          enter: 'slide-in',
+          leave: 'slide-out',
+        },
+        options: {
+          transitionEnterTimeout: 300,
+          transitionLeaveTimeout: 300,
+        }
       },
       slideUpDown: {
-        enter: 'slide-up',
-        leave: 'slide-down',
+        names: {
+          enter: 'slide-up',
+          leave: 'slide-down',
+        },
+        options: {
+          transitionEnterTimeout: 300,
+          transitionLeaveTimeout: 300,
+        }
       },
     };
 
-    const position = (page == pages.TASKS) ? 'default' : 'bottom';
     return (
       <div>
-        <Header page={page} position={position} />
+        <Header page={page} position={styles.header.position} />
         <ReactCSSTransitionGroup
-          transitionName={transitionVariations.fadeInOut}
-          { ...transitionOptions }
+          transitionName={transitionVariations.fadeInOut.names}
+          { ...transitionVariations.fadeInOut.options }
         >
-          {(
-            page === pages.SETTINGS
-          ) ? pageElement : null}
+          {( styles.transition === 'fadeInOut') ? pageElement : null}
         </ReactCSSTransitionGroup>
 
         <ReactCSSTransitionGroup
-          transitionName={transitionVariations.slideInOut}
-          { ...transitionOptions }
+          transitionName={transitionVariations.slideInOut.names}
+          { ...transitionVariations.slideInOut.options }
         >
-          {(
-            page === pages.HELP
-          ) ? pageElement : null}
+          {( styles.transition === 'slideInOut') ? pageElement : null}
         </ReactCSSTransitionGroup>
 
         <ReactCSSTransitionGroup
-          transitionName={transitionVariations.slideUpDown}
-          { ...transitionOptions }
+          transitionName={transitionVariations.slideUpDown.names}
+          { ...transitionVariations.slideUpDown.options }
         >
-          {(
-            page === pages.TASKS
-          ) ? pageElement : null}
+          {( styles.transition === 'slideUpDown') ? pageElement : null}
         </ReactCSSTransitionGroup>
 
         <Launcher />
