@@ -4,8 +4,6 @@ import { dispatch, subscribe } from '../libs/app-dispatcher';
 import Task from '../resources/task';
 import TaskCategory from '../resources/task-category';
 import { actionTypes as types } from '../constants/constants';
-import { validateByJSONSchema } from '../json-schemas/json-schema';
-import { TASK_SCHEMA, TASKS_SCHEMA } from '../json-schemas/task';
 import { buildTaskCategories } from './action-helpers';
 
 

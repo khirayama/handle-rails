@@ -2,8 +2,6 @@ import { dispatch, subscribe } from '../libs/app-dispatcher';
 import Task from '../resources/task';
 import TaskCategory from '../resources/task-category';
 import { actionTypes as types } from '../constants/constants';
-import { validateByJSONSchema } from '../json-schemas/json-schema';
-import { TASK_SCHEMA, TASKS_SCHEMA } from '../json-schemas/task';
 import { buildTaskCategories } from './action-helpers';
 
 
@@ -66,8 +64,6 @@ export function editNextTask(categoryId, currentOrder) {
     return;
   }
 
-  validateByJSONSchema(entity, TASK_SCHEMA);
-
   entity.isEditing = true;
 
   dispatch({
@@ -81,8 +77,6 @@ export function editPrevTask(categoryId, currentOrder) {
   if (entity === null) {
     return;
   }
-
-  validateByJSONSchema(entity, TASK_SCHEMA);
 
   entity.isEditing = true;
 
