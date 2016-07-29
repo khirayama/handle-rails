@@ -26,6 +26,10 @@ export default class TasksPage extends Component {
     this.onClickAddCategoryButton = this.onClickAddCategoryButton.bind(this);
   }
 
+  componentDidMount() {
+    dispatch({ type: 'UI_START_TASKS_PAGE' });
+  }
+
   onClickAddCategoryButton() {
     dispatch({
       type: 'UI_CLICK_ADD_CATEGORY_BUTTON_IN_TASK_PAGE',

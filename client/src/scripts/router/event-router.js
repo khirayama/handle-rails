@@ -36,7 +36,7 @@ export default class EventRouter {
           backPage();
           break;
         // initialize
-        case 'UI_START_APP':
+        case 'UI_START_TASKS_PAGE':
           getTaskCategories();
           break;
         // component: task-page
