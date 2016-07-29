@@ -97,8 +97,4 @@ export default class Store extends MicroStore {
   getPage() {
     return this._page;
   }
-
-  getTitle() {
-    return this._title;
-  }
 }
