@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import { keyCodes } from '../constants/constants';
 import LauncherItem from './launcher-item';
-import { getLauncherContents } from '../utils/get-launcher-contents';
+import { getLauncherContents } from './helpers/get-launcher-contents';
 
 
 export default class Launcher extends Component {

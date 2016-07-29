@@ -1,10 +1,10 @@
-import TaskCategory from '../resources/task-category';
-import { changePage } from '../actions/app-action-creators';
+import TaskCategory from '../../resources/task-category';
+import { changePage } from '../../actions/app-action-creators';
 import {
   createTask,
   createTaskCategory,
-} from '../actions/task-action-creators';
-import { pages } from '../constants/constants';
+} from '../../actions/task-action-creators';
+import { pages } from '../../constants/constants';
 
 
 export function getLauncherContents() {
