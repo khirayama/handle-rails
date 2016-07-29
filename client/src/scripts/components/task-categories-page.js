@@ -8,7 +8,7 @@ const propTypes = {
   taskCategories: React.PropTypes.array.isRequired,
 };
 
-export default class TasksPage extends Component {
+export default class TaskCategoriesPage extends Component {
   constructor(props) {
     super(props);
 
@@ -126,4 +126,4 @@ export default class TasksPage extends Component {
   }
 }
 
-TasksPage.propTypes = propTypes;
+TaskCategoriesPage.propTypes = propTypes;
