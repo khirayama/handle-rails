@@ -6,28 +6,28 @@ import { dispatch } from '../libs/app-dispatcher';
 import { pages } from '../constants/constants';
 import Header from '../components/header';
 import Launcher from '../components/launcher';
-import TasksPage from '../components/tasks-page';
+import TaskCategoriesPage from '../components/task-categories-page';
 import SettingsPage from '../components/settings-page';
 import HelpPage from '../components/help-page';
 
 
 const propTypes = {
-  store: React.PropTypes.object.isRequired,
+  appStore: React.PropTypes.object.isRequired,
 };
 
-export default class Container extends Component {
+export default class App extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      store: this.props.store,
+      appStore: this.props.appStore,
     };
 
     this.updateState = this._updateState.bind(this);
   }
 
   componentDidMount() {
-    this.props.store.addChangeListener(this.updateState);
+    this.props.appStore.addChangeListener(this.updateState);
     dispatch({ type: 'UI_START_APP' });
   }
 
@@ -46,17 +46,14 @@ export default class Container extends Component {
   }
 
   _createPageElement() {
-    const title = this.state.store.state.meta.title;
-    this._changeTitle(title);
-
-    const page = this.state.store.getPage();
-    const props = (this.state.store.state.props) ? this.state.store.state.props() : {};
+    const page = this.state.appStore.getPage();
+    const props = (this.state.appStore.pageStore.props) ? this.state.appStore.pageStore.props() : {};
 
     switch (page) {
       case (pages.TASKS):
         return (
           <section key={page} className="page-container">
-            <TasksPage page={page} {...props} />
+            <TaskCategoriesPage page={page} {...props} />
           </section>
         );
       case (pages.SETTINGS):
@@ -81,9 +78,12 @@ export default class Container extends Component {
   }
 
   render() {
-    const page = this.state.store.getPage();
+    const title = this.state.appStore.pageStore.meta.title;
+    this._changeTitle(title);
+
+    const page = this.state.appStore.getPage();
     const pageElement = this._createPageElement();
-    const styles = this.state.store.state.styles;
+    const styles = this.state.appStore.pageStore.styles;
 
     // Ref _transition.sass
     const transitionVariations = {
@@ -149,4 +149,4 @@ export default class Container extends Component {
   }
 }
 
-Container.propTypes = propTypes;
+App.propTypes = propTypes;

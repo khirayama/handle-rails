@@ -1,7 +1,7 @@
 import { pages, actionTypes as types } from '../constants/constants';
 import { dispatch, subscribe } from '../libs/app-dispatcher';
 import MicroStore from '../libs/micro-store';
-import TaskState from '../states/task-state';
+import TaskCategoriesPageStore from '../stores/task-categories-page-store';
 
 
 export default class Store extends MicroStore {
@@ -11,7 +11,7 @@ export default class Store extends MicroStore {
     this._homePage = pages.TASKS;
     this._page = this._getStartPage();
     this._history = [];
-    this.state = null;
+    this.pageStore = null;
 
     location.hash = this._page;
 
@@ -49,9 +49,9 @@ export default class Store extends MicroStore {
   // routing
   _routes() {
     this.on(pages.TASKS, () => {
-      if (!(this.state instanceof TaskState)) {
-        this.state = new TaskState();
-        this.state.addChangeListener(() => {
+      if (!(this.pageStore instanceof TaskCategoriesPageStore)) {
+        this.pageStore = new TaskCategoriesPageStore();
+        this.pageStore.addChangeListener(() => {
           this.dispatchChange();
         });
       }
@@ -59,7 +59,7 @@ export default class Store extends MicroStore {
     });
 
     this.on(pages.SETTINGS, () => {
-      this.state = {
+      this.pageStore = {
         meta: { title: 'Settings' },
         styles: {
           transition: 'fadeInOut',
@@ -70,7 +70,7 @@ export default class Store extends MicroStore {
     });
 
     this.on(pages.HELP, () => {
-      this.state = {
+      this.pageStore = {
         meta: { title: 'Help' },
         styles: {
           transition: 'slideInOut',

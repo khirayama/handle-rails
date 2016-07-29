@@ -5,7 +5,7 @@ import { pages, actionTypes as types } from '../constants/constants';
 import { parseTextToItem } from '../utils/text-to-schedule-parser';
 
 
-export default class TaskState extends MicroStore {
+export default class TaskCategoriesPageStore extends MicroStore {
   static _addSchedule(task) {
     const taskWithSchedule = parseTextToItem(task.text);
     const newTask = Object.assign({}, task, {
@@ -99,7 +99,7 @@ export default class TaskState extends MicroStore {
   }
 
   createTask(task) {
-    const newTask = TaskState._addSchedule(task);
+    const newTask = TaskCategoriesPageStore._addSchedule(task);
 
     this._taskCategories.forEach(taskCategory => {
       if (taskCategory.id === task.taskCategoryId) {
@@ -109,7 +109,7 @@ export default class TaskState extends MicroStore {
   }
 
   updateTask(task) {
-    const newTask = TaskState._addSchedule(task);
+    const newTask = TaskCategoriesPageStore._addSchedule(task);
 
     this._taskCategories.forEach(taskCategory => {
       if (taskCategory.id === task.taskCategoryId) {
