@@ -56,7 +56,6 @@ export default class Store extends MicroStore {
         this.taskState.addChangeListener(() => {
           this.dispatchChange();
         });
-        // TODO: dispatch start tasks page
       }
       this._changePage(pages.TASKS);
     });
