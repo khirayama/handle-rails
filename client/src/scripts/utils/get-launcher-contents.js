@@ -15,7 +15,7 @@ export function getLauncherContents() {
         const id = taskCategory.id;
         const text = `Create a task to ${taskCategory.name}`;
         const callback = () => {
-          changePage(pages.TASKS);
+          changePage(pages.TASK_CATEGORIES);
           createTask('', id);
         };
 
@@ -27,7 +27,7 @@ export function getLauncherContents() {
     const createCategoryItem = {
       text: 'Create a category',
       callback: () => {
-        changePage(pages.TASKS);
+        changePage(pages.TASK_CATEGORIES);
         createTaskCategory('');
       },
     };

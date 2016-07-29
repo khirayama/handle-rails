@@ -50,7 +50,7 @@ export default class App extends Component {
     const props = (this.state.appStore.pageStore.props) ? this.state.appStore.pageStore.props() : {};
 
     switch (page) {
-      case (pages.TASKS):
+      case (pages.TASK_CATEGORIES):
         return (
           <section key={page} className="page-container">
             <TaskCategoriesPage page={page} {...props} />

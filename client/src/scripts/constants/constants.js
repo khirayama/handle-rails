@@ -10,7 +10,7 @@ export const keyCodes = {
 };
 
 export const pages = {
-  TASKS: 'TASK_PAGE',
+  TASK_CATEGORIES: 'TASK_CATEGORIES_PAGE',
   SETTINGS: 'SETTINGS_PAGE',
   HELP: 'HELP_PAGE',
 };

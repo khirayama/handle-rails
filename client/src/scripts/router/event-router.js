@@ -27,7 +27,7 @@ export default class EventRouter {
   constructor() {
     subscribe((event) => {
       switch (event.type) {
-        // app
+        // component: app
         case 'UI_CLICK_SETTINGS_BUTTON_IN_HEADER':
         case 'UI_CLICK_HELP_LINK_IN_SETTINGS_PAGE':
           changePage(event.link);
@@ -35,12 +35,11 @@ export default class EventRouter {
         case 'UI_CLICK_PAGE_BACK_BUTTON_IN_PAGE_BACK_BUTTON':
           backPage();
           break;
-        // initialize
-        case 'UI_START_TASKS_PAGE':
+        // component: task-categories-page
+        case 'UI_START_TASK_CATEGORIES_PAGE':
           getTaskCategories();
           break;
-        // component: task-page
-        case 'UI_DRAGEND_ON_ITEM_IN_TASK_PAGE':
+        case 'UI_DRAGEND_ON_ITEM_IN_TASK_CATEGORIES_PAGE':
           sortTasks(event.id, event.taskCategoryId, event.order);
           break;
         // component: task-list
@@ -81,10 +80,10 @@ export default class EventRouter {
           deleteTask(event.id);
           break;
         // component: task-page
-        case 'UI_CLICK_ADD_CATEGORY_BUTTON_IN_TASK_PAGE':
+        case 'UI_CLICK_ADD_CATEGORY_BUTTON_IN_TASK_CATEGORIES_PAGE':
           createTaskCategory('');
           break;
-        case 'UI_DRAGEND_ON_LIST_IN_TASK_PAGE':
+        case 'UI_DRAGEND_ON_LIST_IN_TASK_CATEGORIES_PAGE':
           sortTaskCategories(event.id, event.order);
           break;
         // component: task-list

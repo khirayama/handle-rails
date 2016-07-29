@@ -4,11 +4,11 @@ import MicroStore from '../libs/micro-store';
 import TaskCategoriesPageStore from '../stores/task-categories-page-store';
 
 
-export default class Store extends MicroStore {
+export default class AppStore extends MicroStore {
   constructor() {
     super();
 
-    this._homePage = pages.TASKS;
+    this._homePage = pages.TASK_CATEGORIES;
     this._page = this._getStartPage();
     this._history = [];
     this.pageStore = null;
@@ -48,14 +48,14 @@ export default class Store extends MicroStore {
 
   // routing
   _routes() {
-    this.on(pages.TASKS, () => {
+    this.on(pages.TASK_CATEGORIES, () => {
       if (!(this.pageStore instanceof TaskCategoriesPageStore)) {
         this.pageStore = new TaskCategoriesPageStore();
         this.pageStore.addChangeListener(() => {
           this.dispatchChange();
         });
       }
-      this._changePage(pages.TASKS);
+      this._changePage(pages.TASK_CATEGORIES);
     });
 
     this.on(pages.SETTINGS, () => {

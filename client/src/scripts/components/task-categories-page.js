@@ -27,12 +27,12 @@ export default class TaskCategoriesPage extends Component {
   }
 
   componentDidMount() {
-    dispatch({ type: 'UI_START_TASKS_PAGE' });
+    dispatch({ type: 'UI_START_TASK_CATEGORIES_PAGE' });
   }
 
   onClickAddCategoryButton() {
     dispatch({
-      type: 'UI_CLICK_ADD_CATEGORY_BUTTON_IN_TASK_PAGE',
+      type: 'UI_CLICK_ADD_CATEGORY_BUTTON_IN_TASK_CATEGORIES_PAGE',
     });
   }
 
@@ -55,7 +55,7 @@ export default class TaskCategoriesPage extends Component {
   _moveTask(id) {
     if (this._isItemDragging) {
       dispatch({
-        type: 'UI_DRAGEND_ON_ITEM_IN_TASK_PAGE',
+        type: 'UI_DRAGEND_ON_ITEM_IN_TASK_CATEGORIES_PAGE',
         id,
         taskCategoryId: this._order.taskCategoryId,
         order: this._order.order,
@@ -80,7 +80,7 @@ export default class TaskCategoriesPage extends Component {
       const order = this._taskCategoryOrder.order;
 
       dispatch({
-        type: 'UI_DRAGEND_ON_LIST_IN_TASK_PAGE',
+        type: 'UI_DRAGEND_ON_LIST_IN_TASK_CATEGORIES_PAGE',
         id,
         order,
       });
