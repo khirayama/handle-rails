@@ -41,4 +41,3 @@ export function buildTaskCategories(taskCategories, tasks) {
   });
   return taskCategories_;
 }
-

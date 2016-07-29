@@ -2,7 +2,7 @@ import { dispatch, subscribe } from '../libs/app-dispatcher';
 import Task from '../resources/task';
 import TaskCategory from '../resources/task-category';
 import { actionTypes as types } from '../constants/constants';
-import { buildTaskCategories } from './action-helpers';
+import { buildTaskCategories } from './helpers/build-task-categories';
 
 
 export function createTask(text, taskCategoryId) {
