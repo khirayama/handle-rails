@@ -163,33 +163,61 @@ export default class App extends Component {
       },
     };
 
-    return (
-      <div>
-        <Header page={page} position={styles.header.position} />
-        <ReactCSSTransitionGroup
+    if (isMobileUI()) {
+      return (
+        <div className="mobile-ui">
+          <Header page={page} position={styles.header.position} />
+          <ReactCSSTransitionGroup
           transitionName={transitionVariations.fadeInOut.names}
           { ...transitionVariations.fadeInOut.options }
-        >
-          {( styles.transition === 'fadeInOut') ? pageElement : null}
-        </ReactCSSTransitionGroup>
+          >
+            {( styles.transition === 'fadeInOut') ? pageElement : null}
+          </ReactCSSTransitionGroup>
 
-        <ReactCSSTransitionGroup
+          <ReactCSSTransitionGroup
           transitionName={transitionVariations.slideInOut.names}
           { ...transitionVariations.slideInOut.options }
-        >
-          {( styles.transition === 'slideInOut') ? pageElement : null}
-        </ReactCSSTransitionGroup>
+          >
+            {( styles.transition === 'slideInOut') ? pageElement : null}
+          </ReactCSSTransitionGroup>
 
-        <ReactCSSTransitionGroup
+          <ReactCSSTransitionGroup
           transitionName={transitionVariations.slideUpDown.names}
           { ...transitionVariations.slideUpDown.options }
-        >
-          {( styles.transition === 'slideUpDown') ? pageElement : null}
-        </ReactCSSTransitionGroup>
+          >
+            {( styles.transition === 'slideUpDown') ? pageElement : null}
+          </ReactCSSTransitionGroup>
+        </div>
+      );
+    } else {
+      return (
+        <div className="default-ui">
+          <Header page={page} position={styles.header.position} />
+          <ReactCSSTransitionGroup
+          transitionName={transitionVariations.fadeInOut.names}
+          { ...transitionVariations.fadeInOut.options }
+          >
+            {( styles.transition === 'fadeInOut') ? pageElement : null}
+          </ReactCSSTransitionGroup>
 
-        <Launcher />
-      </div>
-    );
+          <ReactCSSTransitionGroup
+          transitionName={transitionVariations.slideInOut.names}
+          { ...transitionVariations.slideInOut.options }
+          >
+            {( styles.transition === 'slideInOut') ? pageElement : null}
+          </ReactCSSTransitionGroup>
+
+          <ReactCSSTransitionGroup
+          transitionName={transitionVariations.slideUpDown.names}
+          { ...transitionVariations.slideUpDown.options }
+          >
+            {( styles.transition === 'slideUpDown') ? pageElement : null}
+          </ReactCSSTransitionGroup>
+
+          <Launcher />
+        </div>
+      );
+    }
   }
 }
 
