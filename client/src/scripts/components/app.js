@@ -167,8 +167,9 @@ export default class App extends Component {
     };
 
     if (isMobileUI()) {
+      document.querySelector('html').classList.add('mobile-ui');
       return (
-        <div className="mobile-ui">
+        <div>
           <MobileHeader page={page} position={styles.header.position} />
           <ReactCSSTransitionGroup
           transitionName={transitionVariations.fadeInOut.names}
@@ -194,7 +195,7 @@ export default class App extends Component {
       );
     } else {
       return (
-        <div className="default-ui">
+        <div>
           <Header page={page} position={styles.header.position} />
           <ReactCSSTransitionGroup
           transitionName={transitionVariations.fadeInOut.names}
