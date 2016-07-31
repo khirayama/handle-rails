@@ -4,11 +4,14 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import config from '../../config';
 import { dispatch } from '../libs/app-dispatcher';
 import { pages } from '../constants/constants';
+
 import Header from '../components/header';
 import Launcher from '../components/launcher';
 import TaskCategoriesPage from '../components/task-categories-page';
 import SettingsPage from '../components/settings-page';
 import HelpPage from '../components/help-page';
+
+import MobileHeader from '../components/mobile/header';
 
 const isMobileUI = () => {
   const ua = window.navigator.userAgent;
@@ -166,7 +169,7 @@ export default class App extends Component {
     if (isMobileUI()) {
       return (
         <div className="mobile-ui">
-          <Header page={page} position={styles.header.position} />
+          <MobileHeader page={page} position={styles.header.position} />
           <ReactCSSTransitionGroup
           transitionName={transitionVariations.fadeInOut.names}
           { ...transitionVariations.fadeInOut.options }

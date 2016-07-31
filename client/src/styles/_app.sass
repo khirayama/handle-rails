@@ -12,6 +12,9 @@ $color-yellow: #e4ae0a
 
 $font-size-base: 16px
 
+$height-header: 64px
+$height-mobile-header: 44px
+
 $timing-basic: 100ms ease-out
 $timing-slow: 200ms ease-out
 
@@ -58,13 +61,18 @@ body,
   background: $color-background
 
 .page__header
-  padding-top: 64px
+  padding-top: $height-header
 
 .app-header
   z-index: 200
 
 .confirm-dialog-background
   z-index: 15
+
+// mobile
+.mobile-ui
+  .page__header
+    padding-top: $height-mobile-header
 
 // helper
 .cursor-pointer
