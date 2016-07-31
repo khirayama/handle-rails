@@ -1,9 +1,9 @@
 import React from 'react';
 
-import config from '../../config';
-import { pages } from '../constants/constants';
-import { dispatch } from '../libs/app-dispatcher';
-import PageBackButton from '../components/page-back-button';
+import config from '../../../config';
+import { pages } from '../../constants/constants';
+import { dispatch } from '../../libs/app-dispatcher';
+import PageBackButton from './page-back-button';
 
 
 export default function SettingsPage() {

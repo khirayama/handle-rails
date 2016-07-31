@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
 
-import { keyCodes } from '../constants/constants';
-import { dispatch } from '../libs/app-dispatcher';
+import { keyCodes } from '../../constants/constants';
+import { dispatch } from '../../libs/app-dispatcher';
 
 
 const taskListItemPropTypes = {

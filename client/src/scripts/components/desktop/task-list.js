@@ -3,10 +3,11 @@ import React, { Component } from 'react';
 import {
   messages,
   keyCodes,
-} from '../constants/constants';
-import promiseConfirm from '../utils/promise-confirm';
+} from '../../constants/constants';
+import promiseConfirm from '../../utils/promise-confirm';
+import { dispatch } from '../../libs/app-dispatcher';
+
 import TaskListItem from './task-list-item';
-import { dispatch } from '../libs/app-dispatcher';
 
 
 const taskListPropTypes = {

@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
 
-import config from '../../config';
-import { pages } from '../constants/constants';
-import { dispatch } from '../libs/app-dispatcher';
+import config from '../../../config';
+import { pages } from '../../constants/constants';
+import { dispatch } from '../../libs/app-dispatcher';
 
 
 const propTypes = {

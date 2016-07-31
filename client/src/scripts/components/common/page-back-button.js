@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { dispatch } from '../libs/app-dispatcher';
+import { dispatch } from '../../libs/app-dispatcher';
 
 
 const PageBackButtonPropTypes = {

@@ -5,7 +5,8 @@ import logger from './utils/logger';
 import { isMobileUI } from './utils/is-mobile-ui';
 import EventRouter from './router/event-router';
 import AppStore from './stores/app-store';
-import App from './components/app';
+
+import App from './components/desktop/app';
 import MobileApp from './components/mobile/app';
 
 function loadStyle(filePath) {

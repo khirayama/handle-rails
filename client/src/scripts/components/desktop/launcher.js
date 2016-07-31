@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 
-import { keyCodes } from '../constants/constants';
-import LauncherItem from './launcher-item';
+import { keyCodes } from '../../constants/constants';
+
 import { getLauncherContents } from './helpers/get-launcher-contents';
+import LauncherItem from './launcher-item';
 
 
 export default class Launcher extends Component {

@@ -6,9 +6,10 @@ import { dispatch } from '../../libs/app-dispatcher';
 import { pages } from '../../constants/constants';
 
 import Header from './header';
-import TaskCategoriesPage from '../task-categories-page';
-import SettingsPage from '../settings-page';
-import HelpPage from '../help-page';
+// import TaskCategoriesPage from './task-categories-page';
+//
+import SettingsPage from '../common/settings-page';
+import HelpPage from '../common/help-page';
 
 
 const propTypes = {
@@ -51,9 +52,13 @@ export default class App extends Component {
 
     switch (page) {
       case (pages.TASK_CATEGORIES):
+        // return (
+        //   <section key={page} className="page-container">
+        //     <TaskCategoriesPage page={page} {...props} />
+        //   </section>
+        // );
         return (
           <section key={page} className="page-container">
-            <TaskCategoriesPage page={page} {...props} />
           </section>
         );
       case (pages.SETTINGS):

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import PageBackButton from '../components/page-back-button';
+import PageBackButton from './page-back-button';
 
 
 export default function HelpPage() {
