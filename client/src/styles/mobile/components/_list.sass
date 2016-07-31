@@ -1,0 +1,191 @@
+.list
+  border: solid 1px $color-border
+  background: $color-white
+  box-shadow: 0 1px 0 0 rgba($color-black, .1)
+  transition: box-shadow $timing-basic
+  &:hover
+    box-shadow: 0 3px 1px 0 rgba($color-black, .1)
+
+  .list-header
+    display: inline-block
+    width: 100%
+    text-align: left
+    font-size: 1rem
+    line-height: 1rem
+    background: $color-white
+    color: inherit
+
+    .list-header-content
+      display: flex
+      align-items: stretch
+      width: 100%
+      height: 100%
+      .list-header-text
+        flex: 1
+        padding: 12px
+        font-weight: bold
+        word-break: break-word
+      h2.list-header-text
+        font-size: 1.5rem
+      h3.list-header-text
+        font-size: 1.2rem
+      h4.list-header-text
+        font-size: 1.0rem
+      .list-header-icon
+        flex: none
+        width: 44px
+        cursor: pointer
+        text-align: center
+        display: flex
+        align-items: center
+        justify-content: center
+        > span,
+        > i
+          flex: none
+      .list-header-icon + .list-header-text
+        padding: 12px 4px
+      input
+        display: inline-block
+        background: inherit
+        width: 100%
+        font-weight: inherit
+        font-size: inherit
+        padding: 0
+
+    .list-header-content__hovering-show-right-icon
+      .list-header-icon
+        width: 0
+        overflow: hidden
+        opacity: 0
+        transition: opacity $timing-slow, width $timing-slow
+      &:hover
+        .list-header-icon
+          width: 44px
+          opacity: 1
+
+  .list-footer
+    display: inline-block
+    width: 100%
+    text-align: left
+    font-size: 1rem
+    line-height: 1rem
+    background: $color-white
+    color: inherit
+    border-top: solid 1px $color-border
+
+    .list-footer-content
+      display: flex
+      align-items: stretch
+      width: 100%
+      height: 100%
+      .list-footer-text
+        flex: 1
+        padding: 12px
+      .list-footer-icon
+        flex: none
+        width: 44px
+        cursor: pointer
+        text-align: center
+        display: flex
+        align-items: center
+        justify-content: center
+        > span,
+        > i
+          flex: none
+      .list-footer-icon + .list-footer-text
+        padding: 12px 4px
+      input
+        display: inline-block
+        background: inherit
+        width: 100%
+        font-weight: inherit
+        font-size: inherit
+        padding: 0
+
+    .list-footer-content__hovering-show-right-icon
+      .list-footer-icon
+        width: 0
+        overflow: hidden
+        opacity: 0
+        transition: opacity $timing-slow, width $timing-slow
+      &:hover
+        .list-footer-icon
+          width: 44px
+          opacity: 1
+
+  ul
+    border-top: solid 1px $color-border
+
+  .list-item
+    display: inline-block
+    width: 100%
+    border-bottom: solid 1px $color-border
+    font-size: 1rem
+    line-height: 1rem
+    background: $color-white
+    color: inherit
+    cursor: pointer
+    transition: background $timing-basic, color $timing-basic
+    input
+      background: inherit
+      width: 100%
+    &:hover
+      color: $color-gray
+      background: $color-light-gray
+    &:last-of-type
+      border-bottom: none
+
+    // modifier
+    &.list-item__disabled
+      opacity: 0.3 // TODO: select color
+    &.list-item__selected
+      background-color: $color-yellow
+      color: $color-white
+    &:hover.list-item__selected
+      opacity: 0.3 // TODO: select color
+      background-color: $color-yellow
+      color: $color-white
+
+    .list-item-text
+      font-size: 1rem
+      padding: 12px
+      word-break: break-word
+      a
+        text-decoration: none
+        color: inherit
+
+    .list-item-note
+      font-size: .8rem
+
+    .list-item-content
+      display: flex
+      align-items: stretch
+      width: 100%
+      height: 100%
+      .list-item-text
+        flex: 1
+        padding: 12px 4px
+      .list-item-icon
+        flex: none
+        width: 44px
+        cursor: pointer
+        text-align: center
+        display: flex
+        align-items: center
+        justify-content: center
+        > span,
+        > i
+          flex: none
+      .list-item-text + .list-item-icon
+        padding: 12px 4px
+
+    .list-item-content__hovering-show-right-icon
+      .list-item-text + .list-item-icon
+        width: 0
+        overflow: hidden
+        opacity: 0
+        transition: opacity $timing-slow, width $timing-slow
+      &:hover
+        .list-item-text + .list-item-icon
+          width: 44px
+          opacity: 1

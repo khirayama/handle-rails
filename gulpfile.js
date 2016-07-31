@@ -83,7 +83,7 @@ function buildMarkups(isWatch) {
 function buildStyles(isWatch) {
   function build() {
     console.log('build: styles');
-    return gulp.src(SRC_ROOT + '/styles/index.sass')
+    return gulp.src(SRC_ROOT + '/styles/**/index.sass')
       .pipe(plumber())
       .pipe(sass(options.styles.sass))
       .pipe(please(options.styles.please))

@@ -1,0 +1,26 @@
+.settings-page
+  .page-content
+    .page-back-button-container
+      display: inline-block
+      position: fixed
+      top: 16px
+      left: 16px
+    .setting-list-container
+      max-width: 480px
+      margin: 100px auto 160px
+      .list + .list
+        margin-top: 20px
+
+.mobile-ui
+  .settings-page
+    .page-content
+      .page-back-button-container
+        top: 0
+        left: 0
+      .setting-list-container
+        width: 100%
+        max-width: auto
+        margin: ($height-header + 24px) 0
+        padding: 0 16px
+        .list + .list
+          margin-top: 20px

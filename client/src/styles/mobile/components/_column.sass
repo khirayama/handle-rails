@@ -1,0 +1,11 @@
+.column-container
+  display: flex
+  align-items: flex-start
+  justify-content: space-around
+  flex-wrap: wrap
+  .column
+    flex: 1
+    height: 100%
+    @for $i from 2 through 12
+      &.column-flex-#{$i}
+        flex: $i

@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
-import config from '../../config';
-import { dispatch } from '../libs/app-dispatcher';
-import { pages } from '../constants/constants';
+import config from '../../../config';
+import { dispatch } from '../../libs/app-dispatcher';
+import { pages } from '../../constants/constants';
 
 import Header from './header';
-import Launcher from './launcher';
-import TaskCategoriesPage from './task-categories-page';
-import SettingsPage from './settings-page';
-import HelpPage from './help-page';
+import TaskCategoriesPage from '../task-categories-page';
+import SettingsPage from '../settings-page';
+import HelpPage from '../help-page';
 
 
 const propTypes = {
@@ -120,6 +119,7 @@ export default class App extends Component {
       },
     };
 
+    document.querySelector('html').classList.add('mobile-ui');
     return (
       <div>
         <Header page={page} position={styles.header.position} />
@@ -143,8 +143,6 @@ export default class App extends Component {
         >
           {( styles.transition === 'slideUpDown') ? pageElement : null}
         </ReactCSSTransitionGroup>
-
-        <Launcher />
       </div>
     );
   }

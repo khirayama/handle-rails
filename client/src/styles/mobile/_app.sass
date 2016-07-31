@@ -1,0 +1,81 @@
+// TODO: change name. ex) primary, sub and so on.
+$color-base: #444444
+$color-sub: #898789
+$color-background: #f4f4f4
+$color-border: #ecedec
+$color-white: #fff
+$color-light-gray: #fafafa
+$color-middle-gray: #ddd
+$color-gray: #666
+$color-black: #000
+$color-yellow: #e4ae0a
+
+$font-size-base: 13px
+
+$height-header: 44px
+
+$timing-basic: 100ms ease-out
+$timing-slow: 200ms ease-out
+
+.icon
+  font-family: 'Material Icons'
+  font-style: normal
+  display: inline
+  text-transform: none
+  text-rendering: optimizeLegibility
+  font-smoothing: antialiased
+  font-feature-settings: 'liga'
+  vertical-align: text-top
+
+html
+  color: $color-base
+  font-size: $font-size-base
+
+input
+  font-size: $font-size-base
+
+html,
+body,
+#app,
+.page-container
+  width: 100%
+  height: 100%
+  overflow: hidden
+  background: $color-background
+
+.page-container
+  position: absolute
+  top: 0
+  left: 0
+  width: 100%
+  height: 100%
+  overflow: hidden
+
+.page
+  position: relative
+  width: 100%
+  height: 100%
+  overflow: scroll
+  overflow-x: hidden
+  background: $color-background
+
+.page__header
+  padding-top: $height-header
+
+.app-header
+  z-index: 200
+
+.confirm-dialog-background
+  z-index: 15
+
+// mobile
+.mobile-ui
+  .page__header
+    padding-top: $height-header
+
+// helper
+.cursor-pointer
+  cursor: pointer
+
+.color-middle-gray
+  color: $color-middle-gray

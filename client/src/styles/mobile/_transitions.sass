@@ -1,0 +1,43 @@
+// Ref app.jsx
+$timing-transition-basic: 300ms ease-out
+$timing-transition-slow: 500ms ease-out
+
+.slide-up
+  z-index: 10
+  transform: translate(0, 100%)
+.slide-up.slide-up-active
+  transform: translate(0, 0)
+  transition: transform $timing-transition-basic
+
+.slide-down
+  z-index: 10
+  transform: translate(0, 0)
+.slide-down.slide-down-active
+  transform: translate(0, 100%)
+  transition: transform $timing-transition-basic
+
+.slide-in
+  z-index: 10
+  transform: translate(100%, 0)
+.slide-in.slide-in-active
+  transform: translate(0, 0)
+  transition: transform $timing-transition-basic
+
+.slide-out
+  z-index: 10
+  transform: translate(0, 0)
+.slide-out.slide-out-active
+  transform: translate(100%, 0)
+  transition: transform $timing-transition-basic
+
+.fade-in
+  opacity: 0.01
+.fade-in.fade-in-active
+  opacity: 1
+  transition: opacity $timing-transition-slow
+
+.fade-out
+  opacity: 1
+.fade-out.fade-out-active
+  opacity: 0.01
+  transition: opacity $timing-transition-slow
