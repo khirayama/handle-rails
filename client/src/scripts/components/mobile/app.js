@@ -5,9 +5,7 @@ import config from '../../../config';
 import { dispatch } from '../../libs/app-dispatcher';
 import { pages } from '../../constants/constants';
 
-import Header from './header';
-// import TaskCategoriesPage from './task-categories-page';
-//
+import TaskCategoriesPage from './task-categories-page';
 import SettingsPage from '../common/settings-page';
 import HelpPage from '../common/help-page';
 
@@ -52,13 +50,9 @@ export default class App extends Component {
 
     switch (page) {
       case (pages.TASK_CATEGORIES):
-        // return (
-        //   <section key={page} className="page-container">
-        //     <TaskCategoriesPage page={page} {...props} />
-        //   </section>
-        // );
         return (
           <section key={page} className="page-container">
+            <TaskCategoriesPage page={page} {...props} />
           </section>
         );
       case (pages.SETTINGS):
@@ -127,7 +121,6 @@ export default class App extends Component {
     document.querySelector('html').classList.add('mobile-ui');
     return (
       <div>
-        <Header page={page} position={styles.header.position} />
         <ReactCSSTransitionGroup
         transitionName={transitionVariations.fadeInOut.names}
         { ...transitionVariations.fadeInOut.options }
