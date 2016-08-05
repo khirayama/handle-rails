@@ -28,7 +28,7 @@ window.addEventListener('load', () => {
     loadStyle('mobile/index.css');
     ReactDOM.render(<MobileApp appStore={appStore} />, document.querySelector('#app'));
   } else {
-    loadStyle('index.css');
+    loadStyle('desktop/index.css');
     ReactDOM.render(<App appStore={appStore} />, document.querySelector('#app'));
   }
 });
