@@ -48,31 +48,34 @@ export default class App extends Component {
   }
 
   _createPageElement() {
-    const page = this.state.appStore.getPage();
+    const appProps = {
+      page: this.state.appStore.getPage(),
+      isLoggedIn: this.state.appStore.getIsLoggedIn(),
+    };
     const props = (this.state.appStore.pageStore.props) ? this.state.appStore.pageStore.props() : {};
 
-    switch (page) {
+    switch (appProps.page) {
       case (pages.TASK_CATEGORIES):
         return (
-          <section key={page} className="page-container">
-            <TaskCategoriesPage page={page} {...props} />
+          <section key={appProps.page} className="page-container">
+            <TaskCategoriesPage {...appProps} {...props} />
           </section>
         );
       case (pages.SETTINGS):
         return (
-          <section key={page} className="page-container">
-            <SettingsPage page={page} {...props} />
+          <section key={appProps.page} className="page-container">
+            <SettingsPage {...appProps} {...props} />
           </section>
         );
       case (pages.HELP):
         return (
-          <section key={page} className="page-container">
-            <HelpPage page={page} {...props} />
+          <section key={appProps.page} className="page-container">
+            <HelpPage {...appProps} {...props} />
           </section>
         );
       default:
         return (
-          <section key={page} className="page-container">
+          <section key={appProps.page} className="page-container">
             <div>404</div>
           </section>
         );

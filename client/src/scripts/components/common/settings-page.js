@@ -6,7 +6,7 @@ import { dispatch } from '../../libs/app-dispatcher';
 import PageBackButton from './page-back-button';
 
 
-export default function SettingsPage() {
+export default function SettingsPage(props) {
   return (
     <section className="page settings-page">
       <section className="page-content">
@@ -14,21 +14,25 @@ export default function SettingsPage() {
           <PageBackButton icon text="close" />
         </div>
         <div className="setting-list-container">
-          <section className="list">
-            <header className="list-header">
-              <div className="list-header-content">
-                <h3 className="list-header-text" >Settings</h3>
-              </div>
-            </header>
-            <ul>
-              <li className="list-item">
-                <div className="list-item-text">Extract schedule</div>
-              </li>
-              <li className="list-item">
-                <div className="list-item-text">Clear all data</div>
-              </li>
-            </ul>
-          </section>
+          {
+            (props.isLoggedIn) ? (
+              <section className="list">
+                <header className="list-header">
+                  <div className="list-header-content">
+                    <h3 className="list-header-text" >Settings</h3>
+                  </div>
+                </header>
+                <ul>
+                  <li className="list-item">
+                    <div className="list-item-text">Extract schedule</div>
+                  </li>
+                  <li className="list-item">
+                    <div className="list-item-text">Clear all data</div>
+                  </li>
+                </ul>
+              </section>
+            ) : null
+          }
           <ul className="list">
           <li
             className="list-item"
@@ -48,15 +52,27 @@ export default function SettingsPage() {
           </ul>
           <section className="list">
             <ul>
-              <li className="list-item">
-                <a href="/api/v1/auth/twitter" className="list-item-link">Sign in with Twitter</a>
-              </li>
-              <li className="list-item">
-                <a href="/api/v1/logout" className="list-item-link">Sign out</a>
-              </li>
-              <li className="list-item">
-                <div className="list-item-text">Delete account</div>
-              </li>
+              {
+                (props.isLoggedIn) ? (
+                  <li className="list-item">
+                    <a href="/api/v1/logout" className="list-item-link">Sign out</a>
+                  </li>
+                ) : null
+              }
+              {
+                (props.isLoggedIn) ? (
+                  <li className="list-item">
+                    <div className="list-item-text">Delete account</div>
+                  </li>
+                ) : null
+              }
+              {
+                (!props.isLoggedIn) ? (
+                  <li className="list-item">
+                    <a href="/api/v1/auth/twitter" className="list-item-link">Sign in with Twitter</a>
+                  </li>
+                ) : null
+              }
             </ul>
             <footer className="list-footer">
               <div className="list-footer-content">
