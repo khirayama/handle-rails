@@ -116,10 +116,11 @@ export default class TaskCategoriesPage extends Component {
             {taskListElements}
           </section>
           <div
-            className="floating-button"
+            className="create-task-category-button"
             onClick={this.onClickAddCategoryButton}
           >
             <i className="icon">add</i>
+            <span>Add task category</span>
           </div>
         </section>
       </section>

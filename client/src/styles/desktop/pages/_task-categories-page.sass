@@ -8,25 +8,20 @@
       max-width: 480px
       min-width: 320px
 
-.floating-button
-  position: fixed
-  z-index: 1
-  bottom: 80px
-  right: 80px
-  background-color: $color-yellow
-  width: 60px
-  height: 60px
-  border-radius: 30px
-  box-shadow: 0 3px 5px rgba(0, 0, 0, .3)
+.create-task-category-button
+  background-color: $color-white
+  width: 320px
+  max-width: 100%
+  height: 44px
+  margin: 12px auto
+  box-shadow: 0 1px 0 0 rgba($color-black, .1)
   text-align: center
-  font-size: 40px
-  font-weight: bold
-  color: $color-white
-  transition: opacity  $timing-basic
+  border-radius: 3px
+  transition: box-shadow $timing-basic
   i
-    position: absolute
-    top: 50%
-    left: 50%
-    transform: translate(-50%, -50%)
+    line-height: 44px
+    font-size: 1rem
+  span
+    line-height: 44px
   &:hover
-    opacity: .5 // TASK
+    box-shadow: 0 3px 1px 0 rgba($color-black, .1)
