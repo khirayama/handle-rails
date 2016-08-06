@@ -9,6 +9,7 @@ import Header from './header';
 import Launcher from './launcher';
 import TaskCategoriesPage from './task-categories-page';
 
+import LandingPage from '../common/landing-page';
 import SettingsPage from '../common/settings-page';
 import HelpPage from '../common/help-page';
 
@@ -55,6 +56,12 @@ export default class App extends Component {
     const props = (this.state.appStore.pageStore.props) ? this.state.appStore.pageStore.props() : {};
 
     switch (appProps.page) {
+      case (pages.LANDING):
+        return (
+          <section key={appProps.page} className="page-container">
+            <LandingPage {...appProps} {...props} />
+          </section>
+        );
       case (pages.TASK_CATEGORIES):
         return (
           <section key={appProps.page} className="page-container">

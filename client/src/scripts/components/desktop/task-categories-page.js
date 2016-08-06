@@ -112,19 +112,17 @@ export default class TaskCategoriesPage extends Component {
     return (
       <section className="page page__header tasks-page">
         <section className="page-content">
-          { (this.props.isLoggedIn) ? (
+          <div>
             <section className="column-container">
               {taskListElements}
             </section>
-          ) : (
-            <a href='/api/v1/auth/twitter'>Sign in with Twitter</a>
-          ) }
-          <div
-            className="create-task-category-button"
-            onClick={this.onClickAddCategoryButton}
-          >
-            <i className="icon">add</i>
-            <span>Add task category</span>
+            <div
+              className="create-task-category-button"
+              onClick={this.onClickAddCategoryButton}
+            >
+              <i className="icon">add</i>
+              <span>Add task category</span>
+            </div>
           </div>
         </section>
       </section>

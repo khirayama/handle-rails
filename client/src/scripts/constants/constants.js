@@ -10,6 +10,7 @@ export const keyCodes = {
 };
 
 export const pages = {
+  LANDING: 'LANDING_PAGE',
   TASK_CATEGORIES: 'TASK_CATEGORIES_PAGE',
   SETTINGS: 'SETTINGS_PAGE',
   HELP: 'HELP_PAGE',

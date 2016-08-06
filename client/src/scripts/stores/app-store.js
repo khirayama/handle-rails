@@ -26,7 +26,6 @@ export default class AppStore extends MicroStore {
     subscribe((action) => {
       switch (action.type) {
         case types.FAIL_AUTHENTICATE:
-          console.log('fail authenticate');
           this._isLoggedIn = false;
           this.dispatchChange();
           break;
@@ -54,6 +53,17 @@ export default class AppStore extends MicroStore {
 
   // routing
   _routes() {
+    this.on(pages.LANDING, () => {
+      this.pageStore = {
+        meta: { title: 'Home' },
+        styles: {
+          transition: 'fadeInOut',
+          header: { position: 'none' },
+        }
+      };
+      this._changePage(pages.LANDING);
+    });
+
     this.on(pages.TASK_CATEGORIES, () => {
       if (!(this.pageStore instanceof TaskCategoriesPageStore)) {
         this.pageStore = new TaskCategoriesPageStore();
