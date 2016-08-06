@@ -24,6 +24,10 @@ export default class AppStore extends MicroStore {
   _subscribe() {
     subscribe((action) => {
       switch (action.type) {
+        case types.FAIL_AUTHENTICATE:
+          console.log('fail authenticate');
+          // this.dispatchChange();
+          break;
         case types.CHANGE_PAGE:
           location.hash = action.page;
           this.emit(action.page);

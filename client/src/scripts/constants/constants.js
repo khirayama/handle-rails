@@ -15,9 +15,8 @@ export const pages = {
   HELP: 'HELP_PAGE',
 };
 
-export const EVENT_CHANGE = 'CHANGE_STORE';
-
 export const actionTypes = {
+  FAIL_AUTHENTICATE: 'FAIL_AUTHENTICATE',
   // FOR_APP
   BACK_PAGE: 'BACK_PAGE',
   CHANGE_PAGE: 'CHANGE_PAGE',

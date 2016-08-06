@@ -1,6 +1,7 @@
 import MicroEmitter from 'micro-emitter';
 
-import { EVENT_CHANGE } from '../constants/constants';
+
+const EVENT_CHANGE = 'CHANGE_STORE';
 
 export default class MicroStore extends MicroEmitter {
   dispatchChange() {
