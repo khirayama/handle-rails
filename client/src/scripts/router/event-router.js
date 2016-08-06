@@ -48,9 +48,6 @@ export default class EventRouter {
           break;
         // component: task-list-item
         case 'UI_KEYDOWN_INPUT_WITH_ENTER_AND_CTRL_IN_TASK_LIST_ITEM':
-          if (event.value === '') {
-            deleteTask(event.id);
-          }
           createTask('', event.taskCategoryId);
           break;
         case 'UI_CLICK_DONE_BUTTON':
