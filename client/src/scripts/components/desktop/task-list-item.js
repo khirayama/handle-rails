@@ -89,7 +89,7 @@ export default class TaskListItem extends Component {
           type: 'UI_KEYDOWN_INPUT_WITH_ENTER_AND_CTRL_IN_TASK_LIST_ITEM',
           value: this.state.value,
           id: this.props.task.id,
-          categoryId: this.props.task.categoryId,
+          taskCategoryId: this.props.task.taskCategoryId,
         });
         break;
       case (keyCode === keyCodes.ESC && !shift && !ctrl):
@@ -99,7 +99,7 @@ export default class TaskListItem extends Component {
         event.preventDefault();
         dispatch({
           type: 'UI_KEYDOWN_INPUT_WITH_TAB_IN_TASK_LIST_ITEM',
-          categoryId: this.props.task.categoryId,
+          taskCategoryId: this.props.task.taskCategoryId,
           order: this.props.task.order,
         });
         break;
@@ -107,7 +107,7 @@ export default class TaskListItem extends Component {
         event.preventDefault();
         dispatch({
           type: 'UI_KEYDOWN_INPUT_WITH_TAB_AND_SHIFT_IN_TASK_LIST_ITEM',
-          categoryId: this.props.task.categoryId,
+          taskCategoryId: this.props.task.taskCategoryId,
           order: this.props.task.order,
         });
         break;

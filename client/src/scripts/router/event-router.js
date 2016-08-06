@@ -51,7 +51,7 @@ export default class EventRouter {
           if (event.value === '') {
             deleteTask(event.id);
           }
-          createTask('', event.categoryId);
+          createTask('', event.taskCategoryId);
           break;
         case 'UI_CLICK_DONE_BUTTON':
           completeTask(event.id);
