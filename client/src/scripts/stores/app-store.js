@@ -9,7 +9,6 @@ export default class AppStore extends MicroStore {
     super();
 
     this._homePage = pages.TASK_CATEGORIES;
-    // TODO: should set false to this._isLoggedIn
     this._isLoggedIn = true;
     this._page = this._getStartPage();
     this._history = [];
@@ -29,7 +28,7 @@ export default class AppStore extends MicroStore {
         case types.FAIL_AUTHENTICATE:
           console.log('fail authenticate');
           this._isLoggedIn = false;
-          // this.dispatchChange();
+          this.dispatchChange();
           break;
         case types.CHANGE_PAGE:
           location.hash = action.page;
