@@ -1,9 +1,7 @@
 import TaskCategory from '../../../resources/task-category';
 import { changePage } from '../../../actions/app-action-creators';
-import {
-  createTask,
-  createTaskCategory,
-} from '../../../actions/task-action-creators';
+import { createTask } from '../../../actions/task-action-creators';
+import { createTaskCategory } from '../../../actions/task-category-action-creators';
 import { pages } from '../../../constants/constants';
 
 
