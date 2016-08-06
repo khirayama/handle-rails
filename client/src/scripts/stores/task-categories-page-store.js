@@ -57,15 +57,6 @@ export default class TaskCategoriesPageStore extends MicroStore {
           this.deleteTask(action.deletedTaskId);
           this.dispatchChange();
           break;
-        case types.MOVE_TASK:
-          this.moveTask(
-            action.currentTaskCategoryId,
-            action.currentTasks,
-            action.targetTaskCategoryId,
-            action.targetTasks
-          )
-          this.dispatchChange();
-          break;
         case types.GET_ALL_TASK_CATEGORIES:
         case types.SORT_TASK_CATEGORIES:
         case types.SORT_TASKS:
@@ -95,7 +86,12 @@ export default class TaskCategoriesPageStore extends MicroStore {
   }
 
   setTaskCategories(taskCategories) {
-    this._taskCategories = taskCategories;
+    this._taskCategories = taskCategories.map((taskCategory) => {
+      taskCategory.tasks = taskCategory.tasks.map((task) => {
+        return TaskCategoriesPageStore._addSchedule(task);
+      });
+      return taskCategory;
+    });
   }
 
   getTaskCategories() {
@@ -140,17 +136,6 @@ export default class TaskCategoriesPageStore extends MicroStore {
         if (task.id === deletedTaskId) {
           taskCategory.tasks.splice(taskIndex, 1);
         }
-      }
-    }
-  }
-
-  moveTask(currentTaskCategoryId, currentTasks, targetTaskCategoryId, targetTasks) {
-    for (let taskCategoryIndex = 0; taskCategoryIndex < this._taskCategories.length; taskCategoryIndex++) {
-      const taskCategory_ = this._taskCategories[taskCategoryIndex];
-      if (taskCategory_.id == currentTaskCategoryId) {
-        taskCategory_.tasks = currentTasks;
-      } else if (taskCategory_.id == targetTaskCategoryId) {
-        taskCategory_.tasks = targetTasks;
       }
     }
   }
