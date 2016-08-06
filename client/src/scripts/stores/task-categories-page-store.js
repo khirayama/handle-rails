@@ -45,6 +45,10 @@ export default class TaskCategoriesPageStore extends MicroStore {
           this.createTask(action.task);
           this.dispatchChange();
           break;
+        case types.UPDATE_TASKS:
+          this.updateTasks(action.tasks);
+          this.dispatchChange();
+          break;
         case types.UPDATE_TASK:
           this.updateTask(action.task);
           this.dispatchChange();
@@ -119,6 +123,12 @@ export default class TaskCategoriesPageStore extends MicroStore {
           }
         });
       }
+    });
+  }
+
+  updateTasks(tasks) {
+    tasks.forEach((task) => {
+      this.updateTask(task);
     });
   }
 

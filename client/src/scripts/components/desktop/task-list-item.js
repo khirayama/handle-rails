@@ -99,16 +99,14 @@ export default class TaskListItem extends Component {
         event.preventDefault();
         dispatch({
           type: 'UI_KEYDOWN_INPUT_WITH_TAB_IN_TASK_LIST_ITEM',
-          taskCategoryId: this.props.task.taskCategoryId,
-          order: this.props.task.order,
+          id: this.props.task.id,
         });
         break;
       case (keyCode === keyCodes.TAB && shift && !ctrl):
         event.preventDefault();
         dispatch({
           type: 'UI_KEYDOWN_INPUT_WITH_TAB_AND_SHIFT_IN_TASK_LIST_ITEM',
-          taskCategoryId: this.props.task.taskCategoryId,
-          order: this.props.task.order,
+          id: this.props.task.id,
         });
         break;
       default:

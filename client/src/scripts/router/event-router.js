@@ -57,10 +57,10 @@ export default class EventRouter {
           editTask(event.id);
           break;
         case 'UI_KEYDOWN_INPUT_WITH_TAB_IN_TASK_LIST_ITEM':
-          editNextTask(event.categoryId, event.order);
+          editNextTask(event.id);
           break;
         case 'UI_KEYDOWN_INPUT_WITH_TAB_AND_SHIFT_IN_TASK_LIST_ITEM':
-          editPrevTask(event.categoryId, event.order);
+          editPrevTask(event.id);
           break;
         case 'UI_BLUR_INPUT_IN_TASK_LIST_ITEM':
         case 'UI_KEYDOWN_INPUT_WITH_ENTER_IN_TASK_LIST_ITEM':

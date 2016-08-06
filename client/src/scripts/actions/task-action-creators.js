@@ -58,31 +58,83 @@ export function editTask(id) {
   });
 }
 
-export function editNextTask(categoryId, currentOrder) {
-  const entity = Task.where({ categoryId }).where({ order: currentOrder + 1 }).first();
-  if (entity === null) {
-    return;
-  }
-
-  entity.isEditing = true;
-
-  dispatch({
-    type: types.UPDATE_TASK,
-    task: entity
+export function editNextTask(id) {
+  Task.fetch().then((taskRes) => {
+    TaskCategory.fetch().then((taskCategoryRes) => {
+      const taskCategories = buildTaskCategories(taskCategoryRes.data, taskRes.data);
+      Task.find(id).then((res) => {
+        const currentTask = res.data;
+        for (let taskCategoryIndex = 0; taskCategoryIndex < taskCategories.length; taskCategoryIndex++) {
+          const taskCategory = taskCategories[taskCategoryIndex];
+          for (let taskIndex = 0; taskIndex < taskCategory.tasks.length; taskIndex++) {
+            const task = taskCategory.tasks[taskIndex];
+            if (task.id === currentTask.id) {
+              const nextTask = taskCategory.tasks[taskIndex + 1];
+              if (nextTask) {
+                dispatch({
+                  type: types.UPDATE_TASKS,
+                  tasks: [{
+                    id: currentTask.id,
+                    text: currentTask.text,
+                    completed: currentTask.completed,
+                    taskCategoryId: currentTask.task_category_id,
+                    order: currentTask.order,
+                    isEditing: false,
+                  }, {
+                    id: nextTask.id,
+                    text: nextTask.text,
+                    completed: nextTask.completed,
+                    taskCategoryId: nextTask.taskCategoryId,
+                    order: nextTask.order,
+                    isEditing: true,
+                  }],
+                });
+              }
+            }
+          }
+        }
+      });
+    });
   });
 }
 
-export function editPrevTask(categoryId, currentOrder) {
-  const entity = Task.where({ categoryId }).where({ order: currentOrder - 1 }).first();
-  if (entity === null) {
-    return;
-  }
-
-  entity.isEditing = true;
-
-  dispatch({
-    type: types.UPDATE_TASK,
-    task: entity
+export function editPrevTask(id) {
+  Task.fetch().then((taskRes) => {
+    TaskCategory.fetch().then((taskCategoryRes) => {
+      const taskCategories = buildTaskCategories(taskCategoryRes.data, taskRes.data);
+      Task.find(id).then((res) => {
+        const currentTask = res.data;
+        for (let taskCategoryIndex = 0; taskCategoryIndex < taskCategories.length; taskCategoryIndex++) {
+          const taskCategory = taskCategories[taskCategoryIndex];
+          for (let taskIndex = 0; taskIndex < taskCategory.tasks.length; taskIndex++) {
+            const task = taskCategory.tasks[taskIndex];
+            if (task.id === currentTask.id) {
+              const prevTask = taskCategory.tasks[taskIndex - 1];
+              if (prevTask) {
+                dispatch({
+                  type: types.UPDATE_TASKS,
+                  tasks: [{
+                    id: currentTask.id,
+                    text: currentTask.text,
+                    completed: currentTask.completed,
+                    taskCategoryId: currentTask.task_category_id,
+                    order: currentTask.order,
+                    isEditing: false,
+                  }, {
+                    id: prevTask.id,
+                    text: prevTask.text,
+                    completed: prevTask.completed,
+                    taskCategoryId: prevTask.taskCategoryId,
+                    order: prevTask.order,
+                    isEditing: true,
+                  }],
+                });
+              }
+            }
+          }
+        }
+      });
+    });
   });
 }
 
