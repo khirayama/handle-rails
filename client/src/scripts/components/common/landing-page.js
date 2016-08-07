@@ -16,6 +16,15 @@ export default function LandingPage() {
             </h1>
             <a href="/api/v1/auth/twitter" className="login-button">Sign in with Twitter</a>
           </section>
+          <section className="landing-page-content">
+            <h2>Concept</h2>
+          </section>
+          <section className="landing-page-content">
+            <h2>Features</h2>
+          </section>
+          <section className="landing-page-content">
+            <h2>Footer</h2>
+          </section>
         </div>
       </section>
     </section>
