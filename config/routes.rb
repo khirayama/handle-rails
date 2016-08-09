@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  # app
+  get '/help' => 'application#help'
 
   namespace :api, { format: 'json' } do
     namespace :v1 do
