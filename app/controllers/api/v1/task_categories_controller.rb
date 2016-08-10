@@ -1,6 +1,6 @@
 module Api
   module V1
-    class TaskCategoriesController < ApplicationController
+    class TaskCategoriesController < Api::V1::ApplicationController
       before_action :authenticate
 
       def index

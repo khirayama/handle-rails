@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
-  def help
+  def index
+    render :file => '/public/index'
   end
 end
