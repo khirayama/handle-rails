@@ -4,6 +4,13 @@ module Api
 
       def current_user_information
         authenticate
+        @current_user ||= User.find(session[:user_id])
+        render json: {
+          id: @current_user.id,
+          provider: @current_user.provider,
+          nickname: @current_user.nickname,
+          image_url: @current_user.image_url
+        }
       end
 
       rescue_from StandardError do |e|
