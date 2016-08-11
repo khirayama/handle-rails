@@ -26,7 +26,7 @@ export default class AppStore extends MicroStore {
       switch (action.type) {
         case types.FAIL_AUTHENTICATE:
           this._currentUserInformation = null;
-          this._updatePage();
+          this._updatePage(action.pathname);
           this.dispatchChange();
           break;
         case types.GET_CURRENT_USER_INFORMATION:
@@ -92,10 +92,9 @@ export default class AppStore extends MicroStore {
         default:
           this._page = pages.NOT_FOUND;
           this.pageStore = {
-            meta: { title: '404' },
+            meta: { title: 'NOT FOUND' },
             styles: {
-              transition: 'fadeInOut',
-              header: { position: 'bottom' },
+              header: { position: 'none' },
             }
           };
           break;

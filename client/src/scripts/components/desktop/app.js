@@ -86,7 +86,11 @@ export default class App extends Component {
       default:
         return (
           <section key={appProps.page} className="page-container">
-            <div>404</div>
+            <section className="page not-found-page">
+              <section className="page-content">
+                <h1>Not found contents...</h1>
+              </section>
+            </section>
           </section>
         );
     }
@@ -160,6 +164,8 @@ export default class App extends Component {
         >
           {( styles.transition === 'slideUpDown') ? pageElement : null}
         </ReactCSSTransitionGroup>
+
+        {( !styles.transition ) ? pageElement : null}
 
         <Launcher />
       </div>

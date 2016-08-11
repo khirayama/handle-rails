@@ -7,5 +7,6 @@ export default function ajaxErrorHandler(error) {
   // Suppose auth error
   dispatch({
     type: types.FAIL_AUTHENTICATE,
+    pathname: '/'
   });
 }
