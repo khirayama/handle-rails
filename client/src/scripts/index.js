@@ -9,6 +9,7 @@ import AppStore from './stores/app-store';
 import App from './components/desktop/app';
 import MobileApp from './components/mobile/app';
 
+
 function loadStyle(filePath) {
   const link = document.createElement('link');
   const head = document.querySelector('head');

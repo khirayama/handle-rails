@@ -1,5 +1,6 @@
 import { subscribe } from '../libs/app-dispatcher';
 import {
+  getCurrentUserInformation,
   changePage,
   backPage,
 } from '../actions/app-action-creators';
@@ -27,6 +28,9 @@ export default class EventRouter {
   constructor() {
     subscribe((event) => {
       switch (event.type) {
+        case 'UI_START_APP':
+          getCurrentUserInformation();
+          break;
         // component: app
         case 'UI_CLICK_SETTINGS_BUTTON_IN_HEADER':
         case 'UI_CLICK_HELP_LINK_IN_SETTINGS_PAGE':

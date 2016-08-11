@@ -51,7 +51,7 @@ export default class App extends Component {
   _createPageElement() {
     const appProps = {
       page: this.state.appStore.getPage(),
-      isLoggedIn: this.state.appStore.getIsLoggedIn(),
+      isLoggedIn: this.state.appStore.isLoggedIn(),
     };
     const props = (this.state.appStore.pageStore.props) ? this.state.appStore.pageStore.props() : {};
 

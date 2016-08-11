@@ -7,12 +7,19 @@ import TaskCategoriesPageStore from '../stores/task-categories-page-store';
 export default class AppStore extends MicroStore {
   constructor() {
     super();
+    this._homePage = pages.LANDING;
 
-    this._homePage = pages.TASK_CATEGORIES;
-    this._isLoggedIn = true;
+    // application state
+    this._currentUserInformation = null;
     this._page = this._getStartPage();
     this._history = [];
-    this.pageStore = null;
+    this.pageStore = {
+      meta: { title: 'Home' },
+      styles: {
+        transition: 'fadeInOut',
+        header: { position: 'none' },
+      }
+    };
 
     location.hash = this._page;
 
@@ -26,7 +33,11 @@ export default class AppStore extends MicroStore {
     subscribe((action) => {
       switch (action.type) {
         case types.FAIL_AUTHENTICATE:
-          this._isLoggedIn = false;
+          this._currentUserInformation = null;
+          this.dispatchChange();
+          break;
+        case types.GET_CURRENT_USER_INFORMATION:
+          this._currentUserInformation = action.currentUserInformation;
           this.dispatchChange();
           break;
         case types.CHANGE_PAGE:
@@ -114,7 +125,7 @@ export default class AppStore extends MicroStore {
     return this._page;
   }
 
-  getIsLoggedIn() {
-    return this._isLoggedIn;
+  isLoggedIn() {
+    return (this._currentUserInformation != null);
   }
 }
