@@ -4,6 +4,8 @@ Rails.application.routes.draw do
 
   namespace :api, { format: 'json' } do
     namespace :v1 do
+      get '/current_user_information' => 'application#current_user_information'
+
       resources :task_categories
       put '/task_categories' => 'task_categories#reorder'
 
