@@ -3,13 +3,9 @@ import React from 'react';
 import { dispatch } from '../../libs/app-dispatcher';
 
 
-const PageBackButtonPropTypes = {
-  icon: React.PropTypes.bool,
-  text: React.PropTypes.string,
-};
-
 export default function PageBackButton(props) {
   let contentElement = <i className="icon">arrow_back</i>;
+
   if (props.icon && props.text) {
     contentElement = <i className="icon">{ props.text }</i>;
   } else if (props.text) {
@@ -21,13 +17,11 @@ export default function PageBackButton(props) {
     });
   };
   return (
-    <div
+    <a
       className="page-back-button"
-      onClick={backPage}
+      onClick={() => history.back()}
     >
       { contentElement }
-    </div>
+    </a>
   );
 }
-
-PageBackButton.propTypes = PageBackButtonPropTypes;

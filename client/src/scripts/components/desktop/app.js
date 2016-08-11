@@ -31,7 +31,10 @@ export default class App extends Component {
 
   componentDidMount() {
     this.props.appStore.addChangeListener(this.updateState);
-    dispatch({ type: 'UI_START_APP' });
+    dispatch({
+      type: 'UI_START_APP',
+      pathname: location.pathname,
+    });
   }
 
   componentWillUnmount() {
@@ -90,6 +93,9 @@ export default class App extends Component {
   }
 
   render() {
+    if (this.state.appStore.pageStore == null) {
+      return null;
+    }
     const title = this.state.appStore.pageStore.meta.title;
     this._changeTitle(title);
 
@@ -133,7 +139,7 @@ export default class App extends Component {
 
     return (
       <div>
-        <Header page={page} position={styles.header.position} />
+        <Header page={page} {...styles.header} />
         <ReactCSSTransitionGroup
         transitionName={transitionVariations.fadeInOut.names}
         { ...transitionVariations.fadeInOut.options }

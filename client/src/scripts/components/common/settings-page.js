@@ -4,6 +4,7 @@ import config from '../../../config';
 import { pages } from '../../constants/constants';
 import { dispatch } from '../../libs/app-dispatcher';
 import PageBackButton from './page-back-button';
+import transitionEventHandler from '../common/helpers/transition-event-handler';
 
 
 export default function SettingsPage(props) {
@@ -34,17 +35,8 @@ export default function SettingsPage(props) {
             ) : null
           }
           <ul className="list">
-          <li
-            className="list-item"
-            onClick={
-              () => {
-                dispatch({
-                  type: 'UI_CLICK_HELP_LINK_IN_SETTINGS_PAGE',
-                  link: pages.HELP
-                });
-              }
-            }>
-              <div className="list-item-text">Help</div>
+            <li className="list-item">
+              <a href="/help" className="list-item-link" onClick={transitionEventHandler}>Help</a>
             </li>
             <li className="list-item">
               <div className="list-item-text">Policy</div>

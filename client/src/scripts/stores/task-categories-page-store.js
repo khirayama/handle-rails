@@ -24,7 +24,10 @@ export default class TaskCategoriesPageStore extends MicroStore {
     };
     this.styles = {
       transition: 'slideUpDown',
-      header: { position: 'default' },
+      header: {
+        position: 'default',
+        href: '/settings'
+      },
     };
 
     this._taskCategories = [];

@@ -1,8 +1,7 @@
 import { subscribe } from '../libs/app-dispatcher';
 import {
+  changeHistory,
   getCurrentUserInformation,
-  changePage,
-  backPage,
 } from '../actions/app-action-creators';
 import {
   getTaskCategories,
@@ -29,15 +28,10 @@ export default class EventRouter {
     subscribe((event) => {
       switch (event.type) {
         case 'UI_START_APP':
-          getCurrentUserInformation();
+          getCurrentUserInformation(event.pathname);
           break;
-        // component: app
-        case 'UI_CLICK_SETTINGS_BUTTON_IN_HEADER':
-        case 'UI_CLICK_HELP_LINK_IN_SETTINGS_PAGE':
-          changePage(event.link);
-          break;
-        case 'UI_CLICK_PAGE_BACK_BUTTON_IN_PAGE_BACK_BUTTON':
-          backPage();
+        case 'UI_CHANGE_HISTORY':
+          changeHistory(event.pathname);
           break;
         // component: task-categories-page
         case 'UI_START_TASK_CATEGORIES_PAGE':

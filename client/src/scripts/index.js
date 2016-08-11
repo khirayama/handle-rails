@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 
 import logger from './utils/logger';
 import { isMobileUI } from './utils/is-mobile-ui';
+import { dispatch } from './libs/app-dispatcher';
 import EventRouter from './router/event-router';
 import AppStore from './stores/app-store';
 
@@ -19,6 +20,13 @@ function loadStyle(filePath) {
 
   head.appendChild(link);
 }
+
+window.addEventListener('popstate', (event) => {
+  dispatch({
+    type: 'UI_CHANGE_HISTORY',
+    pathname: location.pathname
+  });
+});
 
 window.addEventListener('load', () => {
   logger.info(`Start manege app at ${new Date()}`);

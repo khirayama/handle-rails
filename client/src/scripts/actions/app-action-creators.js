@@ -3,24 +3,19 @@ import { actionTypes as types } from '../constants/constants';
 import CurrentUserInformation from '../resources/current-user-information';
 
 
-export function getCurrentUserInformation() {
+export function getCurrentUserInformation(pathname) {
   CurrentUserInformation.fetch().then((res) => {
     dispatch({
-      types: types.GET_CURRENT_USER_INFORMATION,
-      currentUserInformation: res.data
+      type: types.GET_CURRENT_USER_INFORMATION,
+      currentUserInformation: res.data,
+      pathname,
     });
   });
 }
 
-export function changePage(page) {
+export function changeHistory(pathname) {
   dispatch({
-    type: types.CHANGE_PAGE,
-    page: page,
-  });
-}
-
-export function backPage() {
-  dispatch({
-    type: types.BACK_PAGE,
+    type: types.CHANGE_HISTORY,
+    pathname: pathname,
   });
 }
