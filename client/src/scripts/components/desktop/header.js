@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import classNames from 'classnames';
 
 import config from '../../../config';
-import { pages } from '../../constants/constants';
 import { dispatch } from '../../libs/app-dispatcher';
 import transitionEventHandler from '../common/helpers/transition-event-handler';
 

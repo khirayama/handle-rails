@@ -51,62 +51,63 @@ export default class App extends Component {
     document.title = `${title} | ${config.name}`;
   }
 
-  _createPageElement() {
-    const appProps = {
-      page: this.state.appStore.getPage(),
-      isLoggedIn: this.state.appStore.isLoggedIn(),
-    };
-    const props = (this.state.appStore.pageStore.props) ? this.state.appStore.pageStore.props() : {};
-
-    switch (appProps.page) {
+  _createPageElement(pageInformation, state) {
+    switch (pageInformation.name) {
       case (pages.LANDING):
         return (
-          <section key={appProps.page} className="page-container">
-            <LandingPage {...appProps} {...props} />
+          <section className="page-container">
+            <LandingPage {...pageInformation} {...state} />
           </section>
         );
       case (pages.TASK_CATEGORIES):
         return (
-          <section key={appProps.page} className="page-container">
-            <TaskCategoriesPage {...appProps} {...props} />
+          <section className="page-container">
+            <TaskCategoriesPage {...pageInformation} {...state} />
           </section>
         );
       case (pages.SETTINGS):
         return (
-          <section key={appProps.page} className="page-container">
-            <SettingsPage {...appProps} {...props} />
+          <section className="page-container">
+            <SettingsPage {...pageInformation} {...state} />
           </section>
         );
       case (pages.HELP):
         return (
-          <section key={appProps.page} className="page-container">
-            <HelpPage {...appProps} {...props} />
+          <section className="page-container">
+            <HelpPage {...pageInformation} {...state} />
           </section>
         );
       default:
-        return (
-          <section key={appProps.page} className="page-container">
-            <section className="page not-found-page">
-              <section className="page-content">
-                <h1>Not found contents...</h1>
+        if (pageInformation.name) {
+          return (
+            <section className="page-container">
+              <section className="page not-found-page">
+                <section className="page-content">
+                  <h1>Not found contents...</h1>
+                </section>
               </section>
             </section>
-          </section>
-        );
+          );
+        } else {
+          return (
+            <section className="page-container">
+              <section className="page not-found-page">
+                <section className="page-content">
+                  <h1>Loading...</h1>
+                </section>
+              </section>
+            </section>
+          );
+        }
     }
   }
 
   render() {
-    if (this.state.appStore.pageStore == null) {
-      return null;
-    }
-    const title = this.state.appStore.pageStore.meta.title;
-    this._changeTitle(title);
+    const pageInformation = this.state.appStore.getPageInformation();
+    const state = this.state.appStore.getState();
+    console.log(state);
 
-    const page = this.state.appStore.getPage();
-    const pageElement = this._createPageElement();
-    const styles = this.state.appStore.pageStore.styles;
-
+    const pageElement = this._createPageElement(pageInformation, state);
     // Ref _transition.sass
     const transitionVariations = {
       fadeInOut: {
@@ -141,31 +142,32 @@ export default class App extends Component {
       },
     };
 
+    this._changeTitle(pageInformation.meta.title);
     return (
       <div>
-        <Header page={page} {...styles.header} />
+        <Header {...pageInformation.styles.header} />
         <ReactCSSTransitionGroup
         transitionName={transitionVariations.fadeInOut.names}
         { ...transitionVariations.fadeInOut.options }
         >
-          {( styles.transition === 'fadeInOut') ? pageElement : null}
+          {( pageInformation.styles.transition === 'fadeInOut') ? pageElement : null}
         </ReactCSSTransitionGroup>
 
         <ReactCSSTransitionGroup
         transitionName={transitionVariations.slideInOut.names}
         { ...transitionVariations.slideInOut.options }
         >
-          {( styles.transition === 'slideInOut') ? pageElement : null}
+          {( pageInformation.styles.transition === 'slideInOut') ? pageElement : null}
         </ReactCSSTransitionGroup>
 
         <ReactCSSTransitionGroup
         transitionName={transitionVariations.slideUpDown.names}
         { ...transitionVariations.slideUpDown.options }
         >
-          {( styles.transition === 'slideUpDown') ? pageElement : null}
+          {( pageInformation.styles.transition === 'slideUpDown') ? pageElement : null}
         </ReactCSSTransitionGroup>
 
-        {( !styles.transition ) ? pageElement : null}
+        {( !pageInformation.styles.transition ) ? pageElement : null}
 
         <Launcher />
       </div>

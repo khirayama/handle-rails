@@ -1,3 +1,4 @@
+import config from '../../config';
 import { pages, actionTypes as types } from '../constants/constants';
 import { dispatch, subscribe } from '../libs/app-dispatcher';
 import MicroStore from '../libs/micro-store';
@@ -10,8 +11,22 @@ export default class AppStore extends MicroStore {
     super();
 
     // application state
-    this._page = null;;
+    this._page = null;
+    this._pageInformation = {
+      name: null,
+      meta: { title: null },
+      styles: {
+        transition: null,
+        header: {
+          position: 'none',
+          href: '/',
+        }
+      }
+    };
     this._currentUserInformation = null;
+
+    // task-categories-page state
+    this._taskCategories = [];
 
     this._routes();
     this._subscribe();
@@ -47,66 +62,87 @@ export default class AppStore extends MicroStore {
     this.on(UPDATE_PAGE, (pathname) => {
       switch (pathname) {
         case '/':
-          if (this.isLoggedIn()) {
-            this._page = pages.TASK_CATEGORIES;
-            if (!(this.pageStore instanceof TaskCategoriesPageStore)) {
-              this.pageStore = new TaskCategoriesPageStore();
-              this.pageStore.addChangeListener(() => {
-                this.dispatchChange();
-              });
-            }
+          if (this._isLoggedIn()) {
+            const pageStore = new TaskCategoriesPageStore();
+            this._taskCategories = pageStore._taskCategories;
+            pageStore.addChangeListener(() => {
+              this._taskCategories = pageStore._taskCategories;
+              this.dispatchChange();
+            });
+            this._pageInformation = Object.assign({}, this._pageInformation, {
+              name: pages.TASK_CATEGORIES,
+              meta: { title: config.name },
+              styles: {
+                transition: 'slideUpDown',
+                header: {
+                  position: 'default',
+                  href: '/settings'
+                },
+              }
+            });
+            this.dispatchChange();
           } else {
-            this._page = pages.LANDING;
-            this.pageStore = {
+            this._pageInformation = Object.assign({}, this._pageInformation, {
+              name: pages.LANDING,
               meta: { title: 'Landing' },
               styles: {
                 transition: 'fadeInOut',
                 header: { position: 'none' },
               }
-            };
+            });
             this.dispatchChange();
           }
           break;
         case '/help':
-          this._page = pages.HELP;
-          this.pageStore = {
+          this._pageInformation = Object.assign({}, this._pageInformation, {
+            name: pages.HELP,
             meta: { title: 'Help' },
             styles: {
               transition: 'slideInOut',
               header: { position: 'bottom' },
             }
-          };
+          });
           this.dispatchChange();
           break;
         case '/settings':
-          this._page = pages.SETTINGS;
-          this.pageStore = {
+          this._pageInformation = Object.assign({}, this._pageInformation, {
+            name: pages.SETTINGS,
             meta: { title: 'Settings' },
             styles: {
               transition: 'fadeInOut',
               header: { position: 'bottom' },
             }
-          };
+          });
           this.dispatchChange();
           break;
         default:
-          this._page = pages.NOT_FOUND;
-          this.pageStore = {
+          this._pageInformation = Object.assign({}, this._pageInformation, {
+            name: pages.NOT_FOUND,
             meta: { title: 'NOT FOUND' },
             styles: {
               header: { position: 'none' },
             }
-          };
+          });
+          this.dispatchChange();
           break;
       }
     });
   }
 
-  getPage() {
-    return this._page;
+  getPageInformation() {
+    return this._pageInformation;
   }
 
-  isLoggedIn() {
+  getState() {
+    return {
+      isLoggedIn: this._isLoggedIn(),
+      currentUserInformation: this._currentUserInformation,
+
+      taskCategories: this._taskCategories,
+    }
+  }
+
+  _isLoggedIn() {
     return (this._currentUserInformation != null);
   }
 }
