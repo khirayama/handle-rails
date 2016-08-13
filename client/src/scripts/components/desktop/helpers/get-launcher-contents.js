@@ -1,5 +1,6 @@
 import TaskCategory from '../../../resources/task-category';
-import { changePage } from '../../../actions/app-action-creators';
+import { waitFor } from '../../../libs/app-dispatcher';
+import { changeHistory } from '../../../actions/app-action-creators';
 import { createTask } from '../../../actions/task-action-creators';
 import { createTaskCategory } from '../../../actions/task-category-action-creators';
 import { pages } from '../../../constants/constants';
@@ -13,8 +14,16 @@ export function getLauncherContents() {
         const id = taskCategory.id;
         const text = `Create a task to ${taskCategory.name}`;
         const callback = () => {
-          changePage(pages.TASK_CATEGORIES);
-          createTask('', id);
+          const pathname = '/';
+          if (pathname !== location.pathname) {
+            waitFor('GET_ALL_TASK_CATEGORIES', () => {
+              createTask('', id)
+            });
+            history.pushState(null, null, pathname);
+            changeHistory(pathname);
+          } else {
+            createTask('', id);
+          }
         };
 
         return { text, callback };
@@ -25,18 +34,36 @@ export function getLauncherContents() {
     const createCategoryItem = {
       text: 'Create a category',
       callback: () => {
-        changePage(pages.TASK_CATEGORIES);
-        createTaskCategory('');
+        const pathname = '/';
+        if (pathname !== location.pathname) {
+          waitFor('GET_ALL_TASK_CATEGORIES', () => {
+            createTaskCategory('');
+          });
+          history.pushState(null, null, pathname);
+          changeHistory(pathname);
+        } else {
+          createTaskCategory('');
+        }
       },
     };
 
-    const pageItems = Object.keys(pages).map(key => {
-      const name_ = pages[key].replace(/_/g, ' ').toLowerCase();
-      const name = name_.charAt(0).toUpperCase() + name_.slice(1);
-      const href = pages[key];
-      const text = `Move to ${name}`;
+    const pages = [{
+      name: 'Task Categories Page',
+      pathname: '/',
+    }, {
+      name: 'Settings Page',
+      pathname: '/settings',
+    }, {
+      name: 'Help Page',
+      pathname: '/help',
+    }];
+    const pageItems = pages.map(page => {
+      const text = `Move to ${page.name}`;
       const callback = () => {
-        changePage(href);
+        if (page.pathname != location.pathname) {
+          history.pushState(null, null, page.pathname);
+        }
+        changeHistory(page.pathname);
       };
 
       return { text, callback };

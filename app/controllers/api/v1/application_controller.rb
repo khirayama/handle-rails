@@ -14,7 +14,6 @@ module Api
       end
 
       rescue_from StandardError do |e|
-        error_log(e)
         render json: errors_json('500', 'Internal Server Error'),  status: :internal_server_error
       end
 

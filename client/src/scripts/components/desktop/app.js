@@ -105,7 +105,6 @@ export default class App extends Component {
   render() {
     const pageInformation = this.state.appStore.getPageInformation();
     const state = this.state.appStore.getState();
-    console.log(state);
 
     const pageElement = this._createPageElement(pageInformation, state);
     // Ref _transition.sass
