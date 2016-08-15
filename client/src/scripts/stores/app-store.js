@@ -139,7 +139,7 @@ export default class AppStore extends MicroStore {
       currentUserInformation: this._currentUserInformation,
 
       taskCategories: this._taskCategories,
-    }
+    };
   }
 
   _isLoggedIn() {

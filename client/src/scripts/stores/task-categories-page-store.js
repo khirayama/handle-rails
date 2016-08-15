@@ -35,12 +35,6 @@ export default class TaskCategoriesPageStore extends MicroStore {
     this._subscribe();
   }
 
-  props() {
-    return {
-      taskCategories: this._taskCategories,
-    }
-  }
-
   _subscribe() {
     subscribe((action) => {
       switch (action.type) {
@@ -93,7 +87,7 @@ export default class TaskCategoriesPageStore extends MicroStore {
       taskCategory.tasks = taskCategory.tasks.map((task) => {
         return TaskCategoriesPageStore._addSchedule(task);
       });
-      return taskCategory;
+      return Object.assign({}, taskCategory);
     });
   }
 
@@ -144,7 +138,7 @@ export default class TaskCategoriesPageStore extends MicroStore {
   }
 
   addTaskCategory(taskCategory) {
-    this._taskCategories.push(taskCategory);
+    this._taskCategories.push(Object.assign({}, taskCategory));
   }
 
   updateTaskCategory(taskCategory) {

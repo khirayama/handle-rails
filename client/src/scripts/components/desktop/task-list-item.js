@@ -30,7 +30,11 @@ export default class TaskListItem extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (this.props.task.isEditing && (prevState.value === this.state.value)) {
+    if (
+      this.props.task.isEditing &&
+      !prevProps.task.isEditing &&
+      (prevState.value === this.state.value)
+    ) {
       this._selectInputValue();
     }
   }

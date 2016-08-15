@@ -93,21 +93,25 @@ export default class TaskCategoriesPage extends Component {
 
   render() {
     const taskCategories = this.props.taskCategories;
-    const taskListElements = taskCategories.map(taskCategory => (
-      <section
-        className="column task-list-column"
-        key={taskCategory.id}
-      >
-        <TaskList
-          taskCategory={taskCategory}
-          setIsItemDragging={this._setIsItemDragging}
-          setNewOrder={this._setNewOrder}
-          moveTask={this._moveTask}
-          setNewTaskCategoryOrder={this._setNewTaskCategoryOrder}
-          moveTaskCategory={this._moveTaskCategory}
-        />
-      </section>
-    ));
+    const taskListElements = taskCategories.map((taskCategory_) => {
+      // TODO: Should do this in store
+      const taskCategory = Object.assign({}, taskCategory_);
+      return (
+        <section
+          className="column task-list-column"
+          key={taskCategory.id}
+        >
+          <TaskList
+            taskCategory={taskCategory}
+            setIsItemDragging={this._setIsItemDragging}
+            setNewOrder={this._setNewOrder}
+            moveTask={this._moveTask}
+            setNewTaskCategoryOrder={this._setNewTaskCategoryOrder}
+            moveTaskCategory={this._moveTaskCategory}
+          />
+        </section>
+      )
+    });
 
     return (
       <section className="page page__header tasks-page">
