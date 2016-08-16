@@ -16,7 +16,7 @@ export default function SettingsPage(props) {
         </div>
         <div className="setting-list-container">
           {
-            (props.isLoggedIn) ? (
+            (props.currentUserInformation !== null) ? (
               <section className="list">
                 <header className="list-header">
                   <div className="list-header-content">
@@ -45,21 +45,21 @@ export default function SettingsPage(props) {
           <section className="list">
             <ul>
               {
-                (props.isLoggedIn) ? (
+                (props.currentUserInformation !== null) ? (
                   <li className="list-item">
                     <a href="/api/v1/logout" className="list-item-link">Sign out</a>
                   </li>
                 ) : null
               }
               {
-                (props.isLoggedIn) ? (
+                (props.currentUserInformation !== null) ? (
                   <li className="list-item">
                     <div className="list-item-text">Delete account</div>
                   </li>
                 ) : null
               }
               {
-                (!props.isLoggedIn) ? (
+                (!props.currentUserInformation !== null) ? (
                   <li className="list-item">
                     <a href="/api/v1/auth/twitter" className="list-item-link">Sign in with Twitter</a>
                   </li>
