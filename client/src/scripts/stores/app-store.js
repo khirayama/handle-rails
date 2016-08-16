@@ -21,6 +21,7 @@ export default class AppStore extends MicroStore {
     super();
 
     this.state = {};
+
     // application state
     this.state.pageInformation = {
       name: null,
@@ -104,7 +105,6 @@ export default class AppStore extends MicroStore {
           break;
         default:
           break;
-
       }
     });
   }
@@ -115,7 +115,7 @@ export default class AppStore extends MicroStore {
       switch (pathname) {
         case '/':
           if (this._isLoggedIn()) {
-            this.state.pageInformation = Object.assign({}, this.state.pageInformation, {
+            this.state.pageInformation = this.updatePageInformation(this.state.pageInformation, {
               name: pages.TASK_CATEGORIES,
               meta: { title: 'Task Categories' },
               styles: {
@@ -128,7 +128,7 @@ export default class AppStore extends MicroStore {
             });
             this.dispatchChange();
           } else {
-            this.state.pageInformation = Object.assign({}, this.state.pageInformation, {
+            this.state.pageInformation = this.updatePageInformation(this.state.pageInformation, {
               name: pages.LANDING,
               meta: { title: 'Welcome to Handle' },
               styles: {
@@ -140,7 +140,7 @@ export default class AppStore extends MicroStore {
           }
           break;
         case '/help':
-          this.state.pageInformation = Object.assign({}, this.state.pageInformation, {
+          this.state.pageInformation = this.updatePageInformation(this.state.pageInformation, {
             name: pages.HELP,
             meta: { title: 'Help' },
             styles: {
@@ -151,7 +151,7 @@ export default class AppStore extends MicroStore {
           this.dispatchChange();
           break;
         case '/settings':
-          this.state.pageInformation = Object.assign({}, this.state.pageInformation, {
+          this.state.pageInformation = this.updatePageInformation(this.state.pageInformation, {
             name: pages.SETTINGS,
             meta: { title: 'Settings' },
             styles: {
@@ -162,7 +162,7 @@ export default class AppStore extends MicroStore {
           this.dispatchChange();
           break;
         default:
-          this.state.pageInformation = Object.assign({}, this.state.pageInformation, {
+          this.state.pageInformation = this.updatePageInformation(this.state.pageInformation, {
             name: pages.NOT_FOUND,
             meta: { title: 'NOT FOUND' },
             styles: {
@@ -179,12 +179,12 @@ export default class AppStore extends MicroStore {
     return Object.assign({}, this.state);
   }
 
-  // helpers
-  _isLoggedIn() {
-    return (this.state.currentUserInformation != null);
-  }
-
   // reducers
+  // reducers for pageInformation -- it's a special case
+  updatePageInformation(state, action) {
+    return Object.assign({}, state, action);
+  }
+  // reducers for taskCategories
   setTaskCategories(taskCategories) {
     this.state.taskCategories = taskCategories.map((taskCategory) => {
       taskCategory.tasks = taskCategory.tasks.map((task) => {
@@ -192,10 +192,6 @@ export default class AppStore extends MicroStore {
       });
       return Object.assign({}, taskCategory);
     });
-  }
-
-  getTaskCategories() {
-    return this.state.taskCategories;
   }
 
   createTask(task) {
@@ -266,5 +262,10 @@ export default class AppStore extends MicroStore {
     this.state.taskCategories.forEach((taskCategory, index) => {
       taskCategory.order = index;
     });
+  }
+
+  // helpers
+  _isLoggedIn() {
+    return (this.state.currentUserInformation != null);
   }
 }
