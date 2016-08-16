@@ -51,34 +51,34 @@ export default class App extends Component {
     document.title = `${title} | ${config.name}`;
   }
 
-  _createPageElement(pageInformation, state) {
-    switch (pageInformation.name) {
+  _createPageElement(state) {
+    switch (state.pageInformation.name) {
       case (pages.LANDING):
         return (
           <section className="page-container">
-            <LandingPage {...pageInformation} {...state} />
+            <LandingPage {...state} />
           </section>
         );
       case (pages.TASK_CATEGORIES):
         return (
           <section className="page-container">
-            <TaskCategoriesPage {...pageInformation} {...state} />
+            <TaskCategoriesPage {...state} />
           </section>
         );
       case (pages.SETTINGS):
         return (
           <section className="page-container">
-            <SettingsPage {...pageInformation} {...state} />
+            <SettingsPage {...state} />
           </section>
         );
       case (pages.HELP):
         return (
           <section className="page-container">
-            <HelpPage {...pageInformation} {...state} />
+            <HelpPage {...state} />
           </section>
         );
       default:
-        if (pageInformation.name) {
+        if (state.pageInformation.name) {
           return (
             <section className="page-container">
               <section className="page not-found-page">
@@ -103,10 +103,9 @@ export default class App extends Component {
   }
 
   render() {
-    const pageInformation = this.state.appStore.getPageInformation();
     const state = this.state.appStore.getState();
 
-    const pageElement = this._createPageElement(pageInformation, state);
+    const pageElement = this._createPageElement(state);
     // Ref _transition.sass
     const transitionVariations = {
       fadeInOut: {
@@ -141,32 +140,32 @@ export default class App extends Component {
       },
     };
 
-    this._changeTitle(pageInformation.meta.title);
+    this._changeTitle(state.pageInformation.meta.title);
     return (
       <div>
-        <Header {...pageInformation.styles.header} />
+        <Header {...state.pageInformation.styles.header} />
         <ReactCSSTransitionGroup
         transitionName={transitionVariations.fadeInOut.names}
         { ...transitionVariations.fadeInOut.options }
         >
-          {( pageInformation.styles.transition === 'fadeInOut') ? pageElement : null}
+          {( state.pageInformation.styles.transition === 'fadeInOut') ? pageElement : null}
         </ReactCSSTransitionGroup>
 
         <ReactCSSTransitionGroup
         transitionName={transitionVariations.slideInOut.names}
         { ...transitionVariations.slideInOut.options }
         >
-          {( pageInformation.styles.transition === 'slideInOut') ? pageElement : null}
+          {( state.pageInformation.styles.transition === 'slideInOut') ? pageElement : null}
         </ReactCSSTransitionGroup>
 
         <ReactCSSTransitionGroup
         transitionName={transitionVariations.slideUpDown.names}
         { ...transitionVariations.slideUpDown.options }
         >
-          {( pageInformation.styles.transition === 'slideUpDown') ? pageElement : null}
+          {( state.pageInformation.styles.transition === 'slideUpDown') ? pageElement : null}
         </ReactCSSTransitionGroup>
 
-        {( !pageInformation.styles.transition ) ? pageElement : null}
+        {( !state.pageInformation.styles.transition ) ? pageElement : null}
 
         <Launcher />
       </div>

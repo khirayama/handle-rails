@@ -1,18 +1,18 @@
-import config from '../../config';
 import { pages, actionTypes as types } from '../constants/constants';
 import { dispatch, subscribe } from '../libs/app-dispatcher';
 import MicroStore from '../libs/micro-store';
 import TaskCategoriesPageStore from '../stores/task-categories-page-store';
 
-const UPDATE_PAGE = 'UPDATE_PAGE';
+
+const UPDATE_PAGE = '__UPDATE_PAGE';
 
 export default class AppStore extends MicroStore {
   constructor() {
     super();
 
+    this.state = {};
     // application state
-    this._page = null;
-    this._pageInformation = {
+    this.state.pageInformation = {
       name: null,
       meta: { title: null },
       styles: {
@@ -23,10 +23,10 @@ export default class AppStore extends MicroStore {
         }
       }
     };
-    this._currentUserInformation = null;
+    this.state.currentUserInformation = null;
 
     // task-categories-page state
-    this._taskCategories = [];
+    this.state.taskCategories = [];
 
     this._routes();
     this._subscribe();
@@ -40,12 +40,12 @@ export default class AppStore extends MicroStore {
     subscribe((action) => {
       switch (action.type) {
         case types.FAIL_AUTHENTICATE:
-          this._currentUserInformation = null;
+          this.state.currentUserInformation = null;
           this._updatePage(action.pathname);
           this.dispatchChange();
           break;
         case types.GET_CURRENT_USER_INFORMATION:
-          this._currentUserInformation = action.currentUserInformation;
+          this.state.currentUserInformation = action.currentUserInformation;
           this._updatePage(action.pathname);
           this.dispatchChange();
           break;
@@ -64,14 +64,14 @@ export default class AppStore extends MicroStore {
         case '/':
           if (this._isLoggedIn()) {
             const pageStore = new TaskCategoriesPageStore();
-            this._taskCategories = pageStore._taskCategories;
+            this.state.taskCategories = pageStore._taskCategories;
             pageStore.addChangeListener(() => {
-              this._taskCategories = pageStore._taskCategories;
+              this.state.taskCategories = pageStore._taskCategories;
               this.dispatchChange();
             });
-            this._pageInformation = Object.assign({}, this._pageInformation, {
+            this.state.pageInformation = Object.assign({}, this.state.pageInformation, {
               name: pages.TASK_CATEGORIES,
-              meta: { title: config.name },
+              meta: { title: 'Task Categories' },
               styles: {
                 transition: 'slideUpDown',
                 header: {
@@ -82,9 +82,9 @@ export default class AppStore extends MicroStore {
             });
             this.dispatchChange();
           } else {
-            this._pageInformation = Object.assign({}, this._pageInformation, {
+            this.state.pageInformation = Object.assign({}, this.state.pageInformation, {
               name: pages.LANDING,
-              meta: { title: 'Landing' },
+              meta: { title: 'Welcome to Handle' },
               styles: {
                 transition: 'fadeInOut',
                 header: { position: 'none' },
@@ -94,7 +94,7 @@ export default class AppStore extends MicroStore {
           }
           break;
         case '/help':
-          this._pageInformation = Object.assign({}, this._pageInformation, {
+          this.state.pageInformation = Object.assign({}, this.state.pageInformation, {
             name: pages.HELP,
             meta: { title: 'Help' },
             styles: {
@@ -105,7 +105,7 @@ export default class AppStore extends MicroStore {
           this.dispatchChange();
           break;
         case '/settings':
-          this._pageInformation = Object.assign({}, this._pageInformation, {
+          this.state.pageInformation = Object.assign({}, this.state.pageInformation, {
             name: pages.SETTINGS,
             meta: { title: 'Settings' },
             styles: {
@@ -116,7 +116,7 @@ export default class AppStore extends MicroStore {
           this.dispatchChange();
           break;
         default:
-          this._pageInformation = Object.assign({}, this._pageInformation, {
+          this.state.pageInformation = Object.assign({}, this.state.pageInformation, {
             name: pages.NOT_FOUND,
             meta: { title: 'NOT FOUND' },
             styles: {
@@ -129,20 +129,12 @@ export default class AppStore extends MicroStore {
     });
   }
 
-  getPageInformation() {
-    return this._pageInformation;
-  }
-
   getState() {
-    return {
-      isLoggedIn: this._isLoggedIn(),
-      currentUserInformation: this._currentUserInformation,
-
-      taskCategories: this._taskCategories,
-    };
+    return Object.assign({}, this.state);
   }
 
+  // helpers
   _isLoggedIn() {
-    return (this._currentUserInformation != null);
+    return (this.state.currentUserInformation != null);
   }
 }

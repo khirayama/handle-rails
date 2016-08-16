@@ -4,34 +4,21 @@ import { subscribe } from '../libs/app-dispatcher';
 import { pages, actionTypes as types } from '../constants/constants';
 import { parseTextToItem } from '../utils/text-to-schedule-parser';
 
+function _addSchedule(task) {
+  const taskWithSchedule = parseTextToItem(task.text);
+  const newTask = Object.assign({}, task, {
+    scheduleText: taskWithSchedule.text,
+    schedule: taskWithSchedule.schedule,
+  });
+
+  return newTask;
+}
+
 
 export default class TaskCategoriesPageStore extends MicroStore {
-  static _addSchedule(task) {
-    const taskWithSchedule = parseTextToItem(task.text);
-    const newTask = Object.assign({}, task, {
-      scheduleText: taskWithSchedule.text,
-      schedule: taskWithSchedule.schedule,
-    });
-
-    return newTask;
-  }
-
   constructor() {
     super();
-
-    this.meta = {
-      title: 'Task',
-    };
-    this.styles = {
-      transition: 'slideUpDown',
-      header: {
-        position: 'default',
-        href: '/settings'
-      },
-    };
-
     this._taskCategories = [];
-
     this._subscribe();
   }
 
@@ -85,7 +72,7 @@ export default class TaskCategoriesPageStore extends MicroStore {
   setTaskCategories(taskCategories) {
     this._taskCategories = taskCategories.map((taskCategory) => {
       taskCategory.tasks = taskCategory.tasks.map((task) => {
-        return TaskCategoriesPageStore._addSchedule(task);
+        return _addSchedule(task);
       });
       return Object.assign({}, taskCategory);
     });
@@ -96,7 +83,7 @@ export default class TaskCategoriesPageStore extends MicroStore {
   }
 
   createTask(task) {
-    const newTask = TaskCategoriesPageStore._addSchedule(task);
+    const newTask = _addSchedule(task);
 
     this._taskCategories.forEach(taskCategory => {
       if (taskCategory.id === task.taskCategoryId) {
@@ -106,7 +93,7 @@ export default class TaskCategoriesPageStore extends MicroStore {
   }
 
   updateTask(task) {
-    const newTask = TaskCategoriesPageStore._addSchedule(task);
+    const newTask = _addSchedule(task);
 
     this._taskCategories.forEach(taskCategory => {
       if (taskCategory.id === task.taskCategoryId) {
