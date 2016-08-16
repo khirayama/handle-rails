@@ -64,48 +64,9 @@ export default class AppStore extends MicroStore {
           this._updatePage(action.pathname);
           this.dispatchChange();
           break;
-
-        case types.CREATE_TASK:
-          this.createTask(action.task);
-          this.dispatchChange();
-          break;
-        case types.UPDATE_TASKS:
-          this.updateTasks(action.tasks);
-          this.dispatchChange();
-          break;
-        case types.UPDATE_TASK:
-          this.updateTask(action.task);
-          this.dispatchChange();
-          break;
-        case types.DELETE_TASK:
-          this.deleteTask(action.deletedTaskId);
-          this.dispatchChange();
-          break;
-        case types.GET_ALL_TASK_CATEGORIES:
-        case types.SORT_TASK_CATEGORIES:
-        case types.SORT_TASKS:
-          this.setTaskCategories(action.taskCategories);
-          this.dispatchChange();
-          break;
-        case types.CREATE_TASK_CATEGORY:
-          this.addTaskCategory(action.taskCategory);
-          this.dispatchChange();
-          break;
-        case types.EDIT_TASK_CATEGORY:
-          this.updateTaskCategory(action.taskCategory);
-          this.dispatchChange();
-          break;
-        case types.UPDATE_TASK_CATEGORY:
-          this.updateTaskCategory(action.taskCategory);
-          this.dispatchChange();
-          break;
-        case types.DELETE_TASK_CATEGORY:
-          this.deleteTaskCategory(action.deletedTaskCategoryId);
-          this.dispatchChange();
-          break;
-        default:
-          break;
       }
+      this.state.taskCategories = taskCategories(this.state.taskCategories, action);
+      this.dispatchChange();
     });
   }
 
@@ -184,9 +145,20 @@ export default class AppStore extends MicroStore {
   updatePageInformation(state, action) {
     return Object.assign({}, state, action);
   }
-  // reducers for taskCategories
-  setTaskCategories(taskCategories) {
-    this.state.taskCategories = taskCategories.map((taskCategory) => {
+  // helpers
+  _isLoggedIn() {
+    return (this.state.currentUserInformation != null);
+  }
+}
+
+function taskCategories(state, action) {
+
+  function createTaskCategory(taskCategories, taskCategory) {
+    return [...taskCategories, (Object.assign({}, taskCategory))];
+  }
+
+  function setTaskCategories(taskCategories) {
+    return taskCategories.map((taskCategory) => {
       taskCategory.tasks = taskCategory.tasks.map((task) => {
         return _addSchedule(task);
       });
@@ -194,78 +166,106 @@ export default class AppStore extends MicroStore {
     });
   }
 
-  createTask(task) {
-    const newTask = _addSchedule(task);
-
-    this.state.taskCategories.forEach(taskCategory => {
-      if (taskCategory.id === task.taskCategoryId) {
-        taskCategory.tasks.push(newTask);
+  function updateTaskCategory(taskCategories, taskCategory) {
+    return taskCategories.map((taskCategory_) => {
+      if (taskCategory.id === taskCategory_.id) {
+        return Object.assign({}, taskCategory_, taskCategory);
       }
+      return Object.assign({}, taskCategory_);
     });
   }
 
-  updateTask(task) {
+  function deleteTaskCategory(taskCategories, deletedTaskCategoryId) {
+    return taskCategories.map((taskCategory) => {
+      if (taskCategory.id !== deletedTaskCategoryId) {
+        return Object.assign({}, taskCategory);
+      }
+    }).filter(taskCategory => Boolean(taskCategory)).map((taskCategory, index) => {
+      // make order sequence
+      taskCategory.order = index;
+      return Object.assign({}, taskCategory);
+    });
+  }
+
+  function createTask(taskCategories, task) {
     const newTask = _addSchedule(task);
 
-    this.state.taskCategories.forEach(taskCategory => {
+    return taskCategories.map(taskCategory => {
       if (taskCategory.id === task.taskCategoryId) {
-        taskCategory.tasks.forEach((task_, index) => {
+        taskCategory.tasks = [...taskCategory.tasks, newTask];
+      }
+      return Object.assign({}, taskCategory);
+    });
+  }
+
+  function updateTask(taskCategories, task) {
+    const newTask = _addSchedule(task);
+
+    return taskCategories.map(taskCategory => {
+      if (taskCategory.id === task.taskCategoryId) {
+        taskCategory.tasks = taskCategory.tasks.map((task_) => {
           if (task_.id === task.id) {
-            taskCategory.tasks.splice(index, 1, newTask);
+            return Object.assign({}, task_, task);
           }
+          return Object.assign({}, task_);
         });
       }
+      return Object.assign({}, taskCategory);
     });
   }
 
-  updateTasks(tasks) {
-    tasks.forEach((task) => {
-      this.updateTask(task);
+  function updateTasks(taskCategories, tasks) {
+    return taskCategories.map(taskCategory => {
+      if (taskCategory.id === task.taskCategoryId) {
+        taskCategory.tasks = taskCategory.tasks.map((task_) => {
+          for (let taskIndex = 0; taskIndex < tasks.length; taskIndex++) {
+            const task = tasks[taskIndex];
+            const newTask = _addSchedule(task);
+            if (task_.id === newTask.id) {
+              return Object.assign({}, task_, task);
+            }
+          }
+          return Object.assign({}, task_);
+        });
+      }
+      return Object.assign({}, taskCategory);
     });
   }
 
-  deleteTask(deletedTaskId) {
-    for (let taskCategoryIndex = 0; taskCategoryIndex < this.state.taskCategories.length; taskCategoryIndex++) {
-      const taskCategory = this.state.taskCategories[taskCategoryIndex];
-      for (let taskIndex = 0; taskIndex < taskCategory.tasks.length; taskIndex++) {
-        const task = taskCategory.tasks[taskIndex];
-        if (task.id === deletedTaskId) {
-          taskCategory.tasks.splice(taskIndex, 1);
+  function deleteTask(taskCategories, deletedTaskId) {
+    return taskCategories.map((taskCategory) => {
+      taskCategory.tasks = taskCategory.tasks.map((task) => {
+        if (task.id !== deletedTaskId) {
+          return Object.assign({}, task);
         }
-      }
-    }
-  }
-
-  addTaskCategory(taskCategory) {
-    this.state.taskCategories.push(Object.assign({}, taskCategory));
-  }
-
-  updateTaskCategory(taskCategory) {
-    for (let taskIndex = 0; taskIndex < this.state.taskCategories.length; taskIndex++) {
-      const taskCategory_ = this.state.taskCategories[taskIndex];
-      if (taskCategory_.id === taskCategory.id) {
-        taskCategory_.id = taskCategory.id;
-        taskCategory_.name = taskCategory.name;
-        taskCategory_.isEditing = taskCategory.isEditing;
-      }
-    }
-  }
-
-  deleteTaskCategory(deletedTaskCategoryId) {
-    for (let taskCategoryIndex = 0; taskCategoryIndex < this.state.taskCategories.length; taskCategoryIndex++) {
-      const taskCategory = this.state.taskCategories[taskCategoryIndex];
-      if (taskCategory.id === deletedTaskCategoryId) {
-        this.state.taskCategories.splice(taskCategoryIndex, 1);
-      }
-    }
-    // make order sequence
-    this.state.taskCategories.forEach((taskCategory, index) => {
-      taskCategory.order = index;
+      }).filter(task => Boolean(task));
+      return Object.assign({}, taskCategory);
     });
   }
 
-  // helpers
-  _isLoggedIn() {
-    return (this.state.currentUserInformation != null);
+
+  switch (action.type) {
+    case types.CREATE_TASK_CATEGORY:
+      return createTaskCategory(state, action.taskCategory);
+    case types.GET_ALL_TASK_CATEGORIES:
+    case types.SORT_TASK_CATEGORIES:
+    case types.SORT_TASKS:
+      return setTaskCategories(action.taskCategories);
+    case types.EDIT_TASK_CATEGORY:
+    case types.UPDATE_TASK_CATEGORY:
+      return updateTaskCategory(state, action.taskCategory);
+    case types.DELETE_TASK_CATEGORY:
+      return deleteTaskCategory(state, action.deletedTaskCategoryId);
+
+    case types.CREATE_TASK:
+      return createTask(state, action.task);
+    case types.UPDATE_TASK:
+      return updateTask(state, action.task);
+    case types.UPDATE_TASKS:
+      return updateTasks(state, action.tasks);
+    case types.DELETE_TASK:
+      return deleteTask(state, action.deletedTaskId);
+    default:
+      return state;
   }
 }
