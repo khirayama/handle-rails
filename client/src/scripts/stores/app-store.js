@@ -12,7 +12,6 @@ export default class AppStore extends MicroStore {
   constructor() {
     super();
 
-    this.state = {};
     this.state.pageInformation = {
       name: null,
       meta: { title: null },
@@ -51,9 +50,5 @@ export default class AppStore extends MicroStore {
 
       this.dispatchChange();
     });
-  }
-
-  getState() {
-    return Object.assign({}, this.state);
   }
 }

@@ -4,12 +4,14 @@ import MicroEmitter from 'micro-emitter';
 const EVENT_CHANGE = 'CHANGE_STORE';
 
 export default class MicroStore extends MicroEmitter {
-  dispatchChange() {
-    this.emit(EVENT_CHANGE);
+  constructor() {
+    super();
+
+    this.state = {};
   }
 
-  dispatchCustomEvent(type) {
-    this.emit(type);
+  dispatchChange() {
+    this.emit(EVENT_CHANGE);
   }
 
   addChangeListener(listener) {
@@ -20,17 +22,13 @@ export default class MicroStore extends MicroEmitter {
     this.removeListener(EVENT_CHANGE, listener);
   }
 
-  addCustomEventListener(type, listener) {
-    this.addListener(type, listener);
-  }
-
-  removeCustomEventListener(type, listener) {
-    this.removeListener(type, listener);
-  }
-
   register(dispatcher, actionType, callback) {
     dispatcher.addListener(actionType, data => {
       callback(data);
     });
+  }
+
+  getState() {
+    return Object.assign({}, this.state);
   }
 }
