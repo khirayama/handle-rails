@@ -5,7 +5,7 @@ import logger from './utils/logger';
 import { isMobileUI } from './utils/is-mobile-ui';
 import { dispatch } from './libs/app-dispatcher';
 import EventRouter from './router/event-router';
-import AppStore from './stores/app-store';
+import Store from './store';
 
 import App from './components/desktop/app';
 import MobileApp from './components/mobile/app';
@@ -32,12 +32,12 @@ window.addEventListener('load', () => {
   logger.info(`Start manege app at ${new Date()}`);
 
   new EventRouter();
-  const appStore = new AppStore();
+  const store = new Store();
   if (isMobileUI()) {
     loadStyle('mobile/index.css');
-    ReactDOM.render(<MobileApp appStore={appStore} />, document.querySelector('#app'));
+    ReactDOM.render(<MobileApp store={store} />, document.querySelector('#app'));
   } else {
     loadStyle('desktop/index.css');
-    ReactDOM.render(<App appStore={appStore} />, document.querySelector('#app'));
+    ReactDOM.render(<App store={store} />, document.querySelector('#app'));
   }
 });

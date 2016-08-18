@@ -15,7 +15,7 @@ import HelpPage from '../common/help-page';
 
 
 const propTypes = {
-  appStore: React.PropTypes.object.isRequired,
+  store: React.PropTypes.object.isRequired,
 };
 
 export default class App extends Component {
@@ -23,14 +23,14 @@ export default class App extends Component {
     super(props);
 
     this.state = {
-      appStore: this.props.appStore,
+      store: this.props.store,
     };
 
     this.updateState = this._updateState.bind(this);
   }
 
   componentDidMount() {
-    this.props.appStore.addChangeListener(this.updateState);
+    this.props.store.addChangeListener(this.updateState);
     dispatch({
       type: 'UI_START_APP',
       pathname: location.pathname,
@@ -103,7 +103,7 @@ export default class App extends Component {
   }
 
   render() {
-    const state = this.state.appStore.getState();
+    const state = this.state.store.getState();
 
     const pageElement = this._createPageElement(state);
     // Ref _transition.sass

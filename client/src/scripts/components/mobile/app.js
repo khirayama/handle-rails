@@ -11,7 +11,7 @@ import HelpPage from '../common/help-page';
 
 
 const propTypes = {
-  appStore: React.PropTypes.object.isRequired,
+  store: React.PropTypes.object.isRequired,
 };
 
 export default class App extends Component {
@@ -19,14 +19,14 @@ export default class App extends Component {
     super(props);
 
     this.state = {
-      appStore: this.props.appStore,
+      store: this.props.store,
     };
 
     this.updateState = this._updateState.bind(this);
   }
 
   componentDidMount() {
-    this.props.appStore.addChangeListener(this.updateState);
+    this.props.store.addChangeListener(this.updateState);
     dispatch({ type: 'UI_START_APP' });
   }
 
@@ -45,8 +45,8 @@ export default class App extends Component {
   }
 
   _createPageElement() {
-    const page = this.state.appStore.getPage();
-    const props = (this.state.appStore.pageStore.props) ? this.state.appStore.pageStore.props() : {};
+    const page = this.state.store.getPage();
+    const props = (this.state.store.pageStore.props) ? this.state.store.pageStore.props() : {};
 
     switch (page) {
       case (pages.TASK_CATEGORIES):
@@ -77,12 +77,12 @@ export default class App extends Component {
   }
 
   render() {
-    const title = this.state.appStore.pageStore.meta.title;
+    const title = this.state.store.pageStore.meta.title;
     this._changeTitle(title);
 
-    const page = this.state.appStore.getPage();
+    const page = this.state.store.getPage();
     const pageElement = this._createPageElement();
-    const styles = this.state.appStore.pageStore.styles;
+    const styles = this.state.store.pageStore.styles;
 
     // Ref _transition.sass
     const transitionVariations = {

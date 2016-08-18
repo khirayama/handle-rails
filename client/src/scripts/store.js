@@ -1,11 +1,11 @@
-import { pages, actionTypes as types } from '../constants/constants';
-import { dispatch, subscribe } from '../libs/app-dispatcher';
-import MicroStore from '../libs/micro-store';
+import { pages, actionTypes as types } from './constants/constants';
+import { dispatch, subscribe } from './libs/app-dispatcher';
+import MicroStore from './libs/micro-store';
 
 // reducers
-import pageInformation from '../reducers/page-information';
-import currentUserInformation from '../reducers/current-user-information';
-import taskCategories from '../reducers/task-categories';
+import pageInformation from './reducers/page-information';
+import currentUserInformation from './reducers/current-user-information';
+import taskCategories from './reducers/task-categories';
 
 
 export default class AppStore extends MicroStore {
