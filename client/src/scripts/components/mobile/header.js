@@ -2,50 +2,27 @@ import React, { Component } from 'react';
 import classNames from 'classnames';
 
 import config from '../../../config';
-import { pages } from '../../constants/constants';
 import { dispatch } from '../../libs/app-dispatcher';
+import transitionEventHandler from '../common/helpers/transition-event-handler';
 
 
-const propTypes = {
-  page: React.PropTypes.string.isRequired,
-  position: React.PropTypes.string,
-};
+export default function Header(props) {
+  if (props.position == 'none') {
+    return null;
+  } else {
+    let href = props.href || '/';
 
-export default class Header extends Component {
-  constructor(props) {
-    super(props);
-
-    this.onClickSettings = this.onClickSettings.bind(this);
-  }
-
-  onClickSettings() {
-    const HOME = pages.TASK_CATEGORIES;
-    let leftHref = HOME;
-
-    if (this.props.page === HOME) {
-      leftHref = pages.SETTINGS;
-    }
-
-    dispatch({
-      type: 'UI_CLICK_SETTINGS_BUTTON_IN_HEADER',
-      link: leftHref,
-    });
-  }
-
-  render() {
     return (
       <header
         key="header"
-        className={classNames('app-header', { 'app-header__bottom': (this.props.position === 'bottom') })}
+        className={classNames('app-header', { 'app-header__bottom': (props.position === 'bottom') })}
       >
-        <div className="header-button-container"></div>
-        <h1 className="app-title"><span>{config.name}</span></h1>
-        <div className="header-button-container">
-          <div className="header-button" onClick={this.onClickSettings}><i className="icon">settings</i></div>
-        </div>
+      <div className="header-button-container"></div>
+      <h1 className="app-title"><span>{config.name}</span></h1>
+      <div className="header-button-container">
+      <a className="header-button" href={href} onClick={ transitionEventHandler }><i className="icon">settings</i></a>
+      </div>
       </header>
     );
   }
 }
-
-Header.propTypes = propTypes;

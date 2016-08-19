@@ -5,7 +5,10 @@ import config from '../../../config';
 import { dispatch } from '../../libs/app-dispatcher';
 import { pages } from '../../constants/constants';
 
+import Header from './header';
 import TaskCategoriesPage from './task-categories-page';
+
+import LandingPage from '../common/landing-page';
 import SettingsPage from '../common/settings-page';
 import HelpPage from '../common/help-page';
 
@@ -27,7 +30,10 @@ export default class App extends Component {
 
   componentDidMount() {
     this.props.store.addChangeListener(this.updateState);
-    dispatch({ type: 'UI_START_APP' });
+    dispatch({
+      type: 'UI_START_APP',
+      pathname: location.pathname,
+    });
   }
 
   componentWillUnmount() {
@@ -44,46 +50,61 @@ export default class App extends Component {
     document.title = `${title} | ${config.name}`;
   }
 
-  _createPageElement() {
-    const page = this.state.store.getPage();
-    const props = (this.state.store.pageStore.props) ? this.state.store.pageStore.props() : {};
-
-    switch (page) {
+  _createPageElement(state) {
+    switch (state.pageInformation.name) {
+      case (pages.LANDING):
+        return (
+          <section className="page-container">
+            <LandingPage {...state} />
+          </section>
+        );
       case (pages.TASK_CATEGORIES):
         return (
-          <section key={page} className="page-container">
-            <TaskCategoriesPage page={page} {...props} />
+          <section className="page-container">
+            <TaskCategoriesPage {...state} />
           </section>
         );
       case (pages.SETTINGS):
         return (
-          <section key={page} className="page-container">
-            <SettingsPage page={page} {...props} />
+          <section className="page-container">
+            <SettingsPage {...state} />
           </section>
         );
       case (pages.HELP):
         return (
-          <section key={page} className="page-container">
-            <HelpPage page={page} {...props} />
+          <section className="page-container">
+            <HelpPage {...state} />
           </section>
         );
       default:
-        return (
-          <section key={page} className="page-container">
-            <div>404</div>
-          </section>
-        );
+        if (state.pageInformation.name) {
+          return (
+            <section className="page-container">
+              <section className="page not-found-page">
+                <section className="page-content">
+                  <h1>Not found contents...</h1>
+                </section>
+              </section>
+            </section>
+          );
+        } else {
+          return (
+            <section className="page-container">
+              <section className="page not-found-page">
+                <section className="page-content">
+                  <h1>Loading...</h1>
+                </section>
+              </section>
+            </section>
+          );
+        }
     }
   }
 
   render() {
-    const title = this.state.store.pageStore.meta.title;
-    this._changeTitle(title);
+    const state = this.state.store.getState();
 
-    const page = this.state.store.getPage();
-    const pageElement = this._createPageElement();
-    const styles = this.state.store.pageStore.styles;
-
+    const pageElement = this._createPageElement(state);
     // Ref _transition.sass
     const transitionVariations = {
       fadeInOut: {
@@ -118,29 +139,32 @@ export default class App extends Component {
       },
     };
 
-    document.querySelector('html').classList.add('mobile-ui');
+    this._changeTitle(state.pageInformation.meta.title);
     return (
       <div>
+        <Header {...state.pageInformation.styles.header} />
         <ReactCSSTransitionGroup
         transitionName={transitionVariations.fadeInOut.names}
         { ...transitionVariations.fadeInOut.options }
         >
-          {( styles.transition === 'fadeInOut') ? pageElement : null}
+          {( state.pageInformation.styles.transition === 'fadeInOut') ? pageElement : null}
         </ReactCSSTransitionGroup>
 
         <ReactCSSTransitionGroup
         transitionName={transitionVariations.slideInOut.names}
         { ...transitionVariations.slideInOut.options }
         >
-          {( styles.transition === 'slideInOut') ? pageElement : null}
+          {( state.pageInformation.styles.transition === 'slideInOut') ? pageElement : null}
         </ReactCSSTransitionGroup>
 
         <ReactCSSTransitionGroup
         transitionName={transitionVariations.slideUpDown.names}
         { ...transitionVariations.slideUpDown.options }
         >
-          {( styles.transition === 'slideUpDown') ? pageElement : null}
+          {( state.pageInformation.styles.transition === 'slideUpDown') ? pageElement : null}
         </ReactCSSTransitionGroup>
+
+        {( !state.pageInformation.styles.transition ) ? pageElement : null}
       </div>
     );
   }
