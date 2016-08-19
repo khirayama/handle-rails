@@ -7,8 +7,8 @@ import { dispatch } from './libs/app-dispatcher';
 import EventRouter from './router/event-router';
 import Store from './store';
 
-import App from './components/desktop/app';
-import MobileApp from './components/mobile/app';
+import App from './components/desktop/container';
+import MobileApp from './components/mobile/container';
 
 
 function loadStyle(filePath) {

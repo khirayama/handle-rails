@@ -6,6 +6,7 @@ import { dispatch } from '../../libs/app-dispatcher';
 import { pages } from '../../constants/constants';
 
 import Header from './header';
+import Launcher from './launcher';
 import TaskCategoriesPage from './task-categories-page';
 
 import LandingPage from '../common/landing-page';
@@ -17,7 +18,7 @@ const propTypes = {
   store: React.PropTypes.object.isRequired,
 };
 
-export default class App extends Component {
+export default class Container extends Component {
   constructor(props) {
     super(props);
 
@@ -165,9 +166,11 @@ export default class App extends Component {
         </ReactCSSTransitionGroup>
 
         {( !state.pageInformation.styles.transition ) ? pageElement : null}
+
+        <Launcher />
       </div>
     );
   }
 }
 
-App.propTypes = propTypes;
+Container.propTypes = propTypes;
