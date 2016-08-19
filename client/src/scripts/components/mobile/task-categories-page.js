@@ -21,9 +21,11 @@ export default class TaskCategoriesPage extends Component {
         className="scene"
         key={taskCategory.id}
       >
-        <TaskList
-          taskCategory={taskCategory}
-        />
+      {
+        taskCategories.map((taskCategory) => {
+          return <div key={taskCategory.id}>{taskCategory.name}</div>
+        })
+      }
       </section>
     ));
 
@@ -33,12 +35,6 @@ export default class TaskCategoriesPage extends Component {
           <section className="scene-container">
             {taskListElements}
           </section>
-          <div
-            className="floating-button"
-            onClick={this.onClickAddCategoryButton}
-          >
-            <i className="icon">add</i>
-          </div>
         </section>
       </section>
     );
