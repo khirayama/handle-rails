@@ -1,3 +1,0 @@
-[submodule "public/web"]
-	path = public/web
-	url = git@github.com:khirayama/manage.git
