@@ -101,7 +101,22 @@ export default class TaskCategoriesPage extends Component {
         onTouchMove={this.onTouchMoveScene}
         onTouchEnd={this.onTouchEndScene}
       >
-        {taskCategory.name}
+        <ul className="list">
+          <li className="list-item">
+            <div className="list-item-text">
+              {taskCategory.name}
+            </div>
+          </li>
+          {taskCategory.tasks.map((task) => {
+            return (
+              <li className="list-item">
+                <div className="list-item-text">
+                  {task.text}
+                </div>
+              </li>
+            );
+          })}
+        </ul>
       </section>
     ));
 
