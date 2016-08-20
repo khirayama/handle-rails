@@ -89,3 +89,11 @@ export function sortTaskCategories(id, order) {
     });
   });
 }
+
+export function pushTaskCategories() {
+  dispatch({ type: types.PUSH_TASK_CATEORIES });
+}
+
+export function unshiftTaskCategories() {
+  dispatch({ type: types.UNSHIFT_TASK_CATEORIES });
+}

@@ -46,6 +46,22 @@ export function deleteTaskCategory(taskCategories, deletedTaskCategoryId) {
   });
 }
 
+export function unshiftTaskCategories(taskCategories) {
+  const newTaskCategories = taskCategories.map((taskCategory) => {
+    return Object.assign({} , taskCategory);
+  });
+  newTaskCategories.unshift(newTaskCategories.pop());
+  return newTaskCategories;
+}
+
+export function pushTaskCategories(taskCategories) {
+  const newTaskCategories = taskCategories.map((taskCategory) => {
+    return Object.assign({} , taskCategory);
+  });
+  newTaskCategories.push(newTaskCategories.shift());
+  return newTaskCategories;
+}
+
 export function createTask(taskCategories, task) {
   const newTask = _addSchedule(task);
 
@@ -117,6 +133,10 @@ export default function taskCategories(state, action) {
       return updateTaskCategory(state, action.taskCategory);
     case types.DELETE_TASK_CATEGORY:
       return deleteTaskCategory(state, action.deletedTaskCategoryId);
+    case types.PUSH_TASK_CATEORIES:
+      return pushTaskCategories(state);
+    case types.UNSHIFT_TASK_CATEORIES:
+      return unshiftTaskCategories(state);
 
     case types.CREATE_TASK:
       return createTask(state, action.task);

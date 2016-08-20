@@ -10,6 +10,8 @@ import {
   createTaskCategory,
   deleteTaskCategory,
   sortTaskCategories,
+  pushTaskCategories,
+  unshiftTaskCategories,
 } from '../actions/task-category-action-creators';
 import {
   createTask,
@@ -39,6 +41,13 @@ export default class EventRouter {
           break;
         case 'UI_DRAGEND_ON_ITEM_IN_TASK_CATEGORIES_PAGE':
           sortTasks(event.id, event.taskCategoryId, event.order);
+          break;
+        // component.mobile: task-categories-page
+        case 'UI_SWIPE_LEFT_SCENE':
+          pushTaskCategories();
+          break;
+        case 'UI_SWIPE_RIGHT_SCENE':
+          unshiftTaskCategories();
           break;
         // component: task-list
         case 'UI_CLICK_ADD_BUTTON_IN_TASK_LIST':
