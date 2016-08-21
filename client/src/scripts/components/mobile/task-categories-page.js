@@ -39,7 +39,7 @@ export default class TaskCategoriesPage extends Component {
       x: this._touch.end.x - this._touch.start.x,
       y: this._touch.end.y - this._touch.start.y,
     };
-    event.target.style.transform = `translateX(${ this._touch.delta.x }px)`;
+    event.currentTarget.style.transform = `translateX(${ this._touch.delta.x }px)`;
     const sceneElements = document.querySelectorAll('.scene');
     if (this._touch.delta.x > 0) {
       for (let index = 1; index < sceneElements.length - 1; index++) {
@@ -56,7 +56,7 @@ export default class TaskCategoriesPage extends Component {
   onTouchEndScene(event) {
     const transitionTime = 200;
     const xTh = 80;
-    const target = event.target;
+    const target = event.currentTarget;
     if (
       Math.abs(this._touch.delta.x) > Math.abs(this._touch.delta.y)
     ) {
