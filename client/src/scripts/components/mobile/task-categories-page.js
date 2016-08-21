@@ -57,13 +57,9 @@ export default class TaskCategoriesPage extends Component {
     const transitionTime = 200;
     const xTh = 80;
     const target = event.currentTarget;
-    if (
-      Math.abs(this._touch.delta.x) > Math.abs(this._touch.delta.y)
-    ) {
-      if (
-        this._touch.delta.x < 0 &&
-        Math.abs(this._touch.delta.x) > xTh
-      ) {
+    if (Math.abs(this._touch.delta.x) > Math.abs(this._touch.delta.y)) {
+
+      if (this._touch.delta.x < 0 && Math.abs(this._touch.delta.x) > xTh) {
         target.style.transform = `translateX(-100%)`;
         setTimeout(() => {
           target.style.transform = `translateX(0)`;
@@ -72,10 +68,8 @@ export default class TaskCategoriesPage extends Component {
           });
           dispatch({ type: 'UI_SWIPE_LEFT_SCENE' });
         }, transitionTime);
-      } else if (
-        this._touch.delta.x > 0 &&
-        Math.abs(this._touch.delta.x) > xTh
-      ) {
+
+      } else if (this._touch.delta.x > 0 && Math.abs(this._touch.delta.x) > xTh) {
         target.style.transform = `translateX(100%)`;
 
         setTimeout(() => {
@@ -86,8 +80,10 @@ export default class TaskCategoriesPage extends Component {
           dispatch({ type: 'UI_SWIPE_RIGHT_SCENE' });
         }, transitionTime);
       } else {
-        target.style.transform = `translateX(0)`;
+        target.style.transform = `translate(0, 0)`;
       }
+    } else {
+      target.style.transform = `translate(0, 0)`;
     }
   }
 
