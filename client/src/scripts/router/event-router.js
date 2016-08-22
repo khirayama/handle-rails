@@ -49,6 +49,12 @@ export default class EventRouter {
         case 'UI_SWIPE_RIGHT_SCENE':
           unshiftTaskCategories();
           break;
+        case 'UI_SWIPE_LEFT_LIST_ITEM':
+          deleteTask(event.id);
+          break;
+        case 'UI_SWIPE_RIGHT_LIST_ITEM':
+          completeTask(event.id);
+          break;
         // component: task-list
         case 'UI_CLICK_ADD_BUTTON_IN_TASK_LIST':
           createTask('', event.taskCategoryId);

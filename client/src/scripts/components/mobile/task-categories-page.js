@@ -14,6 +14,7 @@ export default class TaskCategoriesPage extends Component {
     super();
 
     this._touch = {};
+    this._touchItem = {};
 
     this.onTouchStartScene = this.onTouchStartScene.bind(this);
     this.onTouchMoveScene = this.onTouchMoveScene.bind(this);
@@ -105,7 +106,65 @@ export default class TaskCategoriesPage extends Component {
           </li>
           {taskCategory.tasks.map((task) => {
             return (
-              <li className="list-item">
+              <li
+                className="list-item"
+                onTouchStart={ (event) => {
+                  event.stopPropagation();
+                  this._touchItem.start = {
+                    x: event.touches[0].clientX,
+                    y: event.touches[0].clientY,
+                  };
+                }}
+                onTouchMove={ (event) => {
+                  event.stopPropagation();
+                  this._touchItem.end = {
+                    x: event.touches[0].clientX,
+                    y: event.touches[0].clientY,
+                  };
+                  this._touchItem.delta = {
+                    x: this._touchItem.end.x - this._touchItem.start.x,
+                    y: this._touchItem.end.y - this._touchItem.start.y,
+                  };
+                  event.currentTarget.style.transform = `translateX(${ this._touchItem.delta.x }px)`;
+                }}
+                onTouchEnd={ (event) => {
+                  event.stopPropagation();
+
+                  const transitionTime = 200;
+                  const xTh = 80;
+                  const target = event.currentTarget;
+                  if (Math.abs(this._touchItem.delta.x) > Math.abs(this._touchItem.delta.y)) {
+                    if (this._touchItem.delta.x < 0 && Math.abs(this._touchItem.delta.x) > xTh) {
+                      target.style.transform = `translateX(-100%)`;
+                      setTimeout(() => {
+                        target.style.transform = `translateX(0)`;
+                        document.querySelectorAll('.scene').forEach((sceneElement) => {
+                          sceneElement.style.display = '';
+                        });
+                        dispatch({
+                          type: 'UI_SWIPE_LEFT_LIST_ITEM',
+                          id: task.id,
+                        });
+                      }, transitionTime);
+
+                    } else if (this._touchItem.delta.x > 0 && Math.abs(this._touchItem.delta.x) > xTh) {
+                      target.style.transform = `translateX(100%)`;
+
+                      setTimeout(() => {
+                        target.style.transform = `translateX(0)`;
+                        dispatch({
+                          type: 'UI_SWIPE_RIGHT_LIST_ITEM',
+                          id: task.id,
+                        });
+                      }, transitionTime);
+                    } else {
+                      target.style.transform = `translate(0, 0)`;
+                    }
+                  } else {
+                    target.style.transform = `translate(0, 0)`;
+                  }
+                }}
+              >
                 <div className="list-item-text">
                   {task.text}
                 </div>
