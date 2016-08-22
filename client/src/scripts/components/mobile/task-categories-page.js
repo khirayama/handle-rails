@@ -107,6 +107,7 @@ export default class TaskCategoriesPage extends Component {
           {taskCategory.tasks.map((task) => {
             return (
               <li
+                key={task.id}
                 className="list-item"
                 onTouchStart={ (event) => {
                   event.stopPropagation();
@@ -125,7 +126,14 @@ export default class TaskCategoriesPage extends Component {
                     x: this._touchItem.end.x - this._touchItem.start.x,
                     y: this._touchItem.end.y - this._touchItem.start.y,
                   };
-                  event.currentTarget.style.transform = `translateX(${ this._touchItem.delta.x }px)`;
+
+                  if (this._touchItem.delta.x > 60) {
+                    event.currentTarget.style.transform = `translateX(60px)`;
+                  } else if (this._touchItem.delta.x < -60) {
+                    event.currentTarget.style.transform = `translateX(-60px)`;
+                  } else {
+                    event.currentTarget.style.transform = `translateX(${ this._touchItem.delta.x }px)`;
+                  }
                 }}
                 onTouchEnd={ (event) => {
                   event.stopPropagation();
@@ -136,22 +144,22 @@ export default class TaskCategoriesPage extends Component {
                   if (Math.abs(this._touchItem.delta.x) > Math.abs(this._touchItem.delta.y)) {
                     if (this._touchItem.delta.x < 0 && Math.abs(this._touchItem.delta.x) > xTh) {
                       target.style.transform = `translateX(-100%)`;
+                      target.style.display = 'block';
+                      target.style.height = `${target.getBoundingClientRect().height}px`;
                       setTimeout(() => {
-                        target.style.transform = `translateX(0)`;
-                        document.querySelectorAll('.scene').forEach((sceneElement) => {
-                          sceneElement.style.display = '';
-                        });
-                        dispatch({
-                          type: 'UI_SWIPE_LEFT_LIST_ITEM',
-                          id: task.id,
-                        });
+                        target.style.height = '0px';
+                        target.style.border = 'none';
+                        setTimeout(() => {
+                          dispatch({
+                            type: 'UI_SWIPE_LEFT_LIST_ITEM',
+                            id: task.id,
+                          });
+                        }, transitionTime);
                       }, transitionTime);
 
                     } else if (this._touchItem.delta.x > 0 && Math.abs(this._touchItem.delta.x) > xTh) {
-                      target.style.transform = `translateX(100%)`;
-
+                      target.style.transform = `translateX(0)`;
                       setTimeout(() => {
-                        target.style.transform = `translateX(0)`;
                         dispatch({
                           type: 'UI_SWIPE_RIGHT_LIST_ITEM',
                           id: task.id,
