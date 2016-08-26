@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import { dispatch } from '../../libs/app-dispatcher';
 import Scene from './scene';
+import SwipableListItem from './swipable-list-item';
 
 
 const propTypes = {
@@ -12,11 +13,26 @@ export default class TaskCategoriesPage extends Component {
   constructor() {
     super();
 
-    this._touchItem = {};
+    this.onSwipeLeft = this.onSwipeLeft.bind(this);
+    this.onSwipeRight = this.onSwipeRight.bind(this);
   }
 
   componentDidMount() {
     dispatch({ type: 'UI_START_TASK_CATEGORIES_PAGE' });
+  }
+
+  onSwipeLeft(props) {
+    dispatch({
+      type: 'UI_SWIPE_LEFT_LIST_ITEM',
+      id: props.task.id,
+    });
+  }
+
+  onSwipeRight(props, target) {
+    dispatch({
+      type: 'UI_SWIPE_RIGHT_LIST_ITEM',
+      id: props.task.id,
+    });
   }
 
   render() {
@@ -31,77 +47,20 @@ export default class TaskCategoriesPage extends Component {
           </li>
           {taskCategory.tasks.map((task) => {
             return (
-              <li
+              <SwipableListItem
                 key={task.id}
-                className="list-item"
-                onTouchStart={ (event) => {
-                  event.stopPropagation();
-                  this._touchItem.start = {
-                    x: event.touches[0].clientX,
-                    y: event.touches[0].clientY,
-                  };
-                }}
-                onTouchMove={ (event) => {
-                  event.stopPropagation();
-                  this._touchItem.end = {
-                    x: event.touches[0].clientX,
-                    y: event.touches[0].clientY,
-                  };
-                  this._touchItem.delta = {
-                    x: this._touchItem.end.x - this._touchItem.start.x,
-                    y: this._touchItem.end.y - this._touchItem.start.y,
-                  };
-
-                  if (this._touchItem.delta.x > 60) {
-                    event.currentTarget.style.transform = `translateX(60px)`;
-                  } else if (this._touchItem.delta.x < -60) {
-                    event.currentTarget.style.transform = `translateX(-60px)`;
-                  } else {
-                    event.currentTarget.style.transform = `translateX(${ this._touchItem.delta.x }px)`;
-                  }
-                }}
-                onTouchEnd={ (event) => {
-                  event.stopPropagation();
-
-                  const transitionTime = 200;
-                  const xTh = 80;
-                  const target = event.currentTarget;
-                  if (Math.abs(this._touchItem.delta.x) > Math.abs(this._touchItem.delta.y)) {
-                    if (this._touchItem.delta.x < 0 && Math.abs(this._touchItem.delta.x) > xTh) {
-                      target.style.transform = `translateX(-100%)`;
-                      target.style.display = 'block';
-                      target.style.height = `${target.getBoundingClientRect().height}px`;
-                      setTimeout(() => {
-                        target.style.height = '0px';
-                        target.style.border = 'none';
-                        setTimeout(() => {
-                          dispatch({
-                            type: 'UI_SWIPE_LEFT_LIST_ITEM',
-                            id: task.id,
-                          });
-                        }, transitionTime);
-                      }, transitionTime);
-
-                    } else if (this._touchItem.delta.x > 0 && Math.abs(this._touchItem.delta.x) > xTh) {
-                      target.style.transform = `translateX(0)`;
-                      setTimeout(() => {
-                        dispatch({
-                          type: 'UI_SWIPE_RIGHT_LIST_ITEM',
-                          id: task.id,
-                        });
-                      }, transitionTime);
-                    } else {
-                      target.style.transform = `translate(0, 0)`;
-                    }
-                  } else {
-                    target.style.transform = `translate(0, 0)`;
-                  }
+                task={task}
+                onSwipeLeft={this.onSwipeLeft}
+                onSwipeRight={this.onSwipeRight}
+                endPostion={{
+                  swipeRight: 'left',
+                  swipeLeft: 'remove'
                 }}
               >
                 <div className="list-item-text">
                   {task.text}
                 </div>
-              </li>
+              </SwipableListItem>
             );
           })}
         </ul>
