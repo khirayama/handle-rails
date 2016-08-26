@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import classNames from 'classnames';
 
 import { dispatch } from '../../libs/app-dispatcher';
 import Scene from './scene';
@@ -49,6 +50,7 @@ export default class TaskCategoriesPage extends Component {
             return (
               <SwipableListItem
                 key={task.id}
+                listItemClassName={classNames('list-item', { 'list-item__disabled': task.completed })}
                 task={task}
                 onSwipeLeft={this.onSwipeLeft}
                 onSwipeRight={this.onSwipeRight}

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 
-const MAX_SLIDE_WIDTH = 60;
+const MAX_SLIDE_WIDTH = 44;
 
 export default class SwipableListItem extends Component {
   constructor() {
@@ -141,7 +141,7 @@ export default class SwipableListItem extends Component {
   render() {
     return (
       <li
-        className="list-item"
+        className={this.props.listItemClassName}
         onTouchStart={this.onTouchStart}
         onTouchMove={this.onTouchMove}
         onTouchEnd={this.onTouchEnd}
