@@ -201,11 +201,16 @@ export default class TaskList extends Component {
     return (
       <section
         draggable
-        className="list"
+        className="task-category-list"
         onDragEnter={this.onDragEnterList}
         onDragEnd={this.onDragEndList}
       >
-        <header className="list-header">{titleElement}</header>
+        <header className="list-header">
+          {titleElement}
+          <div className="list-header-note">
+            {this.props.taskCategory.tasks.length} {(this.props.taskCategory.tasks.length < 2) ? 'item' : 'items'}
+          </div>
+        </header>
         <ul>{taskListItemElements}</ul>
         <footer className="list-footer">
           <div
