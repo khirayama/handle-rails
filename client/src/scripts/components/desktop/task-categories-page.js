@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
+import moment from 'moment';
 
 import { dispatch } from '../../libs/app-dispatcher';
 
 import TaskList from './task-list';
+import transitionEventHandler from '../common/helpers/transition-event-handler';
 
 
 const propTypes = {
@@ -96,7 +98,7 @@ export default class TaskCategoriesPage extends Component {
     const taskListElements = taskCategories.map((taskCategory) => {
       return (
         <section
-          className="column task-list-column"
+          className="task-category-list-container"
           key={taskCategory.id}
         >
           <TaskList
@@ -111,20 +113,36 @@ export default class TaskCategoriesPage extends Component {
       )
     });
 
+    const now = moment();
+
     return (
-      <section className="page page__header tasks-page">
+      <section className="page task-categories-page">
         <section className="page-content">
-          <div>
-            <section className="column-container">
-              {taskListElements}
-            </section>
-            <div
-              className="create-task-category-button"
-              onClick={this.onClickAddCategoryButton}
-            >
-              <i className="icon">add</i>
-              <span>Add task category</span>
-            </div>
+          <header
+            className="task-categories-header"
+          >
+          <div
+            className="task-categories-header-time"
+          >
+            {now.format('MMM')}. {now.format('DD')} {now.format('hh:mm:ss')}
+          </div>
+          <a
+            href="/settings"
+            className="task-categories-header-right-button"
+            onClick={transitionEventHandler}
+          >
+            <i className="icon">settings</i>
+          </a>
+          </header>
+          <section className="task-category-lists-container">
+            {taskListElements}
+          </section>
+          <div
+            className="create-task-category-button"
+            onClick={this.onClickAddCategoryButton}
+          >
+            <i className="icon">add</i>
+            <span>Add task category</span>
           </div>
         </section>
       </section>

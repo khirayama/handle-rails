@@ -5,7 +5,6 @@ import config from '../../../config';
 import { dispatch } from '../../libs/app-dispatcher';
 import { pages } from '../../constants/constants';
 
-import Header from './header';
 import Launcher from './launcher';
 import TaskCategoriesPage from './task-categories-page';
 
@@ -143,7 +142,6 @@ export default class Container extends Component {
     this._changeTitle(state.pageInformation.meta.title);
     return (
       <div>
-        <Header {...state.pageInformation.styles.header} />
         <ReactCSSTransitionGroup
         transitionName={transitionVariations.fadeInOut.names}
         { ...transitionVariations.fadeInOut.options }

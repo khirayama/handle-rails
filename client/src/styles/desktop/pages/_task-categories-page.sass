@@ -1,22 +1,43 @@
-.tasks-page
+.task-categories-page
   width: 100%
   height: 100%
   .page-content
-    padding: 24px 48px
-    .task-list-column
-      padding: 12px 8px 0
-      max-width: 480px
-      min-width: 320px
+
+    .task-categories-header
+      display: flex
+      height: 64px
+      line-height: 64px
+      padding: 12px 24px
+      margin-bottom: 24px
+      color: #bdbdbd
+      font-size: 1.4rem
+      .task-categories-header-time
+        flex: 1
+      .task-categories-header-right-button
+        width: 44px
+        height: 100%
+        text-align: center
+
+    .task-category-lists-container
+      text-align: center
+      .task-category-list-container
+        vertical-align: top
+        display: inline-block
+        padding: 12px 8px 0
+        max-width: 360px
+        width: 360px
+        min-width: 240px
 
 .create-task-category-button
   background-color: $color-white
-  width: 320px
+  position: absolute
+  bottom: 0
+  left: 0
+  width: 100%
   max-width: 100%
   height: 44px
-  margin: 12px auto
-  box-shadow: 0 1px 0 0 rgba($color-black, .1)
+  box-shadow: 0 -1px 2px 0 rgba($color-black, .1)
   text-align: center
-  border-radius: 3px
   transition: box-shadow $timing-basic
   i
     line-height: 44px
